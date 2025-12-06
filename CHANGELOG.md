@@ -5,6 +5,33 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [0.7.0] - 2025-12-06 (The Structured Pantry)
+
+### 🚀 Fresh from the Oven
+- **Advanced Key Engine (The Filing System):**
+  - Introduced hierarchical key parsing with support for directory structures.
+  - Keys now support `:` (colon) for directory levels and `.` (dot) for file and property separation.
+  - Example: `orders:meal.orderComponent.title` → `/orders/meal/orderComponent.json` with property `title`.
+- **Path Resolution (The Map):**
+  - Added `FileSystemPathResolver` to translate parsed keys into actual file system paths.
+  - Configurable base directory and file extension support.
+  - Automatic directory structure generation based on key hierarchy.
+- **Key Normalization (The Quality Check):**
+  - Automatic cleanup of malformed keys (duplicate separators, whitespace, etc.).
+  - Ensures consistent key representation across the application.
+
+### 🔧 Ingredients (Technical Details)
+- **Architecture:** Implemented using Clean Architecture principles with clear separation between domain (interfaces) and adapters (implementations).
+- **New Interfaces:**
+  - `KeyParser`: Port for parsing translation keys into structured components.
+  - `PathResolver`: Port for resolving parsed keys to file system paths.
+- **New Adapters:**
+  - `DefaultKeyParser`: Default implementation of key parsing logic.
+  - `FileSystemPathResolver`: File system-based path resolution.
+- **Testing:** Added 29 comprehensive tests with 100% coverage of parsing scenarios and edge cases.
+- **Breaking Changes:** None. This is a new feature that doesn't affect existing functionality.
+
 ## [0.6.4] - 2025-12-06 (The Refined Taste)
 
 ### 🚀 Fresh from the Oven
