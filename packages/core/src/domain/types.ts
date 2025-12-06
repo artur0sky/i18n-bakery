@@ -10,11 +10,17 @@ export interface I18nConfig {
   locale: Locale;
   fallbackLocale?: Locale;
   loader?: Loader;
+  saver?: TranslationSaver; // New Port
+  saveMissing?: boolean;    // Feature Flag
   debug?: boolean;
 }
 
 export interface Loader {
   load(locale: Locale, namespace: Namespace): Promise<TranslationMap | null>;
+}
+
+export interface TranslationSaver {
+  save(locale: Locale, namespace: Namespace, key: Key, value: string): Promise<void>;
 }
 
 export interface Formatter {
