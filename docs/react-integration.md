@@ -19,15 +19,15 @@ function App() {
 }
 ```
 
-## useT Hook (Fresh Slices)
+## useTranslation Hook (Fresh Slices)
 
-Use the `useT` hook to fetch fresh translations directly in your components.
+Use the `useTranslation` hook to fetch fresh translations directly in your components.
 
 ```tsx
-import { useT } from '@i18n-bakery/react';
+import { useTranslation } from '@i18n-bakery/react';
 
 function MyComponent() {
-  const { t } = useT('common'); // Optional namespace prefix
+  const { t } = useTranslation('common'); // Optional namespace prefix
 
   return <h1>{t('hello')}</h1>;
 }

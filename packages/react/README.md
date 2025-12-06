@@ -5,13 +5,13 @@ The `@i18n-bakery/react` package adds the finishing touch to your React applicat
 ## 📋 Ingredients
 
 - **I18nProvider**: Wraps your app to keep it warm and connected to the bakery.
-- **useT**: A hook to fetch fresh translations directly in your components.
+- **useTranslation**: A hook to fetch fresh translations directly in your components.
 - **useI18n**: Access the full power of the bakery (change locale, etc.).
 
 ## 👩‍🍳 Usage
 
 ```tsx
-import { I18nProvider, useT } from '@i18n-bakery/react';
+import { I18nProvider, useTranslation } from '@i18n-bakery/react';
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
 }
 
 function Welcome() {
-  const { t } = useT('common');
+  const { t } = useTranslation('common');
   return <h1>{t('hello')}</h1>;
 }
 ```
