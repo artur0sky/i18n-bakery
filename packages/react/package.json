@@ -1,0 +1,35 @@
+{
+    "name": "@i18n-bakery/react",
+    "version": "0.1.0",
+    "description": "React bindings for i18n-bakery",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsup src/index.ts --format cjs,esm --dts",
+        "dev": "tsup src/index.ts --format cjs,esm --watch --dts",
+        "test": "vitest run"
+    },
+    "keywords": [
+        "i18n",
+        "react",
+        "hooks",
+        "context"
+    ],
+    "author": "",
+    "license": "MIT",
+    "peerDependencies": {
+        "react": ">=16.8.0",
+        "@i18n-bakery/core": "workspace:*"
+    },
+    "dependencies": {
+        "@i18n-bakery/core": "workspace:*"
+    },
+    "devDependencies": {
+        "react": "^18.2.0",
+        "@types/react": "^18.2.0",
+        "tsup": "^8.0.1",
+        "typescript": "^5.3.3",
+        "vitest": "^1.1.0"
+    }
+}

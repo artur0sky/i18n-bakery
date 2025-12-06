@@ -30,7 +30,7 @@ export class I18nService {
     this.formatter = new MustacheFormatter();
   }
 
-  public getLocale(): Locale {
+  public getCurrentLocale(): Locale {
     return this.currentLocale;
   }
 
