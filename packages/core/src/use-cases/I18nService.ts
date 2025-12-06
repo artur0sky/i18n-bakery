@@ -75,6 +75,12 @@ export class I18nService {
   }
 
   private parseKey(key: string): { namespace: Namespace; key: Key } {
+    // i18next style: ns:key
+    if (key.includes(':')) {
+      const parts = key.split(':');
+      return { namespace: parts[0], key: parts.slice(1).join(':') };
+    }
+
     const parts = key.split('.');
     if (parts.length > 1) {
       return { namespace: parts[0], key: parts.slice(1).join('.') };
