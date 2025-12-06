@@ -1,0 +1,40 @@
+{
+    "name": "@i18n-bakery/cli",
+    "version": "0.1.0",
+    "description": "CLI tools for i18n-bakery",
+    "main": "dist/index.js",
+    "bin": {
+        "i18n-bakery": "./bin/i18n-bakery.js"
+    },
+    "scripts": {
+        "build": "tsup src/index.ts --format cjs,esm --dts",
+        "dev": "tsup src/index.ts --format cjs,esm --watch --dts",
+        "test": "vitest run"
+    },
+    "keywords": [
+        "i18n",
+        "cli",
+        "extraction",
+        "automation"
+    ],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "cac": "^6.7.14",
+        "chalk": "^4.1.2",
+        "glob": "^10.3.10",
+        "fs-extra": "^11.2.0",
+        "@babel/parser": "^7.23.6",
+        "@babel/traverse": "^7.23.6",
+        "@babel/types": "^7.23.6"
+    },
+    "devDependencies": {
+        "tsup": "^8.0.1",
+        "typescript": "^5.3.3",
+        "vitest": "^1.1.0",
+        "@types/fs-extra": "^11.0.4",
+        "@types/glob": "^8.1.0",
+        "@types/babel__traverse": "^7.20.4",
+        "@types/node": "^20.10.6"
+    }
+}
