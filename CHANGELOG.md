@@ -5,6 +5,46 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2025-12-06 (The Variable Vault)
+
+### 🚀 Fresh from the Oven
+- **Variable Detection System (The Signature Maker):**
+  - Introduced automatic detection of variables from translation calls.
+  - Creates unique signatures for different variable combinations.
+  - Alphabetically sorted signatures ensure consistent identification.
+  - Example: `{ meal: "Pizza", price: 120 }` → signature `["meal", "price"]` → key `"meal_price"`
+- **Translation Variants (The Recipe Variations):**
+  - Support for multiple variants of the same translation key based on variable signatures.
+  - Each variant stores its own value, variables list, and metadata.
+  - Automatic timestamp tracking for entry creation/updates.
+  - Example: Same key `"meal.title"` can have variants for `["meal"]` and `["meal", "price"]`
+- **Auto-generation Templates (The Placeholder Baker):**
+  - Configurable default value generation for missing translations.
+  - Two template styles: `variables-only` (e.g., `"{{meal}} {{price}}"`) and `empty` (e.g., `""`)
+  - Smart placeholder insertion based on detected variables.
+- **In-Memory Variant Management (The Organized Pantry):**
+  - Efficient storage structure for translation variants.
+  - Multi-locale and multi-namespace support.
+  - Fast retrieval by signature for optimal runtime performance.
+
+### 🔧 Ingredients (Technical Details)
+- **Architecture:** Continues Clean Architecture pattern with new domain interfaces and adapters.
+- **New Interfaces (Ports):**
+  - `VariableDetector`: Port for detecting variables and creating signatures.
+  - `TranslationEntryManager`: Port for managing translation entries with variant support.
+  - `VariableSignature`: Type for unique variable combinations.
+  - `TranslationEntry`: Interface for translation entries with metadata.
+  - `TranslationVariants`: Interface for managing multiple variants per key.
+  - `VariableDetectorConfig`: Configuration for variable detection behavior.
+- **New Adapters (Implementations):**
+  - `DefaultVariableDetector`: Detects variables, creates signatures, generates default values.
+  - `MemoryTranslationEntryManager`: In-memory storage for translation variants with full CRUD operations.
+- **Testing:** Added 41 comprehensive tests with 100% coverage.
+  - 20 tests for `DefaultVariableDetector` covering detection, signatures, templates, and workflows.
+  - 21 tests for `MemoryTranslationEntryManager` covering storage, retrieval, variants, multi-locale, and real-world scenarios.
+- **Exports:** Updated `index.ts` and `types.ts` to export new variable detection interfaces and adapters.
+- **Breaking Changes:** None. This is a new feature that extends existing functionality.
+
 ## [0.7.0] - 2025-12-06 (The Structured Pantry)
 
 ### 🚀 Fresh from the Oven
