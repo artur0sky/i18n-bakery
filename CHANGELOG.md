@@ -5,6 +5,17 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2025-12-06 (The Universal Batch)
+
+### 🚀 Fresh from the Oven
+- **Universal Compatibility (Gluten-Free?):**
+  - Enhanced package definitions to ensure seamless usage in both TypeScript and JavaScript environments (CJS & ESM).
+  - Your bakery now serves everyone, regardless of their module system preference!
+
+### 🔧 Ingredients (Technical Details)
+- **Packaging:** Added `exports` field to `@i18n-bakery/react` and `@i18n-bakery/cli` `package.json` files for modern module resolution.
+- **Build System:** Refined `tsconfig.json` configurations across packages to resolve build conflicts with `tsup`.
+
 ## [0.6.0] - 2025-12-06 (The Grand Opening)
 
 ### 🚀 Fresh from the Oven
