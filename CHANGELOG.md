@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `DefaultKeyParser`: Default implementation of key parsing logic.
   - `FileSystemPathResolver`: File system-based path resolution.
 - **Testing:** Added 29 comprehensive tests with 100% coverage of parsing scenarios and edge cases.
+- **TypeScript Configuration:** Fixed `tsconfig.json` to properly include test files and recognize Node.js types.
 - **Breaking Changes:** None. This is a new feature that doesn't affect existing functionality.
 
 ## [0.6.4] - 2025-12-06 (The Refined Taste)
