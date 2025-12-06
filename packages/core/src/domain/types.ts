@@ -34,3 +34,7 @@ export interface Store {
   has(locale: Locale, namespace: Namespace, key: Key): boolean;
   getAll(locale: Locale): NamespaceMap;
 }
+
+// Export KeyParser types (Phase 7)
+export * from './KeyParser';
+

@@ -34,3 +34,7 @@ export * from './use-cases/I18nService';
 export * from './adapters/MemoryStore';
 export * from './adapters/MustacheFormatter';
 export * from './adapters/ConsoleSaver';
+// Phase 7 exports
+export * from './adapters/DefaultKeyParser';
+export * from './adapters/FileSystemPathResolver';
+
