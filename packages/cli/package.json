@@ -6,6 +6,10 @@
     "bin": {
         "i18n-bakery": "./bin/i18n-bakery.js"
     },
+    "files": [
+        "dist",
+        "bin"
+    ],
     "scripts": {
         "build": "tsup src/index.ts --format cjs,esm --dts",
         "dev": "tsup src/index.ts --format cjs,esm --watch --dts",
