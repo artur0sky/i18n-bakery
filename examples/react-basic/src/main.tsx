@@ -7,7 +7,7 @@ const config = {
   locale: 'en',
   fallbackLocale: 'es',
   loader: {
-    load: async (locale, ns) => {
+    load: async (locale: string, ns: string) => {
       console.log(`Loading ${locale}/${ns}...`);
       // Simulate async load
       await new Promise(resolve => setTimeout(resolve, 500));
