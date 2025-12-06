@@ -4,8 +4,7 @@
         "outDir": "./dist",
         "rootDir": "./src",
         "moduleResolution": "bundler",
-        "resolveJsonModule": true,
-        "composite": true
+        "resolveJsonModule": true
     },
     "include": [
         "src/**/*"
