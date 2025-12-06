@@ -5,6 +5,23 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2025-12-06 (The Self-Rising Dough)
+
+### 🚀 Fresh from the Oven
+- **Auto-Save (Self-Rising):**
+  - Implemented automatic detection and saving of missing translation keys.
+  - Added `TranslationSaver` port to handle persistence strategies.
+- **New Adapters:**
+  - `JSONFileSaver`: Automatically writes missing keys to JSON files (Node.js).
+  - `ConsoleSaver`: Logs missing translations to the console for quick debugging.
+- **Core Updates:**
+  - Enhanced `I18nService` to coordinate the saving process.
+  - `t()` function now triggers the saver when a translation is missing.
+
+### 🔧 Ingredients (Technical Details)
+- **Testing:** Added `autosave.test.ts` ensuring the auto-save logic works perfectly.
+- **Architecture:** Seamless integration of the `TranslationSaver` port.
+
 ## [0.1.0] - 2025-12-06 (The Sourdough Starter)
 
 ### 🚀 Fresh from the Oven
