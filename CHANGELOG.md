@@ -5,6 +5,13 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.4] - 2025-12-06 (The Refined Taste)
+
+### 🚀 Fresh from the Oven
+- **React Bindings (The Glaze):**
+  - Renamed `useT` to `useTranslation` to better align with industry standards (like `i18next`) and make migration easier.
+  - The API remains the same, just a more familiar name for the hook.
+
 ## [0.6.3] - 2025-12-06 (The Recipe Book)
 
 ### 🚀 Fresh from the Oven
