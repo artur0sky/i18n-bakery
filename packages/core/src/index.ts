@@ -33,3 +33,4 @@ export * from './domain/types';
 export * from './use-cases/I18nService';
 export * from './adapters/MemoryStore';
 export * from './adapters/MustacheFormatter';
+export * from './adapters/ConsoleSaver';
