@@ -29,7 +29,7 @@ export async function bake(source: string, options: BakeOptions) {
         bundle[namespace] = content;
       }
 
-      const outDir = path.join(process.cwd(), options.out);
+      const outDir = path.isAbsolute(options.out) ? options.out : path.join(process.cwd(), options.out);
       await fs.ensureDir(outDir);
       const outFile = path.join(outDir, `${locale}.json`);
       

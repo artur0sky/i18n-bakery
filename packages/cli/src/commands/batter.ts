@@ -39,7 +39,8 @@ export async function batter(source: string, options: BatterOptions) {
   console.log(chalk.green(`Extracted ${totalKeys} keys across ${Object.keys(keysByNamespace).length} namespaces.`));
 
   // Merge and Save
-  const localeDir = path.join(process.cwd(), options.out, options.locale);
+  const outDir = path.isAbsolute(options.out) ? options.out : path.join(process.cwd(), options.out);
+  const localeDir = path.join(outDir, options.locale);
   await fs.ensureDir(localeDir);
 
   for (const [namespace, keys] of Object.entries(keysByNamespace)) {
