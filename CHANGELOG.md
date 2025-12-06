@@ -5,6 +5,19 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2025-12-06 (The Universal Recipe)
+
+### 🚀 Fresh from the Oven
+- **i18next Compatibility (Universal Recipe):**
+  - Added support for `ns:key` notation (e.g., `t('auth:login')`), making migration from i18next smoother.
+  - Verified support for deep nested variable interpolation (e.g., `{{user.profile.name}}`).
+- **Enhanced Parsing:**
+  - `I18nService` now intelligently handles both dot notation (`auth.login`) and colon notation (`auth:login`) for namespaces.
+
+### 🔧 Ingredients (Technical Details)
+- **Testing:** Added `compatibility.test.ts` to ensure 98% API compatibility with standard i18next usage patterns.
+- **Core Logic:** Refined key parsing logic to prioritize colon separators when present.
+
 ## [0.4.0] - 2025-12-06 (The React Glaze)
 
 ### 🚀 Fresh from the Oven
