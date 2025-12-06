@@ -5,6 +5,22 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2025-12-06 (The Automatic Mixer)
+
+### 🚀 Fresh from the Oven
+- **CLI (The Mixer):** Introduced `@i18n-bakery/cli` to automate the baking process.
+  - `batter`: New command to scan source code (`.ts`, `.tsx`, `.js`, `.jsx`) and extract translation keys automatically.
+  - `bake`: New command to compile scattered JSON files into a single, production-ready bundle.
+- **Smart Extraction:**
+  - Uses AST parsing (via Babel) to accurately find `t()` calls.
+  - Infers namespaces from keys (e.g., `auth.login` -> `auth.json`).
+  - Preserves existing translations while adding new ones.
+
+### 🔧 Ingredients (Technical Details)
+- **Infrastructure:** Set up a new package structure for the CLI.
+- **Testing:** Added integration tests to verify the full extraction and compilation pipeline.
+- **Dependencies:** Powered by `cac` for CLI commands and `fs-extra` for file operations.
+
 ## [0.2.0] - 2025-12-06 (The Self-Rising Dough)
 
 ### 🚀 Fresh from the Oven
