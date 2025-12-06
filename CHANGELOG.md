@@ -5,6 +5,12 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2025-12-06 (The Quality Control)
+
+### 🔧 Ingredients (Technical Details)
+- **Testing:** Fixed a TypeScript error in `react.test.ts` where `children` prop was missing in the wrapper component.
+- **CI:** Verified all tests pass across Core, CLI, and React packages.
+
 ## [0.5.0] - 2025-12-06 (The Universal Recipe)
 
 ### 🚀 Fresh from the Oven

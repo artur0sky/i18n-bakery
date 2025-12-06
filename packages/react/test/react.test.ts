@@ -22,7 +22,7 @@ const mockConfig: I18nConfig = {
 };
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
-  React.createElement(I18nProvider, { config: mockConfig }, children)
+  React.createElement(I18nProvider, { config: mockConfig, children }, children)
 );
 
 describe('React Bindings', () => {
