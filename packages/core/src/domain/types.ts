@@ -34,3 +34,7 @@ export interface Store {
   has(locale: Locale, namespace: Namespace, key: Key): boolean;
   getAll(locale: Locale): NamespaceMap;
 }
+
+// Re-export Phase 7 & 8 interfaces
+export * from './KeyParser';
+export * from './VariableDetection';

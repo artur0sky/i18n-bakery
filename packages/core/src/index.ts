@@ -34,3 +34,12 @@ export * from './use-cases/I18nService';
 export * from './adapters/MemoryStore';
 export * from './adapters/MustacheFormatter';
 export * from './adapters/ConsoleSaver';
+
+// Phase 7 - Advanced Key Engine
+export * from './adapters/DefaultKeyParser';
+export * from './adapters/FileSystemPathResolver';
+
+// Phase 8 - Variable Detection
+export * from './adapters/DefaultVariableDetector';
+export * from './adapters/MemoryTranslationEntryManager';
+

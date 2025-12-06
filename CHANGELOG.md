@@ -5,6 +5,41 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2025-12-06 (The Structured Pantry)
+
+### 🚀 Fresh from the Oven
+- **Advanced Key Engine (The Filing System):**
+  - Introduced hierarchical key parsing with support for directory structures.
+  - Keys now support `:` (colon) for directory levels and `.` (dot) for file and property separation.
+  - Intelligent parsing rules based on colon count:
+    - **NO colons**: All dots are nested properties in `global` file (e.g., `user.profile.name` → `global.json`)
+    - **ONE colon**: First dot-part is file, rest are nested properties (e.g., `orders:meal.user.name` → `/orders/meal.json`)
+    - **MULTIPLE colons**: Dots become directories (e.g., `app:features:orders:meal.component.title` → `/app/features/orders/meal/component.json`)
+- **Path Resolution (The Map):**
+  - Added `FileSystemPathResolver` to translate parsed keys into actual file system paths.
+  - Configurable base directory and file extension support.
+  - Automatic directory structure generation based on key hierarchy.
+  - Zero external dependencies - custom path joining implementation.
+- **Key Normalization (The Quality Check):**
+  - Automatic cleanup of malformed keys (duplicate separators, whitespace, etc.).
+  - Ensures consistent key representation across the application.
+
+### 🔧 Ingredients (Technical Details)
+- **Architecture:** Implemented using Clean Architecture principles with clear separation between domain (interfaces) and adapters (implementations).
+- **New Interfaces (Ports):**
+  - `KeyParser`: Port for parsing translation keys into structured components.
+  - `PathResolver`: Port for resolving parsed keys to file system paths.
+  - `ParsedKey`: Structured representation of a parsed key.
+  - `PathResolverConfig`: Configuration for path resolution.
+- **New Adapters (Implementations):**
+  - `DefaultKeyParser`: Default implementation of key parsing logic with intelligent colon/dot handling.
+  - `FileSystemPathResolver`: File system-based path resolution without external dependencies.
+- **Testing:** Added 33 comprehensive tests with 100% coverage of parsing scenarios and edge cases.
+  - 21 tests for `DefaultKeyParser` covering normalization, simple keys, directories, nested properties, and i18next compatibility.
+  - 12 tests for `FileSystemPathResolver` covering path resolution, configurations, and real-world scenarios.
+- **Exports:** Updated `index.ts` and `types.ts` to export new interfaces and adapters.
+- **Breaking Changes:** None. This is a new feature that doesn't affect existing functionality.
+
 ## [0.6.2] - 2025-12-06 (The Shop Window)
 
 ### 🚀 Fresh from the Oven
