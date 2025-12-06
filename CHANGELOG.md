@@ -5,6 +5,22 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2025-12-06 (The React Glaze)
+
+### 🚀 Fresh from the Oven
+- **React Bindings (The Glaze):** Introduced `@i18n-bakery/react` for seamless integration.
+  - `I18nProvider`: The warm wrapper that keeps your app connected to the bakery.
+  - `useT()`: A hook to fetch fresh translations directly in your components.
+  - `useI18n()`: Access the full power of the bakery (change locale, etc.).
+- **Reactive Updates:**
+  - Changing the locale via `setLocale` automatically re-renders all components using translations.
+  - Supports namespace prefixes for cleaner component code (e.g., `useT('auth')`).
+
+### 🔧 Ingredients (Technical Details)
+- **Core Refinement:** Renamed `getLocale()` to `getCurrentLocale()` in Core for better clarity.
+- **Testing:** Added comprehensive unit tests for React hooks using `@testing-library/react-hooks` and `jsdom`.
+- **Architecture:** Clean separation of concerns; React package depends on Core interfaces.
+
 ## [0.3.0] - 2025-12-06 (The Automatic Mixer)
 
 ### 🚀 Fresh from the Oven
