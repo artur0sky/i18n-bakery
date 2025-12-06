@@ -5,6 +5,13 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.3] - 2025-12-06 (The Recipe Book)
+
+### 🚀 Fresh from the Oven
+- **Documentation (The Cookbook):**
+  - Added comprehensive `README.md` files for all packages (`core`, `react`, `cli`) and the example application.
+  - Each README is written with our signature "Bakery" theme, providing clear instructions on ingredients (API) and baking (usage).
+
 ## [0.6.2] - 2025-12-06 (The Shop Window)
 
 ### 🚀 Fresh from the Oven
