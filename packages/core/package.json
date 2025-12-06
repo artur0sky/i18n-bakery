@@ -1,10 +1,16 @@
 {
   "name": "@i18n-bakery/core",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.6.2",
+  "description": "The essential ingredients for type-safe internationalization. Mixes perfectly with any JavaScript environment.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -17,9 +23,26 @@
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
     "test": "vitest run"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "localization",
+    "translation",
+    "typescript",
+    "type-safe",
+    "bakery",
+    "core"
+  ],
+  "author": "Arturo Sáenz",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artur0sky/i18n-bakery.git"
+  },
+  "bugs": {
+    "url": "https://github.com/artur0sky/i18n-bakery/issues"
+  },
+  "homepage": "https://github.com/artur0sky/i18n-bakery#readme",
   "packageManager": "pnpm@10.20.0",
   "devDependencies": {
     "@types/node": "24.10.1",

@@ -1,10 +1,24 @@
 {
     "name": "@i18n-bakery/cli",
-    "version": "0.1.0",
-    "description": "CLI tools for i18n-bakery",
+    "version": "0.6.2",
+    "description": "Professional kitchen tools for i18n-bakery. Automate your extraction and baking workflow.",
     "main": "dist/index.js",
     "bin": {
         "i18n-bakery": "./bin/i18n-bakery.js"
+    },
+    "files": [
+        "dist",
+        "bin"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "require": "./dist/index.js",
+            "import": "./dist/index.mjs"
+        }
     },
     "scripts": {
         "build": "tsup src/index.ts --format cjs,esm --dts",
@@ -15,10 +29,22 @@
         "i18n",
         "cli",
         "extraction",
-        "automation"
+        "automation",
+        "tooling",
+        "bakery",
+        "typescript",
+        "command-line"
     ],
-    "author": "",
+    "author": "Arturo Sáenz",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/artur0sky/i18n-bakery.git"
+    },
+    "bugs": {
+        "url": "https://github.com/artur0sky/i18n-bakery/issues"
+    },
+    "homepage": "https://github.com/artur0sky/i18n-bakery#readme",
     "dependencies": {
         "cac": "6.7.14",
         "chalk": "4.1.2",

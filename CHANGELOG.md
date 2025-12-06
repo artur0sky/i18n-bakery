@@ -5,6 +5,44 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.2] - 2025-12-06 (The Shop Window)
+
+### 🚀 Fresh from the Oven
+- **Public Visibility (The Signboard):**
+  - Configured all packages (`core`, `react`, `cli`) for public access on NPM (`publishConfig.access: "public"`).
+  - Added rich metadata (keywords, author, repository, license) to `package.json` files to improve discoverability in the NPM registry.
+
+### 🔧 Ingredients (Technical Details)
+- **Root Configuration:** Updated the root `package.json` with project-wide metadata and marked it as `private: true`.
+- **License:** Standardized on the MIT license across all packages.
+
+## [0.6.1] - 2025-12-06 (The Universal Batch)
+
+### 🚀 Fresh from the Oven
+- **Universal Compatibility (Gluten-Free?):**
+  - Enhanced package definitions to ensure seamless usage in both TypeScript and JavaScript environments (CJS & ESM).
+  - Your bakery now serves everyone, regardless of their module system preference!
+
+### 🔧 Ingredients (Technical Details)
+- **Packaging:** Added `exports` field to `@i18n-bakery/react` and `@i18n-bakery/cli` `package.json` files for modern module resolution.
+- **Build System:** Refined `tsconfig.json` configurations across packages to resolve build conflicts with `tsup`.
+
+## [0.6.0] - 2025-12-06 (The Grand Opening)
+
+### 🚀 Fresh from the Oven
+- **Monorepo Structure (The Bakery Shop):**
+  - Reorganized the project into a robust `pnpm` workspace.
+  - Added `examples/react-basic` to demonstrate usage in a real React application.
+- **Documentation (The Cookbook):**
+  - Added comprehensive documentation in `docs/` covering installation, runtime API, React integration, and CLI usage.
+  - Rewrote all documentation to align with the "Bakery" metaphor (Ingredients, Recipes, Mixing, Baking).
+
+### 🔧 Ingredients (Technical Details)
+- **Build System:**
+  - Configured `tsconfig.json` files for composite project references, enabling faster and more accurate builds.
+  - Added `files` field to `package.json` in all packages to ensure clean NPM publishing.
+  - Updated `pnpm-workspace.yaml` to include the `examples` directory.
+
 ## [0.5.2] - 2025-12-06 (The Measured Ingredients)
 
 ### 🔧 Ingredients (Technical Details)

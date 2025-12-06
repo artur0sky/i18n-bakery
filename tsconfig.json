@@ -8,5 +8,20 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true
-    }
+    },
+    "files": [],
+    "references": [
+        {
+            "path": "./packages/core"
+        },
+        {
+            "path": "./packages/react"
+        },
+        {
+            "path": "./packages/cli"
+        },
+        {
+            "path": "./examples/react-basic"
+        }
+    ]
 }
