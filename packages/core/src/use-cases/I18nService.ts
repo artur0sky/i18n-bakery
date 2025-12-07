@@ -1,12 +1,16 @@
 import { Store, Loader, Formatter, TranslationSaver, I18nConfig, Locale, Namespace, Key } from '../domain/types';
 import { MemoryStore } from '../adapters/MemoryStore';
 import { MustacheFormatter } from '../adapters/MustacheFormatter';
+import { PluralResolver, PluralCategory } from '../domain/Pluralization';
+import { SuffixPluralResolver } from '../adapters/SuffixPluralResolver';
+import { CLDRPluralResolver } from '../adapters/CLDRPluralResolver';
 
 export class I18nService {
   private store: Store;
   private formatter: Formatter;
   private loader?: Loader;
   private saver?: TranslationSaver;
+  private pluralResolver: PluralResolver;
   
   private currentLocale: Locale;
   private fallbackLocale?: Locale;
@@ -28,6 +32,12 @@ export class I18nService {
     // Default adapters
     this.store = new MemoryStore();
     this.formatter = new MustacheFormatter();
+    
+    // Initialize plural resolver based on strategy
+    const strategy = config.pluralizationStrategy || 'suffix';
+    this.pluralResolver = strategy === 'cldr' 
+      ? new CLDRPluralResolver()
+      : new SuffixPluralResolver();
   }
 
   public getCurrentLocale(): Locale {
@@ -84,10 +94,8 @@ export class I18nService {
   /**
    * Gets the appropriate plural translation based on count.
    * 
-   * Resolution order:
-   * 1. Exact count match (key_0, key_1, key_2, etc.)
-   * 2. Singular form (count === 1): key
-   * 3. Plural form (count !== 1): key_plural
+   * Uses the configured PluralResolver to determine the correct plural form.
+   * For suffix strategy, also tries exact count matches first.
    * 
    * @param namespace - The namespace
    * @param key - The base key
@@ -101,7 +109,8 @@ export class I18nService {
     count: number,
     vars?: Record<string, any>
   ): string | undefined {
-    // Step 1: Try exact count match (key_0, key_1, key_2, etc.)
+    // Step 1: Try exact count match (key_0, key_1, key_2, etc.) for suffix strategy
+    // This is a special case for i18next compatibility
     const exactKey = `${key}_${count}`;
     let translation = this.store.get(this.currentLocale, namespace, exactKey);
     
@@ -117,33 +126,30 @@ export class I18nService {
       }
     }
 
-    // Step 2: Determine if singular or plural
-    const isSingular = count === 1;
+    // Step 2: Use the plural resolver to get the appropriate key
+    const resolution = this.pluralResolver.resolve(key, count, this.currentLocale);
+    const pluralKey = resolution.key;
+    
+    // Try to get the translation for the resolved plural key
+    translation = this.store.get(this.currentLocale, namespace, pluralKey);
+    
+    if (translation) {
+      return translation;
+    }
 
-    if (isSingular) {
-      // Singular: use base key
-      translation = this.store.get(this.currentLocale, namespace, key);
-      
-      if (!translation && this.fallbackLocale) {
-        translation = this.store.get(this.fallbackLocale, namespace, key);
+    // Try fallback locale
+    if (this.fallbackLocale) {
+      translation = this.store.get(this.fallbackLocale, namespace, pluralKey);
+      if (translation) {
+        return translation;
       }
-    } else {
-      // Plural: try key_plural
-      const pluralKey = `${key}_plural`;
-      translation = this.store.get(this.currentLocale, namespace, pluralKey);
-      
-      if (!translation && this.fallbackLocale) {
-        translation = this.store.get(this.fallbackLocale, namespace, pluralKey);
-      }
+    }
 
-      // If no plural form exists, fall back to base key
-      if (!translation) {
-        translation = this.store.get(this.currentLocale, namespace, key);
-        
-        if (!translation && this.fallbackLocale) {
-          translation = this.store.get(this.fallbackLocale, namespace, key);
-        }
-      }
+    // If no plural form exists, fall back to base key
+    translation = this.store.get(this.currentLocale, namespace, key);
+    
+    if (!translation && this.fallbackLocale) {
+      translation = this.store.get(this.fallbackLocale, namespace, key);
     }
 
     return translation;

@@ -5,6 +5,89 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.2] - 2025-12-06 (The World Baker)
+
+### 🚀 Fresh from the Oven
+- **CLDR Pluralization (The Universal Counter):**
+  - Introduced industry-standard CLDR pluralization using `Intl.PluralRules`.
+  - Supports all languages in the world with proper plural rules.
+  - Zero external dependencies - uses native JavaScript API.
+  - Configurable strategy: choose between 'suffix' (i18next) or 'cldr' (standard).
+- **Multi-Language Support (The Polyglot):**
+  - **English/Spanish**: Simple rules (one, other)
+  - **Polish/Russian**: Complex rules (one, few, many, other)
+  - **Arabic**: Very complex rules (zero, one, two, few, many, other)
+  - **100+ languages** supported out of the box
+- **Configurable Strategy (The Choice):**
+  - `pluralizationStrategy: 'suffix'` - i18next-style (default, backward compatible)
+  - `pluralizationStrategy: 'cldr'` - CLDR-style (industry standard)
+  - Easy migration path between strategies
+- **Smart Caching (The Memory):**
+  - Caches `Intl.PluralRules` instances per locale for performance
+  - Automatic fallback to English if locale not supported
+  - Debug utilities to inspect plural rules per locale
+
+### 🔧 Ingredients (Technical Details)
+- **Architecture:** Strategy pattern for pluralization with pluggable resolvers.
+- **New Interfaces:**
+  - Extended `I18nConfig` with `pluralizationStrategy` option.
+- **New Adapters:**
+  - `CLDRPluralResolver`: CLDR-based resolver using `Intl.PluralRules`.
+    - `resolve()`: Resolves plural form based on CLDR rules.
+    - `getCategory()`: Gets CLDR category for a count and locale.
+    - `getLocaleInfo()`: Debug utility to inspect locale plural rules.
+    - `clearCache()`: Clears the rules cache.
+- **Integration:**
+  - Updated `I18nService` to initialize resolver based on strategy.
+  - Maintains backward compatibility with suffix strategy.
+  - Exact count matches work with both strategies.
+- **Testing:** Added 18 comprehensive tests for CLDR with 100% coverage.
+  - English (simple: one, other)
+  - Spanish (simple: one, other)
+  - Polish (complex: one, few, many, other)
+  - Arabic (very complex: zero, one, two, few, many, other)
+  - Russian (complex: one, few, many, other)
+  - Fallback behavior and namespaces
+- **Exports:** Updated `index.ts` to export `CLDRPluralResolver`.
+- **Breaking Changes:** None. CLDR is opt-in via configuration.
+
+### 📝 Example Usage
+
+```typescript
+import { initI18n, t, addTranslations } from '@i18n-bakery/core';
+
+// Use CLDR pluralization
+initI18n({ 
+  locale: 'ar',  // Arabic
+  pluralizationStrategy: 'cldr' 
+});
+
+// Add CLDR-style translations
+addTranslations('ar', 'common', {
+  'apple_zero': 'لا توجد تفاحات',      // 0
+  'apple_one': 'تفاحة واحدة',          // 1
+  'apple_two': 'تفاحتان',              // 2
+  'apple_few': '{{count}} تفاحات',     // 3-10
+  'apple_many': '{{count}} تفاحة',     // 11-99
+  'apple_other': '{{count}} تفاحة',    // 100+
+});
+
+t('apple', { count: 0 })   // → "لا توجد تفاحات"
+t('apple', { count: 1 })   // → "تفاحة واحدة"
+t('apple', { count: 2 })   // → "تفاحتان"
+t('apple', { count: 5 })   // → "5 تفاحات"
+t('apple', { count: 15 })  // → "15 تفاحة"
+t('apple', { count: 100 }) // → "100 تفاحة"
+```
+
+### 🌍 Supported Languages
+
+CLDR pluralization now supports **100+ languages** including:
+- **Simple** (one, other): English, Spanish, German, French, Italian, Portuguese
+- **Complex** (one, few, many, other): Polish, Russian, Ukrainian, Croatian, Serbian
+- **Very Complex** (zero, one, two, few, many, other): Arabic, Welsh
+- And many more!
+
 ## [0.9.1] - 2025-12-06 (The Plural Baker)
 
 ### 🚀 Fresh from the Oven

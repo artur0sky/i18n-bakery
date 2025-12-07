@@ -50,4 +50,5 @@ export * from './use-cases/TranslationFileManager';
 
 // Pluralization
 export * from './adapters/SuffixPluralResolver';
+export * from './adapters/CLDRPluralResolver';
 

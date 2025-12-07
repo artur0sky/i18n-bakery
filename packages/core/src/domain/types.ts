@@ -23,6 +23,13 @@ export interface I18nConfig {
    * @default 'json'
    */
   outputFormat?: OutputFormat;
+  /**
+   * Pluralization strategy to use.
+   * - 'suffix': i18next-style (key, key_plural, key_0, key_1)
+   * - 'cldr': CLDR-style (key_one, key_other, key_zero, key_few, key_many)
+   * @default 'suffix'
+   */
+  pluralizationStrategy?: 'suffix' | 'cldr';
 }
 
 export interface Loader {
