@@ -37,6 +37,10 @@ export interface I18nConfig {
    * @default 'mustache'
    */
   messageFormat?: 'mustache' | 'icu';
+  /**
+   * Plugins to register on initialization.
+   */
+  plugins?: Array<any>; // Using any to avoid circular dependency
 }
 
 export interface Loader {
@@ -68,3 +72,6 @@ export * from './FileWriter';
 
 // Re-export Pluralization interfaces
 export * from './Pluralization';
+
+// Re-export Plugin interfaces
+export * from './Plugin';

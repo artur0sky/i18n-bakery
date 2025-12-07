@@ -53,3 +53,8 @@ export * from './use-cases/TranslationFileManager';
 export * from './adapters/SuffixPluralResolver';
 export * from './adapters/CLDRPluralResolver';
 
+// Plugin System
+export * from './adapters/DefaultPluginManager';
+export * from './plugins/NumberFormatPlugin';
+export * from './plugins/CapitalizePlugin';
+
