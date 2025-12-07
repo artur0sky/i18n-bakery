@@ -43,3 +43,8 @@ export * from './adapters/FileSystemPathResolver';
 export * from './adapters/DefaultVariableDetector';
 export * from './adapters/MemoryTranslationEntryManager';
 
+// Phase 9 - File Auto-creation
+export * from './adapters/JSONFileWriter';
+export * from './adapters/NodeFileSystemManager';
+export * from './use-cases/TranslationFileManager';
+

@@ -6,6 +6,11 @@ export type TranslationMap = Record<Key, TranslationValue>;
 export type NamespaceMap = Record<Namespace, TranslationMap>;
 export type LocaleMap = Record<Locale, NamespaceMap>;
 
+/**
+ * Supported output formats for translation files.
+ */
+export type OutputFormat = 'json' | 'yml' | 'yaml' | 'toml' | 'toon';
+
 export interface I18nConfig {
   locale: Locale;
   fallbackLocale?: Locale;
@@ -13,6 +18,11 @@ export interface I18nConfig {
   saver?: TranslationSaver; // New Port
   saveMissing?: boolean;    // Feature Flag
   debug?: boolean;
+  /**
+   * Output format for translation files.
+   * @default 'json'
+   */
+  outputFormat?: OutputFormat;
 }
 
 export interface Loader {
@@ -38,3 +48,6 @@ export interface Store {
 // Re-export Phase 7 & 8 interfaces
 export * from './KeyParser';
 export * from './VariableDetection';
+
+// Re-export Phase 9 interfaces
+export * from './FileWriter';

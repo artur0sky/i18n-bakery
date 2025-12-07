@@ -101,6 +101,7 @@ export interface PathResolverConfig {
   
   /**
    * File extension (without dot)
+   * Accepts: 'json', 'yml', 'yaml', 'toml', 'toon'
    * @default "json"
    */
   extension?: string;
