@@ -108,12 +108,22 @@ export class HttpBackend implements Plugin, Loader {
     if (this.manifest) {
       const key = `${locale}/${namespace}`;
       if (this.manifest[key]) {
-         // If manifestPath is defined, resolve relative to it
-         if (this.options.manifestPath) {
-             const basePath = this.options.manifestPath.substring(0, this.options.manifestPath.lastIndexOf('/') + 1);
-             return basePath + this.manifest[key];
+         const manifestEntry = this.manifest[key];
+         
+         // If entry starts with /, it's an absolute path, use as-is
+         if (manifestEntry.startsWith('/')) {
+           return manifestEntry;
          }
-         return this.manifest[key];
+         
+         // Otherwise, resolve relative to manifestPath directory
+         if (this.options.manifestPath) {
+             const lastSlashIndex = this.options.manifestPath.lastIndexOf('/');
+             const basePath = lastSlashIndex >= 0 
+               ? this.options.manifestPath.substring(0, lastSlashIndex + 1)
+               : '';
+             return basePath + manifestEntry;
+         }
+         return manifestEntry;
       }
     }
 
