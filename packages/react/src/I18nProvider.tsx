@@ -32,6 +32,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ config, children }) 
   useEffect(() => {
     // Subscribe to i18n service changes (loaded translations, etc.)
     const unsubscribe = i18n.subscribe(() => {
+      // Force update by incrementing tick
       setTick(t => t + 1);
     });
     return () => unsubscribe();

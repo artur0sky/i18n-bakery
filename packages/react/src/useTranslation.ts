@@ -9,9 +9,9 @@ export function useTranslation(namespace?: string) {
   const t = (key: string, defaultTextOrVars?: string | Record<string, any>, options?: Record<string, any>) => {
     // If namespace is provided at hook level, prepend it if key doesn't have one
     let finalKey = key;
-    if (namespace && !key.includes('.') && !key.includes(':')) {
-       // Check for both separators to be safe, though core handles it.
-       // If the key already has a namespace (e.g. 'other:key'), don't prepend.
+    if (namespace && !key.includes(':')) {
+       // Check for colon to see if namespace is already present.
+       // We allow dots (.) because they are used for nested keys within the namespace.
        finalKey = `${namespace}:${key}`;
     }
     return i18n.t(finalKey, defaultTextOrVars, options);
