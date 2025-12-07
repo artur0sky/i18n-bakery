@@ -27,9 +27,15 @@ export class KeyExtractor {
                 defaultValue = args[1].value;
               }
 
-              // Infer namespace from key (e.g., "common.hello" -> "common")
-              const parts = key.split('.');
-              const namespace = parts.length > 1 ? parts[0] : 'common';
+              // Infer namespace from key (e.g., "common.hello" -> "common", "auth:login" -> "auth")
+              let namespace = 'common';
+              if (key.includes(':')) {
+                const parts = key.split(':');
+                namespace = parts[0];
+              } else if (key.includes('.')) {
+                const parts = key.split('.');
+                namespace = parts[0];
+              }
 
               keys.push({
                 key,

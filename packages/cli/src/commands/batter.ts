@@ -68,8 +68,14 @@ export async function batter(source: string, options: BatterOptions) {
 
     let newKeysCount = 0;
     for (const k of keys) {
-      if (!currentTranslations[k.key]) {
-        currentTranslations[k.key] = k.defaultValue || k.key;
+      let finalKey = k.key;
+      // Strip namespace from key if present (e.g. "actions.save" -> "save", "actions:save" -> "save")
+      if (finalKey.startsWith(`${namespace}.`) || finalKey.startsWith(`${namespace}:`)) {
+        finalKey = finalKey.slice(namespace.length + 1);
+      }
+
+      if (!currentTranslations[finalKey]) {
+        currentTranslations[finalKey] = k.defaultValue || finalKey;
         newKeysCount++;
       }
     }

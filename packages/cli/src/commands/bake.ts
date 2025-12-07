@@ -115,7 +115,8 @@ export async function bake(source: string, options: BakeOptions) {
       }
 
       console.log(chalk.cyan(`Baking locale: ${locale}...`));
-      const files = await glob(`${localePath}/*.json`);
+      const globPath = path.join(localePath, '*.json').replace(/\\/g, '/');
+      const files = await glob(globPath);
       
       const bundle: Record<string, any> = {};
       const namespaceFiles: Record<string, any> = {};

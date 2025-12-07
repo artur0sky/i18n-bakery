@@ -16,6 +16,12 @@ cli
 cli
   .command('bake [source]', 'Compile translations into a single file')
   .option('--out <dir>', 'Output directory for bundles', { default: 'dist/locales' })
+  .option('--minify', 'Minify JSON output')
+  .option('--hash', 'Add content hash to filenames')
+  .option('--manifest <file>', 'Generate manifest file')
+  .option('--split', 'Split into multiple files per namespace')
+  .option('--encrypt', 'Encrypt output files')
+  .option('--key <secret>', 'Encryption key')
   .action(async (source, options) => {
     await bake(source || 'locales', options);
   });

@@ -45,9 +45,9 @@ describe('CLI Integration Tests', () => {
     const commonData = await fs.readJson(commonJsonPath);
     const authData = await fs.readJson(authJsonPath);
 
-    expect(commonData['common.greeting']).toBe('Hello World');
-    expect(authData['auth.login']).toBe('Sign In');
-    expect(authData['auth.logout']).toBe('auth.logout'); // Default fallback
+    expect(commonData['greeting']).toBe('Hello World');
+    expect(authData['login']).toBe('Sign In');
+    expect(authData['logout']).toBe('logout'); // Default fallback
 
     // 4. Run BAKE
     await bake(LOCALES_DIR, { out: DIST_DIR });
@@ -57,15 +57,15 @@ describe('CLI Integration Tests', () => {
     expect(await fs.pathExists(bundlePath)).toBe(true);
 
     const bundle = await fs.readJson(bundlePath);
-    expect(bundle.common['common.greeting']).toBe('Hello World');
-    expect(bundle.auth['auth.login']).toBe('Sign In');
+    expect(bundle.common['greeting']).toBe('Hello World');
+    expect(bundle.auth['login']).toBe('Sign In');
   });
 
   it('should merge with existing translations', async () => {
     // 1. Setup existing translation
     const existingAuth = {
-      "auth.login": "Log In Existing", // Should be preserved if we don't overwrite (logic check)
-      "auth.old": "Old Key"
+      "login": "Log In Existing", // Should be preserved if we don't overwrite (logic check)
+      "old": "Old Key"
     };
     await fs.ensureDir(path.join(LOCALES_DIR, 'en'));
     await fs.writeJson(path.join(LOCALES_DIR, 'en', 'auth.json'), existingAuth);
@@ -84,8 +84,8 @@ describe('CLI Integration Tests', () => {
     // Based on current implementation: 
     // if (!currentTranslations[k.key]) { currentTranslations[k.key] = ... }
     // So existing keys are preserved.
-    expect(authData['auth.login']).toBe('Log In Existing'); 
-    expect(authData['auth.old']).toBe('Old Key'); // Preserved
-    expect(authData['auth.new']).toBe('New Key'); // Added
+    expect(authData['login']).toBe('Log In Existing'); 
+    expect(authData['old']).toBe('Old Key'); // Preserved
+    expect(authData['new']).toBe('New Key'); // Added
   });
 });
