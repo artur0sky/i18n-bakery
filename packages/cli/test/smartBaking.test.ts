@@ -17,7 +17,14 @@ describe('Smart Baking (CLI)', () => {
   });
 
   afterEach(async () => {
-    await fs.remove(TEST_DIR);
+    // Small delay to allow Windows to release file handles
+    await new Promise(resolve => setTimeout(resolve, 100));
+    try {
+      await fs.remove(TEST_DIR);
+    } catch (error) {
+      // Ignore errors on cleanup, Windows sometimes locks files
+      console.warn('Failed to clean up test directory:', error);
+    }
   });
 
   it('should minify output when minify option is true', async () => {
