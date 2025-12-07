@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
-import { I18nProvider, useT, useI18n } from '../src';
+import { I18nProvider, useTranslation, useI18n } from '../src';
 import { I18nConfig, I18nService } from '@i18n-bakery/core';
 import React from 'react';
 
@@ -32,10 +32,10 @@ describe('React Bindings', () => {
     expect(result.current.locale).toBe('en');
   });
 
-  it('should translate using useT', async () => {
+  it('should translate using useTranslation', async () => {
     // We need both hooks to test interaction
     const { result } = renderHook(() => {
-        const t = useT();
+        const t = useTranslation();
         const i18n = useI18n();
         return { ...t, setLocale: i18n.setLocale, i18nInstance: i18n.i18n };
     }, { wrapper });
@@ -64,8 +64,8 @@ describe('React Bindings', () => {
     expect(result.current.i18n.getCurrentLocale()).toBe('es');
   });
 
-  it('should handle namespaces in useT', () => {
-    const { result } = renderHook(() => useT('auth'), { wrapper });
+  it('should handle namespaces in useTranslation', () => {
+    const { result } = renderHook(() => useTranslation('auth'), { wrapper });
     
     // Should prepend namespace
     // We mock t to verify arguments? Or just check output key

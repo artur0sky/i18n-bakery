@@ -5,6 +5,74 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-12-07 (The Flexible Baker)
+
+### 🚀 Fresh from the Oven
+- **File Structure Configuration (The Organizer):**
+  - Added support for both **nested** (default) and **flat** JSON file structures.
+  - Nested structure creates hierarchical objects (e.g., `{ "home": { "title": "..." } }`).
+  - Flat structure keeps keys as-is (e.g., `{ "home.title": "..." }`).
+  - Configurable via `fileStructure` parameter in `JSONFileSaver` constructor.
+  - Default behavior remains **nested** for backward compatibility.
+- **Smart File Organization (The Filing System):**
+  - Both formats support the same translation features (variables, pluralization, ICU).
+  - Keys are automatically sorted alphabetically in generated files.
+  - Works seamlessly with existing auto-save and file creation features.
+
+### 🔧 Ingredients (Technical Details)
+- **New Configuration:**
+  - Extended `I18nConfig` with optional `fileStructure?: 'nested' | 'flat'` property.
+  - Updated `JSONFileSaver` constructor to accept `fileStructure` parameter with default value `'nested'`.
+- **Enhanced Logic:**
+  - Modified `JSONFileSaver.save()` to conditionally use nested or flat structure.
+  - Nested mode uses `setDeep()` for hierarchical object creation.
+  - Flat mode stores keys directly without splitting.
+- **Testing:** Added 7 comprehensive tests with 100% coverage.
+  - Nested structure with dotted keys
+  - Nested structure with deeply nested keys
+  - Flat structure with dotted keys
+  - Flat structure with simple keys
+  - Default behavior verification (nested)
+  - Alphabetical sorting in both formats
+- **Exports:** Added export for `JSONFileSaver` in `index.ts`.
+- **Breaking Changes:** None. Nested structure remains the default.
+
+### 📝 Example Usage
+
+```typescript
+import { JSONFileSaver } from '@i18n-bakery/core';
+
+// Nested structure (default)
+const nestedSaver = new JSONFileSaver('./locales', 'nested');
+// or simply: new JSONFileSaver('./locales')
+
+// Flat structure
+const flatSaver = new JSONFileSaver('./locales', 'flat');
+
+// With initI18n
+import { initI18n } from '@i18n-bakery/core';
+
+initI18n({
+  locale: 'en',
+  saver: new JSONFileSaver('./locales', 'flat'),
+  saveMissing: true
+});
+```
+
+### 🎯 When to Use Each Format
+
+**Nested Structure (Default):**
+- ✅ Better organization for large translation files
+- ✅ Easier to visualize hierarchical relationships
+- ✅ Standard format used by most i18n libraries
+- ✅ Supports deep nesting (e.g., `menu.items.home.label`)
+
+**Flat Structure:**
+- ✅ Simpler file structure
+- ✅ Easier to search for specific keys
+- ✅ No risk of key conflicts with nested objects
+- ✅ Better for automated translation tools
+
 ## [1.0.0] - 2025-12-06 🎉 (The Plugin Baker - First Stable Release)
 
 ### 🎊 Milestone: Production Ready!
@@ -590,6 +658,7 @@ await manager.createOrUpdateEntry(
 - **Advanced Key Engine (The Filing System):**
   - Introduced hierarchical key parsing with support for directory structures.
   - Keys now support `:` (colon) for directory levels and `.` (dot) for file and property separation.
+  - Example: `orders:meal.orderComponent.title` → `/orders/meal/orderComponent.json` with property `title`.
   - Intelligent parsing rules based on colon count:
     - **NO colons**: All dots are nested properties in `global` file (e.g., `user.profile.name` → `global.json`)
     - **ONE colon**: First dot-part is file, rest are nested properties (e.g., `orders:meal.user.name` → `/orders/meal.json`)
@@ -605,6 +674,30 @@ await manager.createOrUpdateEntry(
 
 ### 🔧 Ingredients (Technical Details)
 - **Architecture:** Implemented using Clean Architecture principles with clear separation between domain (interfaces) and adapters (implementations).
+- **New Interfaces:**
+  - `KeyParser`: Port for parsing translation keys into structured components.
+  - `PathResolver`: Port for resolving parsed keys to file system paths.
+- **New Adapters:**
+  - `DefaultKeyParser`: Default implementation of key parsing logic.
+  - `FileSystemPathResolver`: File system-based path resolution.
+- **Testing:** Added 29 comprehensive tests with 100% coverage of parsing scenarios and edge cases.
+- **TypeScript Configuration:** Fixed `tsconfig.json` to properly include test files and recognize Node.js types.
+- **Breaking Changes:** None. This is a new feature that doesn't affect existing functionality.
+
+## [0.6.4] - 2025-12-06 (The Refined Taste)
+
+### 🚀 Fresh from the Oven
+- **React Bindings (The Glaze):**
+  - Renamed `useT` to `useTranslation` to better align with industry standards (like `i18next`) and make migration easier.
+  - The API remains the same, just a more familiar name for the hook.
+
+## [0.6.3] - 2025-12-06 (The Recipe Book)
+
+### 🚀 Fresh from the Oven
+- **Documentation (The Cookbook):**
+  - Added comprehensive `README.md` files for all packages (`core`, `react`, `cli`) and the example application.
+  - Each README is written with our signature "Bakery" theme, providing clear instructions on ingredients (API) and baking (usage).
+
 - **New Interfaces (Ports):**
   - `KeyParser`: Port for parsing translation keys into structured components.
   - `PathResolver`: Port for resolving parsed keys to file system paths.

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useT, useI18n } from '@i18n-bakery/react';
+import { useTranslation, useI18n } from '@i18n-bakery/react';
 
 function App() {
-  const { t } = useT('common');
+  const { t } = useTranslation('common');
   const { setLocale, locale } = useI18n();
 
   const toggleLocale = () => {

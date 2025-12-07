@@ -4,15 +4,17 @@ import { TranslationSaver, Locale, Namespace, Key } from '../../domain/types';
 
 export class JSONFileSaver implements TranslationSaver {
   private localesPath: string;
+  private fileStructure: 'nested' | 'flat';
 
-  constructor(localesPath: string) {
+  constructor(localesPath: string, fileStructure: 'nested' | 'flat' = 'nested') {
     this.localesPath = localesPath;
+    this.fileStructure = fileStructure;
   }
 
   async save(locale: Locale, namespace: Namespace, key: Key, value: string): Promise<void> {
     const filePath = path.join(this.localesPath, locale, `${namespace}.json`);
     
-    let content: Record<string, string> = {};
+    let content: Record<string, any> = {};
     
     try {
       // Ensure directory exists
@@ -28,14 +30,15 @@ export class JSONFileSaver implements TranslationSaver {
       }
     }
 
-    // Update content
-    // Handle nested keys if needed, but for now we assume flat or user handles nesting in key string?
-    // Wait, standard i18next JSONs are nested.
-    // "home.title" -> { "home": { "title": "..." } } ? 
-    // Usually namespace is file, key is inside.
-    // If key is "section.title", JSON should be { "section": { "title": "..." } }
-    
-    this.setDeep(content, key, value);
+    // Update content based on file structure
+    if (this.fileStructure === 'flat') {
+      // Flat structure: key as-is (e.g., "home.title": "...")
+      content[key] = value;
+    } else {
+      // Nested structure: split key by dots and create nested objects
+      // (e.g., "home.title" -> { "home": { "title": "..." } })
+      this.setDeep(content, key, value);
+    }
 
     // Sort keys alphabetically (optional but nice for bakery)
     const sortedContent = this.sortObject(content);

@@ -38,6 +38,13 @@ export interface I18nConfig {
    */
   messageFormat?: 'mustache' | 'icu';
   /**
+   * File structure for translation files.
+   * - 'nested': Nested JSON objects (e.g., { "home": { "title": "..." } })
+   * - 'flat': Flat key-value pairs (e.g., { "home.title": "..." })
+   * @default 'nested'
+   */
+  fileStructure?: 'nested' | 'flat';
+  /**
    * Plugins to register on initialization.
    */
   plugins?: Array<any>; // Using any to avoid circular dependency
