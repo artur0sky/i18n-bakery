@@ -5,6 +5,26 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-12-07 (The Secure Baker)
+
+### 🚀 Fresh from the Oven
+- **Security Hardening (The Vault):**
+  - **Path Traversal Prevention:** Implemented strict validation in `FileSystemPathResolver` to prevent access to unauthorized directories using `..` or null bytes.
+  - **File Type Enforcement:** `JSONFileWriter` now strictly enforces `.json` extension to prevent malicious file creation.
+  - **Input Sanitization:** `DefaultKeyParser` now includes a whitelist validation (`a-zA-Z0-9_\-\.:`) to prevent injection attacks via translation keys.
+  - **Browser Safety:** Enhanced `FileSystemPathResolver` to be purely logic-based and safe for browser bundling without Node.js dependencies.
+
+### 🔧 Ingredients (Technical Details)
+- **New Security Methods:**
+  - `FileSystemPathResolver.validatePathSegment()`: Validates path segments against traversal attacks.
+  - `DefaultKeyParser.isValidKey()`: Validates keys against a strict whitelist regex.
+  - `JSONFileWriter.write()`: Added extension check.
+- **Testing:** Added `security.test.ts` with 8 comprehensive tests covering:
+  - Path traversal scenarios (directories, files, locales).
+  - Injection attempts (script tags, suspicious chars).
+  - File extension enforcement.
+- **Breaking Changes:** None. Valid usage remains unaffected; only malicious or malformed inputs are rejected.
+
 ## [1.0.1] - 2025-12-07 (The Flexible Baker)
 
 ### 🚀 Fresh from the Oven
