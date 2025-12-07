@@ -5,6 +5,22 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2025-12-07 (The Encrypted Baker)
+
+### 🔐 Fresh from the Oven
+- **Encryption Support (CLI & Core):**
+  - **AES-256-GCM:** Implemented secure encryption/decryption using Web Crypto API (Node.js & Browser compatible).
+  - **CLI Encryption:** New `--encrypt` and `--key` flags in `bake` command to encrypt translation files.
+  - **HttpBackend Decryption:** `HttpBackend` plugin now supports on-the-fly decryption of encrypted translation files.
+  - **Universal Adapter:** `Aes256GcmCipher` adapter works in both Node.js (via `crypto.webcrypto`) and modern browsers.
+
+### 🔧 Ingredients (Technical Details)
+- **Domain:** Added `Cipher` interface and `Encryption` domain.
+- **Adapters:** Added `Aes256GcmCipher` implementing `Cipher`.
+- **CLI:** Updated `bake` command to support encryption.
+- **Core:** Updated `HttpBackend` to support `cipher` and `secret` options.
+- **Testing:** Added `encryption.test.ts` (Core & CLI).
+
 ## [1.0.3] - 2025-12-07 (The Turbo Baker)
 
 ### 🚀 Fresh from the Oven
