@@ -1,0 +1,18 @@
+# Source files
+src/
+test/
+*.test.ts
+*.spec.ts
+
+# Config files
+tsconfig.json
+vitest.config.ts
+.vite/
+.vitest/
+node_modules/
+
+# Development files
+*.md
+!README.md
+.gitignore
+.npmignore
