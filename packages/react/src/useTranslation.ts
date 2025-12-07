@@ -6,7 +6,7 @@ export function useTranslation(namespace?: string) {
   // But we might want to subscribe to store changes if we had a reactive store.
   // For now, relying on the provider's locale state is enough to trigger re-renders.
 
-  const t = (key: string, defaultText?: string, vars?: Record<string, any>) => {
+  const t = (key: string, defaultTextOrVars?: string | Record<string, any>, options?: Record<string, any>) => {
     // If namespace is provided at hook level, prepend it if key doesn't have one
     let finalKey = key;
     if (namespace && !key.includes('.') && !key.includes(':')) {
@@ -14,8 +14,17 @@ export function useTranslation(namespace?: string) {
        // If the key already has a namespace (e.g. 'other:key'), don't prepend.
        finalKey = `${namespace}:${key}`;
     }
-    return i18n.t(finalKey, defaultText, vars);
+    return i18n.t(finalKey, defaultTextOrVars, options);
   };
 
-  return { t, i18n };
+  const ret = [t, i18n, true] as const;
+  (ret as any).t = t;
+  (ret as any).i18n = i18n;
+  (ret as any).ready = true;
+
+  return ret as unknown as {
+    t: typeof t;
+    i18n: typeof i18n;
+    ready: boolean;
+  } & [typeof t, typeof i18n, boolean];
 }
