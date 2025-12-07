@@ -1,9 +1,7 @@
 {
   "name": "i18n-bakery",
-  "version": "1.0.1",
-  "publishConfig": {
-    "access": "public"
-  },
+  "version": "1.0.2",
+  "private": true,
   "description": "The essential ingredients for type-safe internationalization. Mixes perfectly with any JavaScript environment.",
   "main": "index.js",
   "scripts": {

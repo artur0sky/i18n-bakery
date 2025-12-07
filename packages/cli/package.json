@@ -1,6 +1,6 @@
 {
     "name": "@i18n-bakery/cli",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Professional kitchen tools for i18n-bakery. Automate your extraction and baking workflow.",
     "main": "dist/index.js",
     "bin": {
