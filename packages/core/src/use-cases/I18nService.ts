@@ -41,12 +41,24 @@ export class I18nService {
   public t(key: string, defaultText?: string, vars?: Record<string, any>): string {
     const { namespace, key: actualKey } = this.parseKey(key);
     
-    // 1. Try current locale
-    let translation = this.store.get(this.currentLocale, namespace, actualKey);
+    // Determine if we need pluralization
+    const count = vars?.count;
+    const needsPluralization = typeof count === 'number';
+    
+    let translation: string | undefined;
+    
+    if (needsPluralization) {
+      // Try pluralization
+      translation = this.getPluralTranslation(namespace, actualKey, count, vars);
+    } else {
+      // Normal translation lookup
+      // 1. Try current locale
+      translation = this.store.get(this.currentLocale, namespace, actualKey);
 
-    // 2. Try fallback locale
-    if (!translation && this.fallbackLocale) {
-      translation = this.store.get(this.fallbackLocale, namespace, actualKey);
+      // 2. Try fallback locale
+      if (!translation && this.fallbackLocale) {
+        translation = this.store.get(this.fallbackLocale, namespace, actualKey);
+      }
     }
 
     // 3. Fallback to default text or key
@@ -68,6 +80,75 @@ export class I18nService {
 
     return this.formatter.interpolate(translation, vars);
   }
+
+  /**
+   * Gets the appropriate plural translation based on count.
+   * 
+   * Resolution order:
+   * 1. Exact count match (key_0, key_1, key_2, etc.)
+   * 2. Singular form (count === 1): key
+   * 3. Plural form (count !== 1): key_plural
+   * 
+   * @param namespace - The namespace
+   * @param key - The base key
+   * @param count - The count value
+   * @param vars - Variables for interpolation
+   * @returns Translation string or undefined
+   */
+  private getPluralTranslation(
+    namespace: Namespace,
+    key: Key,
+    count: number,
+    vars?: Record<string, any>
+  ): string | undefined {
+    // Step 1: Try exact count match (key_0, key_1, key_2, etc.)
+    const exactKey = `${key}_${count}`;
+    let translation = this.store.get(this.currentLocale, namespace, exactKey);
+    
+    if (translation) {
+      return translation;
+    }
+
+    // Try fallback locale for exact match
+    if (this.fallbackLocale) {
+      translation = this.store.get(this.fallbackLocale, namespace, exactKey);
+      if (translation) {
+        return translation;
+      }
+    }
+
+    // Step 2: Determine if singular or plural
+    const isSingular = count === 1;
+
+    if (isSingular) {
+      // Singular: use base key
+      translation = this.store.get(this.currentLocale, namespace, key);
+      
+      if (!translation && this.fallbackLocale) {
+        translation = this.store.get(this.fallbackLocale, namespace, key);
+      }
+    } else {
+      // Plural: try key_plural
+      const pluralKey = `${key}_plural`;
+      translation = this.store.get(this.currentLocale, namespace, pluralKey);
+      
+      if (!translation && this.fallbackLocale) {
+        translation = this.store.get(this.fallbackLocale, namespace, pluralKey);
+      }
+
+      // If no plural form exists, fall back to base key
+      if (!translation) {
+        translation = this.store.get(this.currentLocale, namespace, key);
+        
+        if (!translation && this.fallbackLocale) {
+          translation = this.store.get(this.fallbackLocale, namespace, key);
+        }
+      }
+    }
+
+    return translation;
+  }
+
 
   public addTranslations(locale: Locale, namespace: Namespace, data: Record<string, string>) {
     this.store.setNamespace(locale, namespace, data);

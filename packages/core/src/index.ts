@@ -48,3 +48,6 @@ export * from './adapters/JSONFileWriter';
 export * from './adapters/NodeFileSystemManager';
 export * from './use-cases/TranslationFileManager';
 
+// Pluralization
+export * from './adapters/SuffixPluralResolver';
+

@@ -51,3 +51,6 @@ export * from './VariableDetection';
 
 // Re-export Phase 9 interfaces
 export * from './FileWriter';
+
+// Re-export Pluralization interfaces
+export * from './Pluralization';

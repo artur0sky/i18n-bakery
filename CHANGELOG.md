@@ -5,6 +5,80 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.1] - 2025-12-06 (The Plural Baker)
+
+### 🚀 Fresh from the Oven
+- **Pluralization System (The Counter):**
+  - Introduced i18next-compatible pluralization with suffix strategy.
+  - Automatic plural form selection based on `count` variable.
+  - Support for exact count matches (e.g., `key_0`, `key_1`, `key_2`).
+  - Fallback to singular/plural forms (`key`, `key_plural`).
+  - Example: `t('apple', { count: 5 })` → automatically uses `apple_plural`
+- **Smart Resolution Order (The Priority System):**
+  - 1️⃣ Exact count match: `key_0`, `key_1`, `key_2`, etc.
+  - 2️⃣ Singular form (count === 1): `key`
+  - 3️⃣ Plural form (count !== 1): `key_plural`
+  - 4️⃣ Fallback to base key if plural form doesn't exist
+- **Seamless Integration (The Mixing):**
+  - Works automatically when `count` variable is provided.
+  - Compatible with variable interpolation.
+  - Works with namespaces and fallback locales.
+  - Zero configuration required - works out of the box.
+
+### 🔧 Ingredients (Technical Details)
+- **Architecture:** Extensible pluralization system ready for CLDR and ICU strategies.
+- **New Interfaces (Ports):**
+  - `PluralResolver`: Port for resolving plural forms.
+  - `PluralKeyChecker`: Port for checking key existence.
+  - `PluralizationConfig`: Configuration for pluralization strategies.
+  - `PluralResolutionResult`: Result of plural resolution.
+  - `PluralCategory`: CLDR-based plural categories (zero, one, two, few, many, other).
+  - `PluralizationStrategy`: Strategy types (suffix, cldr, icu).
+- **New Adapters (Implementations):**
+  - `SuffixPluralResolver`: i18next-style suffix-based pluralization.
+- **Integration:**
+  - Updated `I18nService.t()` to automatically detect and handle pluralization.
+  - Added `getPluralTranslation()` private method for plural resolution.
+- **Testing:** Added 21 comprehensive tests with 100% coverage.
+  - Basic pluralization (singular/plural)
+  - Exact count matches (0, 1, 2, 100, etc.)
+  - Interpolation with pluralization
+  - Fallback behavior
+  - Namespaces with pluralization
+  - Real-world scenarios (cart, notifications, likes)
+  - Edge cases (negative, decimal, large numbers)
+- **Exports:** Updated `index.ts` and `types.ts` to export pluralization components.
+- **Breaking Changes:** None. Pluralization is opt-in via `count` variable.
+
+### 📝 Example Usage
+
+```typescript
+import { initI18n, t, addTranslations } from '@i18n-bakery/core';
+
+initI18n({ locale: 'en' });
+
+// Add translations with plural forms
+addTranslations('en', 'common', {
+  'apple': 'apple',
+  'apple_plural': 'apples',
+  'apple_0': 'no apples',
+});
+
+// Use with count variable
+t('apple', { count: 0 })  // → "no apples" (exact match)
+t('apple', { count: 1 })  // → "apple" (singular)
+t('apple', { count: 5 })  // → "apples" (plural)
+
+// With interpolation
+addTranslations('en', 'cart', {
+  'item': '{{count}} item in cart',
+  'item_plural': '{{count}} items in cart',
+});
+
+t('cart:item', { count: 1 })  // → "1 item in cart"
+t('cart:item', { count: 3 })  // → "3 items in cart"
+```
+
 ## [0.9.0] - 2025-12-06 (The Auto-Baker)
 
 ### 🚀 Fresh from the Oven
