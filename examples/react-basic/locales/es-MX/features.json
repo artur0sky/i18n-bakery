@@ -1,3 +1,21 @@
 {
+  "items": {
+    "multilang": {
+      "description": "items.multilang.description",
+      "title": "items.multilang.title"
+    },
+    "performance": {
+      "description": "items.performance.description",
+      "title": "items.performance.title"
+    },
+    "plugins": {
+      "description": "items.plugins.description",
+      "title": "items.plugins.title"
+    },
+    "typesafe": {
+      "description": "items.typesafe.description",
+      "title": "items.typesafe.title"
+    }
+  },
   "title": "title"
 }

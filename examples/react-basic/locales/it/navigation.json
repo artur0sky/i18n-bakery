@@ -1,0 +1,14 @@
+{
+  "docs": {
+    "description": "docs.description",
+    "title": "docs.title"
+  },
+  "github": {
+    "description": "github.description",
+    "title": "github.title"
+  },
+  "showcase": {
+    "description": "showcase.description",
+    "title": "showcase.title"
+  }
+}

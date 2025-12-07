@@ -1,4 +1,14 @@
 {
-  "description": "これはi18n-bakeryの基本的な例です。",
-  "welcome": "ようこそ"
+  "capitalize_title": "capitalize_title",
+  "currency": "currency",
+  "description": "description",
+  "formatting_title": "formatting_title",
+  "interpolation": "interpolation",
+  "interpolation_title": "interpolation_title",
+  "percent": "percent",
+  "plural": "plural",
+  "plural_title": "plural_title",
+  "text_capitalize": "text_capitalize",
+  "text_upper": "text_upper",
+  "welcome": "welcome"
 }

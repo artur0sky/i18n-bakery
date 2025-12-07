@@ -7,8 +7,7 @@ import { HttpBackend, NumberFormatPlugin, CapitalizePlugin } from '@i18n-bakery/
 
 // Initialize plugins
 const httpBackend = new HttpBackend({
-  loadPath: '/locales/{{lng}}/{{ns}}.json',
-  manifestPath: '/locales/manifest.json'
+  loadPath: '/locales/{{lng}}/{{ns}}.json'
 });
 
 const numberFormat = new NumberFormatPlugin();
@@ -18,6 +17,7 @@ const config = {
   locale: 'en-US',
   fallbackLocale: 'en-US',
   supportedLocales: ['en-US', 'es-MX', 'it', 'jp'],
+  defaultNamespace: 'common', // Set default namespace to 'common'
   plugins: [httpBackend, numberFormat, capitalize], // Register plugins
   loader: httpBackend,
   debug: true

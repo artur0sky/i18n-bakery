@@ -1,0 +1,17 @@
+{
+  "items": {
+    "consistent": {
+      "description": "items.consistent.description",
+      "title": "items.consistent.title"
+    },
+    "namespace": {
+      "description": "items.namespace.description",
+      "title": "items.namespace.title"
+    },
+    "organize": {
+      "description": "items.organize.description",
+      "title": "items.organize.title"
+    }
+  },
+  "title": "title"
+}

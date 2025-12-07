@@ -8,4 +8,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    fs: {
+      // Allow serving files from the locales directory
+      allow: ['..', 'locales']
+    }
+  }
 })
