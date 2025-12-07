@@ -58,4 +58,5 @@ export * from './adapters/CLDRPluralResolver';
 export * from './adapters/DefaultPluginManager';
 export * from './plugins/NumberFormatPlugin';
 export * from './plugins/CapitalizePlugin';
+export * from './plugins/HttpBackend';
 
