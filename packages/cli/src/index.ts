@@ -23,7 +23,7 @@ cli
   .option('--encrypt', 'Encrypt output files')
   .option('--key <secret>', 'Encryption key')
   .action(async (source, options) => {
-    await bake(source || 'locales', options);
+    await bake(source || 'public/locales', options);
   });
 
 cli.help();
