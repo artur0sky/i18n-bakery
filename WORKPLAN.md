@@ -56,261 +56,421 @@ Este documento describe el plan de implementación completo de **i18n-bakery**, 
 - ✅ Testing completo (29 tests, 100% coverage)
 - ✅ Ejemplo: `orders:meal.orderComponent.title` → `/orders/meal/orderComponent.json` con propiedad `title`
 
+### ✅ FASE 8 — Variable Detection (The Variable Vault) — **COMPLETADA** (v0.8.0)
+- ✅ VariableDetector port + DefaultVariableDetector adapter
+- ✅ TranslationEntryManager port + MemoryTranslationEntryManager adapter
+- ✅ Sistema de firmas de variables (variable signatures)
+- ✅ Soporte para múltiples variantes de la misma clave
+- ✅ Auto-generación de templates (variables-only, empty)
+- ✅ Testing completo (41 tests, 100% coverage)
+
+### ✅ FASE 9 — File Auto-creation (The Auto-Baker) — **COMPLETADA** (v0.9.0)
+- ✅ FileWriter port + JSONFileWriter adapter
+- ✅ FileSystemManager port + NodeFileSystemManager adapter
+- ✅ TranslationFileManager use case
+- ✅ Auto-creación de archivos y directorios
+- ✅ Soporte para variantes de traducción
+- ✅ Merge modes: append y replace
+- ✅ Pretty-printing configurable
+- ✅ Testing completo (12 tests, 100% coverage)
+
+### ✅ FASE 10 — Pluralization (The Plural Baker) — **COMPLETADA** (v0.9.1)
+- ✅ PluralResolver port + SuffixPluralResolver adapter
+- ✅ Soporte i18next-style (`key`, `key_plural`, `key_0`, `key_1`)
+- ✅ Resolución inteligente por prioridad
+- ✅ Integración con variable interpolation
+- ✅ Testing completo (21 tests, 100% coverage)
+
+### ✅ FASE 11 — CLDR Pluralization (The World Baker) — **COMPLETADA** (v0.9.2)
+- ✅ CLDRPluralResolver usando Intl.PluralRules
+- ✅ Soporte para 100+ idiomas
+- ✅ Estrategia configurable (suffix vs cldr)
+- ✅ Categorías CLDR: zero, one, two, few, many, other
+- ✅ Testing multi-idioma (18 tests, 100% coverage)
+
+### ✅ FASE 12 — ICU MessageFormat (The ICU Baker) — **COMPLETADA** (v0.9.3)
+- ✅ ICUMessageFormatter adapter
+- ✅ Plural syntax: `{count, plural, one {# item} other {# items}}`
+- ✅ Select syntax: `{gender, select, male {He} female {She}}`
+- ✅ Selectordinal syntax: `{place, selectordinal, one {#st} two {#nd}}`
+- ✅ Nested patterns support
+- ✅ Testing completo (15 tests, 100% coverage)
+
+### ✅ FASE 13 — Plugin System (The Plugin Baker) — **COMPLETADA** (v1.0.0) 🎉
+- ✅ Plugin port + DefaultPluginManager adapter
+- ✅ Lifecycle hooks (init, beforeTranslate, afterTranslate, etc.)
+- ✅ Plugin types (formatter, backend, detector, processor, middleware)
+- ✅ Dependency management
+- ✅ NumberFormatPlugin (currency, number, percent, compact)
+- ✅ CapitalizePlugin (upper, lower, capitalize, title)
+- ✅ Testing completo (21 tests, 100% coverage)
+- ✅ **PRIMERA VERSIÓN ESTABLE - PRODUCTION READY**
+
+### ✅ FASE 14 — File Structure Configuration (The Flexible Baker) — **COMPLETADA** (v1.0.1)
+- ✅ Soporte para estructura nested (default)
+- ✅ Soporte para estructura flat (configurable)
+- ✅ Parámetro `fileStructure` en JSONFileSaver
+- ✅ Propiedad `fileStructure` en I18nConfig
+- ✅ Testing completo (7 tests, 100% coverage)
+- ✅ Documentación de uso y migración
+
 ---
 
-## Fases Pendientes
+## 📊 Estado Actual: v1.0.1
 
-# FASE 8 — Detección avanzada de variables y auto-generación
+**Características Implementadas:** 14/14 fases core completadas
+**Paridad con i18next:** ~70% (core features)
+**Tests Totales:** 197 tests pasando
+**Cobertura:** 100% en componentes críticos
 
-## 8.1 Detección de variables en runtime
+---
 
-Cuando el usuario llama:
+## Fases Pendientes (Roadmap hacia Seamless i18next Integration)
 
-```javascript
-t("orders:meal.title", { meal: "Enchiladas", price: 120 })
+# FASE 15 — Context Support (The Context Baker) — **PRIORIDAD ALTA** (v1.1.0)
+
+## 15.1 Context Parameter
+Implementar soporte para traducciones contextuales (género, formalidad, etc.)
+
+**API:**
+```typescript
+t('friend', { context: 'male' })   // → friend_male
+t('friend', { context: 'female' }) // → friend_female
+t('friend', { context: 'formal' }) // → friend_formal
 ```
 
-Las variables detectadas deben almacenarse en la entrada si aún no existe.
+**Implementación:**
+- Extender `I18nConfig` con `contextSeparator?: string` (default: `'_'`)
+- Actualizar firma de `t()` para aceptar `options.context`
+- Modificar `I18nService` para resolver claves con contexto
+- Prioridad de resolución:
+  1. `key_context` (si context presente)
+  2. `key` (fallback)
 
-**Implementación basada en v0.7.0:**
-- La clave `orders:meal.title` se parsea como:
-  - Directorio: `/orders/meal/`
-  - Archivo: `title.json` (o parte de un archivo mayor según configuración)
-  - Propiedad: `title`
+**Testing:**
+- Context con pluralization
+- Context con namespaces
+- Context con fallback locale
+- Context con ICU MessageFormat
 
-## 8.2 Detección de ausencia de texto default
+**Estimación:** 2-3 días
 
-Comportamiento requerido:
+---
 
-Si el usuario usa:
+# FASE 16 — Language Detection (The Detector Baker) — **PRIORIDAD ALTA** (v1.1.0)
 
-```javascript
-t("orders:meal.title", { meal: "…" })
-```
+## 16.1 Browser Language Detector Plugin
+Auto-detectar idioma del navegador/sistema
 
-y no existe traducción, crear la entrada automáticamente:
-
-```json
-{
-  "title": {
-    "_autoGenerated": true,
-    "variables": ["meal"],
-    "value": ""
+**Implementación:**
+```typescript
+class BrowserLanguageDetector implements Plugin {
+  metadata = {
+    name: 'browser-language-detector',
+    type: 'detector',
+    version: '1.0.0'
+  };
+  
+  detect(): string {
+    // 1. Query string (?lng=es)
+    // 2. localStorage
+    // 3. Cookie
+    // 4. navigator.language
+    // 5. HTML lang attribute
+    return detectedLanguage;
   }
 }
 ```
 
-Si existe una traducción, usarla sin crear valores nuevos.
-
-## 8.3 Sistema de firmas de variables (variable signature)
-
-**ACTUALIZADO según v0.7.0 — Advanced Key Engine**
-
-El parsing jerárquico ya está implementado:
-- `:` (colon) define niveles de directorio
-- `.` (dot) separa componentes y propiedades
-- Ejemplo: `orders:meal.title` → `/orders/meal.json` con propiedad `title`
-
-Para diferenciar variantes de la misma key cuando las variables difieren:
-
-**Ejemplo:**
-```javascript
-t("orders:meal.title", { meal: "Pizza" })
+## 16.2 Detection Options
+```typescript
+interface DetectorOptions {
+  order?: ('querystring' | 'localStorage' | 'cookie' | 'navigator' | 'htmlTag')[];
+  lookupQuerystring?: string;
+  lookupCookie?: string;
+  lookupLocalStorage?: string;
+  caches?: ('localStorage' | 'cookie')[];
+}
 ```
-→ Firma: `["meal"]`
 
-```javascript
-t("orders:meal.title", { meal: "Pizza", price: 120 })
-```
-→ Firma: `["meal","price"]`
+**Testing:**
+- Detection order
+- Fallback behavior
+- Cache persistence
+- Multi-source detection
 
-**Resolución:** Las variantes se almacenan internamente en el mismo archivo determinado por la estructura jerárquica:
+**Estimación:** 2 días
 
-**Archivo:** `/orders/meal.json`
-```json
-{
-  "title": {
-    "variants": {
-       "meal": {
-         "variables": ["meal"],
-         "value": "{{meal}}"
-       },
-       "meal_price": {
-         "variables": ["meal", "price"],
-         "value": "{{meal}} - ${{price}}"
-       }
-    }
+---
+
+# FASE 17 — HTTP Backend (The Network Baker) — **PRIORIDAD ALTA** (v1.2.0)
+
+## 17.1 HTTP Backend Plugin
+Cargar traducciones desde servidor HTTP
+
+**Implementación:**
+```typescript
+class HttpBackend implements Plugin {
+  metadata = {
+    name: 'http-backend',
+    type: 'backend',
+    version: '1.0.0'
+  };
+  
+  async load(locale: string, namespace: string): Promise<TranslationMap> {
+    const url = this.getUrl(locale, namespace);
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Failed to load ${url}`);
+    return response.json();
   }
 }
 ```
 
-**IMPORTANTE:** El nombre del archivo **NO** cambia según las variables, solo según la estructura jerárquica de la clave parseada por `DefaultKeyParser`.
+## 17.2 Backend Options
+```typescript
+interface HttpBackendOptions {
+  loadPath?: string; // '/locales/{{lng}}/{{ns}}.json'
+  addPath?: string;  // '/locales/add/{{lng}}/{{ns}}'
+  allowMultiLoading?: boolean;
+  crossDomain?: boolean;
+  withCredentials?: boolean;
+  requestOptions?: RequestInit;
+}
+```
+
+**Testing:**
+- Successful loading
+- Error handling
+- Retry logic
+- Cache strategy
+- Multi-namespace loading
+
+**Estimación:** 3 días
 
 ---
 
-# FASE 9 — Auto-creación y mantenimiento de archivos (FileEngine v3)
+# FASE 18 — Event System (The Observer Baker) — **PRIORIDAD ALTA** (v1.2.0)
 
-## 9.1 Crear entrada si no existe
+## 18.1 Event Emitter
+Sistema de eventos para cambios de idioma, carga de traducciones, etc.
 
-**Actualizado para usar v0.7.0 — PathResolver**
+**API:**
+```typescript
+i18n.on('languageChanged', (lng) => {
+  console.log('Language changed to', lng);
+});
 
--   Usar `KeyParser` para obtener `ParsedKey`
--   Usar `PathResolver` para obtener la ruta del archivo
--   Crear estructura de directorios automáticamente
--   Crear variantes según firma de variables
--   Insertar placeholders:
+i18n.on('loaded', (loaded) => {
+  console.log('Translations loaded', loaded);
+});
 
+i18n.on('failedLoading', (lng, ns, msg) => {
+  console.error('Failed loading', lng, ns, msg);
+});
+
+i18n.on('missingKey', (lngs, namespace, key, res) => {
+  console.warn('Missing key', key);
+});
+```
+
+## 18.2 Event Types
+- `initialized`
+- `loaded`
+- `failedLoading`
+- `languageChanged`
+- `missingKey`
+- `added`
+- `removed`
+
+**Implementación:**
+- EventEmitter port
+- DefaultEventEmitter adapter
+- Integración con I18nService
+- React hooks para eventos
+
+**Testing:**
+- Event emission
+- Event listeners
+- Unsubscribe
+- Multiple listeners
+- Error handling
+
+**Estimación:** 2 días
+
+---
+
+# FASE 19 — Nesting Translations (The Nesting Baker) — **PRIORIDAD MEDIA** (v1.3.0)
+
+## 19.1 Translation Nesting
+Referenciar otras traducciones dentro de traducciones
+
+**API:**
 ```json
-"value": "{{meal}} {{price}}"
+{
+  "hello": "Hello",
+  "user": {
+    "name": "John"
+  },
+  "greeting": "$t(hello) $t(user.name)!"
+}
 ```
-
-## 9.2 Actualizar entrada existente
-
--   Si la key existe pero falta una variable:
-    -   Agregar variable a la firma correspondiente
-    -   NO reemplazar textos existentes a menos que el usuario lo indique explícitamente
-
-## 9.3 Formateo automático de JSON
-
--   Aplicar prettier-like formatting
--   Opcional: permitir YAML
-
-## 9.4 Modo "append-only"
-
--   Configurable para evitar sobrescribir valores establecidos manualmente
-
----
-
-# FASE 10 — Resolver final + CLI avanzado (Full Runtime v2)
-
-## 10.1 Resolver final de traducciones
-
-**Actualizado para usar v0.7.0 — Advanced Key Engine**
-
-Cuando el usuario llama:
-
-```javascript
-t("orders:meal.title", { meal: "Tacos", price: 80 })
-```
-
-El sistema debe:
-
-1.  Parsear key usando `KeyParser` → `ParsedKey`
-2.  Resolver archivo usando `PathResolver` → ruta física
-3.  Cargar archivo JSON
-4.  Seleccionar variante según firma de variables
-5.  Rellenar plantilla con `MustacheFormatter`
-6.  Retornar resultado
-
-## 10.2 CLI: i18n-bakery scan
-
-Agrega detección automática en código:
-
--   Buscar llamadas `t("key", {...})`
--   Detectar:
-    -   clave (con soporte de `:` y `.`)
-    -   variables
-    -   default (si lo hay)
--   Usar `KeyParser` y `PathResolver` para determinar ubicación
--   Crear o actualizar archivos de traducción
-
-## 10.3 CLI: i18n-bakery apresto
-
-**Funciones:**
-
--   Detectar claves huérfanas
--   Detectar variables inconsistentes
--   Detectar múltiples firmas conflictivas
--   Recomendar cleanup de archivos
--   Validar estructura jerárquica de directorios
-
-## 10.4 CLI: i18n-bakery migrate i18next
-
-Permitir migrar proyectos i18next automáticamente.
-
-## 10.5 Integración monorepo con pnpm
-
-**✅ YA IMPLEMENTADO en v0.6.0**
-
-Estructura actual:
-
-```
-/packages
-  /core
-  /react
-  /cli
-/examples
-  /react-basic
-```
-
-Cada paquete con:
-
--   TS build
--   pnpm workspaces
--   `exports` en `package.json`
-
-## 10.6 Tipos avanzados
-
-Para TypeScript generar:
 
 ```typescript
-type TranslationKeys = "orders:meal.title" | "auth:login" | ...
+t('greeting') // → "Hello John!"
 ```
 
-Via análisis estático de la carpeta de traducciones.
+## 19.2 Nesting Options
+```typescript
+interface NestingOptions {
+  prefix?: string;     // default: '$t('
+  suffix?: string;     // default: ')'
+  nestingOptionsSeparator?: string; // default: ','
+}
+```
+
+**Testing:**
+- Simple nesting
+- Deep nesting
+- Nesting with variables
+- Nesting with plurals
+- Circular reference detection
+
+**Estimación:** 3-4 días
 
 ---
 
-# FASE 11 — Plugins y extensiones (opcional pero recomendado)
+# FASE 20 — Return Objects (The Object Baker) — **PRIORIDAD MEDIA** (v1.3.0)
 
-## 11.1 Plugins de almacenamiento
+## 20.1 Object Return
+Retornar objetos completos de traducción
 
-Soportar:
+**API:**
+```typescript
+// Translation file
+{
+  "menu": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact"
+  }
+}
 
--   FS (default) — **✅ Implementado en v0.7.0 con FileSystemPathResolver**
--   S3
--   Supabase
--   Github repos autogenerados
+// Usage
+const menu = t('menu', { returnObjects: true });
+// → { home: "Home", about: "About", contact: "Contact" }
+```
 
-## 11.2 Formato múltiple
+## 20.2 Return Details
+```typescript
+const details = t('key', { returnDetails: true });
+// → {
+//   res: "translation",
+//   usedKey: "key",
+//   exactUsedKey: "key",
+//   usedLng: "en",
+//   usedNS: "common"
+// }
+```
 
-Permitir elegir:
+**Testing:**
+- Object return
+- Array return
+- Details return
+- Nested objects
+- With interpolation
 
--   JSON (default)
--   YAML
--   TOML
-
-## 11.3 Editor web opcional
-
-UI estilo i18next Editor.
-
----
-
-# FASE 12 — Documentación y ejemplos
-
-## 12.1 Comparaciones oficiales vs i18next
-
-**Parcialmente implementado en v0.5.0 y v0.6.0**
-
-Demostrar:
-
--   ✅ menos boilerplate
--   ✅ detección automática
--   ✅ cero dependencias críticas
--   🔄 versiones multivariable (pendiente Fase 8.3)
-
-## 12.2 Ejemplos completos
-
--   ✅ React (react-basic)
--   Next.js
--   Vite
--   Node backend
--   ✅ CLI usage (documentado)
--   ✅ Monorepo pnpm (implementado)
+**Estimación:** 2 días
 
 ---
 
-## Notas de Arquitectura (v0.7.0)
+# FASE 21 — Multiple Instances (The Multi-Baker) — **PRIORIDAD BAJA** (v1.4.0)
+
+## 21.1 Instance Creation
+Soporte para múltiples instancias de i18n
+
+**API:**
+```typescript
+const instance1 = createI18nInstance({
+  locale: 'en',
+  // ...
+});
+
+const instance2 = createI18nInstance({
+  locale: 'es',
+  // ...
+});
+```
+
+**Implementación:**
+- Remover singleton pattern
+- Factory function para instancias
+- Instance isolation
+- React context per instance
+
+**Testing:**
+- Multiple instances
+- Instance isolation
+- Concurrent usage
+- Memory cleanup
+
+**Estimación:** 3 días
+
+---
+
+# FASE 22 — Advanced Formatting (The Format Baker) — **PRIORIDAD BAJA** (v1.4.0)
+
+## 22.1 Date/Time Formatting Plugin
+```typescript
+class DateTimeFormatPlugin implements Plugin {
+  // Using Intl.DateTimeFormat
+}
+
+// Usage
+t('lastSeen', { 
+  date: new Date(),
+  formatParams: {
+    date: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+  }
+})
+```
+
+## 22.2 List Formatting Plugin
+```typescript
+class ListFormatPlugin implements Plugin {
+  // Using Intl.ListFormat
+}
+
+// Usage
+t('items', { 
+  items: ['apple', 'banana', 'orange'],
+  formatParams: {
+    items: { style: 'long', type: 'conjunction' }
+  }
+})
+```
+
+**Estimación:** 4 días
+
+---
+
+# FASE 23 — Missing Key Handler (The Handler Baker) — **PRIORIDAD BAJA** (v1.5.0)
+
+## 23.1 Custom Missing Key Handler
+```typescript
+initI18n({
+  missingKeyHandler: (lngs, ns, key, fallbackValue) => {
+    // Send to error tracking
+    // Log to analytics
+    // Custom behavior
+  }
+});
+```
+
+**Estimación:** 1 día
+
+---
+
+## Notas de Arquitectura (v1.0.1)
 
 ### Clean Architecture
 
@@ -320,21 +480,39 @@ El proyecto sigue estrictamente Clean Architecture:
 - `TranslationLoader`
 - `TranslationSaver`
 - `VariableFormatter`
-- `KeyParser` ← **Nuevo en v0.7.0**
-- `PathResolver` ← **Nuevo en v0.7.0**
+- `KeyParser`
+- `PathResolver`
+- `VariableDetector`
+- `TranslationEntryManager`
+- `FileWriter`
+- `FileSystemManager`
+- `PluralResolver`
+- `Plugin`
+- `PluginManager`
 
 **Adapters (Implementaciones):**
 - `MemoryStore`
 - `JSONFileSaver`
 - `ConsoleSaver`
 - `MustacheFormatter`
-- `DefaultKeyParser` ← **Nuevo en v0.7.0**
-- `FileSystemPathResolver` ← **Nuevo en v0.7.0**
+- `ICUMessageFormatter`
+- `DefaultKeyParser`
+- `FileSystemPathResolver`
+- `DefaultVariableDetector`
+- `MemoryTranslationEntryManager`
+- `JSONFileWriter`
+- `NodeFileSystemManager`
+- `SuffixPluralResolver`
+- `CLDRPluralResolver`
+- `DefaultPluginManager`
+- `NumberFormatPlugin`
+- `CapitalizePlugin`
 
 **Use Cases:**
 - `I18nService` (orquesta todos los ports)
+- `TranslationFileManager`
 
-### Estructura de Claves (v0.7.0)
+### Estructura de Claves (v0.7.0+)
 
 **Formato:** `[directory:]...[directory:][file.]property`
 
@@ -348,6 +526,54 @@ El proyecto sigue estrictamente Clean Architecture:
 - Limpia espacios en blanco
 - Valida caracteres permitidos
 
+### File Structure (v1.0.1+)
+
+**Nested (default):**
+```json
+{
+  "home": {
+    "title": "Welcome Home"
+  }
+}
+```
+
+**Flat (configurable):**
+```json
+{
+  "home.title": "Welcome Home"
+}
+```
+
 ---
 
-*Última actualización: 2025-12-06 (v0.7.0 — The Structured Pantry)*
+## 📈 Roadmap Summary
+
+### v1.1.0 (Q1 2025) - The Context & Detection Release
+- Context Support
+- Language Detection Plugin
+- **Target:** 80% i18next parity
+
+### v1.2.0 (Q1 2025) - The Network Release
+- HTTP Backend Plugin
+- Event System
+- **Target:** 85% i18next parity
+
+### v1.3.0 (Q2 2025) - The Advanced Features Release
+- Nesting Translations
+- Return Objects
+- **Target:** 90% i18next parity
+
+### v1.4.0 (Q2 2025) - The Enterprise Release
+- Multiple Instances
+- Advanced Formatting
+- **Target:** 95% i18next parity
+
+### v1.5.0 (Q3 2025) - The Complete Release
+- Missing Key Handler
+- Additional Plugins
+- **Target:** 98% i18next parity (Seamless Integration Achieved)
+
+---
+
+*Última actualización: 2025-12-07 (v1.0.1 — The Flexible Baker)*
+*Próxima versión planeada: v1.1.0 — The Context & Detection Release*
