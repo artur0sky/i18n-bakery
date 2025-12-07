@@ -11,6 +11,7 @@ import React from 'react';
 const mockConfig: I18nConfig = {
   locale: 'en',
   fallbackLocale: 'es',
+  defaultNamespace: 'common',
   loader: {
     load: async (locale, ns) => {
       if (locale === 'en' && ns === 'common') {
@@ -41,7 +42,7 @@ describe('React Bindings', () => {
     }, { wrapper });
     
     // First render, translation missing
-    expect(result.current.t('common.hello')).toBe('common.hello'); 
+    expect(result.current.t('common:hello')).toBe('common:hello'); 
 
     // Add translations manually
     await act(async () => {
@@ -50,7 +51,7 @@ describe('React Bindings', () => {
       await result.current.setLocale('en');
     });
     
-    expect(result.current.t('common.hello')).toBe('Hello World');
+    expect(result.current.t('common:hello')).toBe('Hello World');
   });
 
   it('should change locale', async () => {
@@ -68,9 +69,8 @@ describe('React Bindings', () => {
     const { result } = renderHook(() => useTranslation('auth'), { wrapper });
     
     // Should prepend namespace
-    // We mock t to verify arguments? Or just check output key
     // i18n.t returns key if not found.
-    expect(result.current.t('login')).toBe('auth.login');
-    expect(result.current.t('common.login')).toBe('common.login'); // Should not prepend if already has dot
+    expect(result.current.t('login')).toBe('auth:login');
+    expect(result.current.t('common:login')).toBe('common:login'); // Already has namespace
   });
 });
