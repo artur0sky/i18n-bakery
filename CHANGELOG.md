@@ -5,6 +5,118 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.3] - 2025-12-06 (The ICU Baker)
+
+### 🚀 Fresh from the Oven
+- **ICU MessageFormat (The Expressive Syntax):**
+  - Introduced industry-standard ICU MessageFormat syntax.
+  - Powerful alternative to simple Mustache templates.
+  - Configurable via `messageFormat: 'icu'` option.
+  - Zero external dependencies - custom parser implementation.
+- **Plural in Messages (The Inline Counter):**
+  - Inline plural syntax: `{count, plural, =0 {no items} one {# item} other {# items}}`
+  - Exact matches: `=0`, `=1`, `=2`, etc.
+  - CLDR categories: `zero`, `one`, `two`, `few`, `many`, `other`
+  - Hash replacement: `#` is replaced with the count value
+- **Select in Messages (The Chooser):**
+  - Gender/context selection: `{gender, select, male {He} female {She} other {They}}`
+  - Arbitrary value matching
+  - Fallback to `other` category
+- **Selectordinal (The Ordinal Formatter):**
+  - Ordinal numbers: `{place, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}`
+  - English ordinal rules: 1st, 2nd, 3rd, 4th, 11th, 12th, 13th, 21st, 22nd, 23rd
+  - Extensible for other locales
+- **Nested Patterns (The Complexity Handler):**
+  - Supports deeply nested ICU patterns
+  - Example: `{gender, select, male {He has {count, plural, one {# item} other {# items}}}}`
+  - Smart brace matching algorithm
+- **Simple Variables (The Basics):**
+  - Standard variable substitution: `{name}`, `{count}`
+  - Works alongside ICU patterns
+
+### 🔧 Ingredients (Technical Details)
+- **Architecture:** Strategy pattern for message formatting with pluggable formatters.
+- **New Interfaces:**
+  - Extended `I18nConfig` with `messageFormat` option ('mustache' or 'icu').
+- **New Adapters:**
+  - `ICUMessageFormatter`: Full ICU MessageFormat implementation.
+    - `interpolate()`: Processes ICU syntax with nested patterns.
+    - `processICUPattern()`: Generic pattern processor with brace matching.
+    - `findMatchingBrace()`: Handles nested braces correctly.
+    - `selectPluralOption()`: CLDR-based plural selection.
+    - `selectOption()`: Value-based selection.
+    - `selectOrdinalOption()`: Ordinal number formatting.
+    - `setLocale()`: Dynamic locale switching.
+- **Integration:**
+  - Updated `I18nService` to initialize formatter based on `messageFormat`.
+  - Maintains backward compatibility with Mustache formatter (default).
+  - Works seamlessly with existing pluralization strategies.
+- **Testing:** Added 15 comprehensive tests with 100% coverage.
+  - Plural syntax (basic, exact matches, hash replacement)
+  - Select syntax (basic, with surrounding text)
+  - Selectordinal syntax (1st, 2nd, 3rd, 11th-13th edge cases)
+  - Simple variables
+  - Complex nested combinations
+  - Real-world scenarios (notifications, social, file upload)
+  - Multi-language support (English, Spanish, Arabic)
+- **Exports:** Updated `index.ts` to export `ICUMessageFormatter`.
+- **Breaking Changes:** None. ICU is opt-in via configuration.
+
+### 📝 Example Usage
+
+```typescript
+import { initI18n, t, addTranslations } from '@i18n-bakery/core';
+
+// Use ICU MessageFormat
+initI18n({ 
+  locale: 'en',
+  messageFormat: 'icu' 
+});
+
+// Plural with exact matches
+addTranslations('en', 'cart', {
+  'items': '{count, plural, =0 {no items} one {# item} other {# items}}',
+});
+
+t('cart:items', { count: 0 })  // → "no items"
+t('cart:items', { count: 1 })  // → "1 item"
+t('cart:items', { count: 5 })  // → "5 items"
+
+// Select for gender
+addTranslations('en', 'social', {
+  'action': '{gender, select, male {He} female {She} other {They}} liked this',
+});
+
+t('social:action', { gender: 'male' })   // → "He liked this"
+t('social:action', { gender: 'female' }) // → "She liked this"
+
+// Selectordinal for rankings
+addTranslations('en', 'game', {
+  'rank': 'You finished {place, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}',
+});
+
+t('game:rank', { place: 1 })  // → "You finished 1st"
+t('game:rank', { place: 2 })  // → "You finished 2nd"
+t('game:rank', { place: 3 })  // → "You finished 3rd"
+t('game:rank', { place: 11 }) // → "You finished 11th"
+
+// Complex nested patterns
+addTranslations('en', 'complex', {
+  'message': '{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}}}',
+});
+
+t('complex:message', { gender: 'male', count: 1 })   // → "He has 1 item"
+t('complex:message', { gender: 'female', count: 5 }) // → "She has 5 items"
+```
+
+### 🌍 ICU MessageFormat Benefits
+
+- **Expressiveness**: More powerful than simple templates
+- **Inline Logic**: Plural/select logic directly in translations
+- **Industry Standard**: Used by Google, Android, iOS
+- **Translator Friendly**: Translators see complete context
+- **Type Safe**: TypeScript validates variable usage
+
 ## [0.9.2] - 2025-12-06 (The World Baker)
 
 ### 🚀 Fresh from the Oven

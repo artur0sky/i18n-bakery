@@ -1,6 +1,7 @@
 import { Store, Loader, Formatter, TranslationSaver, I18nConfig, Locale, Namespace, Key } from '../domain/types';
 import { MemoryStore } from '../adapters/MemoryStore';
 import { MustacheFormatter } from '../adapters/MustacheFormatter';
+import { ICUMessageFormatter } from '../adapters/ICUMessageFormatter';
 import { PluralResolver, PluralCategory } from '../domain/Pluralization';
 import { SuffixPluralResolver } from '../adapters/SuffixPluralResolver';
 import { CLDRPluralResolver } from '../adapters/CLDRPluralResolver';
@@ -31,7 +32,12 @@ export class I18nService {
     
     // Default adapters
     this.store = new MemoryStore();
-    this.formatter = new MustacheFormatter();
+    
+    // Initialize formatter based on messageFormat
+    const messageFormat = config.messageFormat || 'mustache';
+    this.formatter = messageFormat === 'icu'
+      ? new ICUMessageFormatter(config.locale)
+      : new MustacheFormatter();
     
     // Initialize plural resolver based on strategy
     const strategy = config.pluralizationStrategy || 'suffix';

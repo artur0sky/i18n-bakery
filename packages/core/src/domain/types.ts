@@ -30,6 +30,13 @@ export interface I18nConfig {
    * @default 'suffix'
    */
   pluralizationStrategy?: 'suffix' | 'cldr';
+  /**
+   * Message format syntax to use.
+   * - 'mustache': Simple {{variable}} syntax (default)
+   * - 'icu': ICU MessageFormat syntax with plural, select, selectordinal
+   * @default 'mustache'
+   */
+  messageFormat?: 'mustache' | 'icu';
 }
 
 export interface Loader {
