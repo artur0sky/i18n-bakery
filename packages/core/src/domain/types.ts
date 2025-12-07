@@ -14,6 +14,7 @@ export type OutputFormat = 'json' | 'yml' | 'yaml' | 'toml' | 'toon';
 export interface I18nConfig {
   locale: Locale;
   fallbackLocale?: Locale;
+  supportedLocales?: Locale[];
   loader?: Loader;
   saver?: TranslationSaver; // New Port
   saveMissing?: boolean;    // Feature Flag

@@ -16,8 +16,9 @@ export async function batter(source: string, options: BatterOptions) {
   console.log(chalk.gray(`Locale: ${options.locale}`));
   console.log(chalk.gray(`Output: ${options.out}`));
 
-  // Security: Validate locale
-  validatePathSegment(options.locale, 'locale');
+  // Security: Validate locale(s)
+  const locales = options.locale.split(',').map(l => l.trim());
+  locales.forEach(l => validatePathSegment(l, 'locale'));
 
   const extractor = new KeyExtractor();
   const files = await glob(`${source}/**/*.{js,jsx,ts,tsx}`, { ignore: ['**/*.d.ts', '**/node_modules/**'] });
@@ -49,50 +50,54 @@ export async function batter(source: string, options: BatterOptions) {
 
   console.log(chalk.green(`Extracted ${totalKeys} keys across ${Object.keys(keysByNamespace).length} namespaces.`));
 
-  // Merge and Save
+  // Merge and Save for each locale
   const outDir = path.isAbsolute(options.out) ? options.out : path.join(process.cwd(), options.out);
-  const localeDir = path.join(outDir, options.locale);
-  await fs.ensureDir(localeDir);
 
-  for (const [namespace, keys] of Object.entries(keysByNamespace)) {
-    const filePath = path.join(localeDir, `${namespace}.json`);
-    let currentTranslations: Record<string, string> = {};
+  for (const locale of locales) {
+    console.log(chalk.blue(`\nProcessing locale: ${locale}...`));
+    const localeDir = path.join(outDir, locale);
+    await fs.ensureDir(localeDir);
 
-    if (await fs.pathExists(filePath)) {
-      try {
-        currentTranslations = await fs.readJson(filePath);
-      } catch (e) {
-        console.warn(chalk.yellow(`Could not read existing file ${filePath}, starting fresh.`));
-      }
-    }
+    for (const [namespace, keys] of Object.entries(keysByNamespace)) {
+      const filePath = path.join(localeDir, `${namespace}.json`);
+      let currentTranslations: Record<string, string> = {};
 
-    let newKeysCount = 0;
-    for (const k of keys) {
-      let finalKey = k.key;
-      // Strip namespace from key if present (e.g. "actions.save" -> "save", "actions:save" -> "save")
-      if (finalKey.startsWith(`${namespace}.`) || finalKey.startsWith(`${namespace}:`)) {
-        finalKey = finalKey.slice(namespace.length + 1);
+      if (await fs.pathExists(filePath)) {
+        try {
+          currentTranslations = await fs.readJson(filePath);
+        } catch (e) {
+          console.warn(chalk.yellow(`Could not read existing file ${filePath}, starting fresh.`));
+        }
       }
 
-      if (!currentTranslations[finalKey]) {
-        currentTranslations[finalKey] = k.defaultValue || finalKey;
-        newKeysCount++;
+      let newKeysCount = 0;
+      for (const k of keys) {
+        let finalKey = k.key;
+        // Strip namespace from key if present (e.g. "actions.save" -> "save", "actions:save" -> "save")
+        if (finalKey.startsWith(`${namespace}.`) || finalKey.startsWith(`${namespace}:`)) {
+          finalKey = finalKey.slice(namespace.length + 1);
+        }
+
+        if (!currentTranslations[finalKey]) {
+          currentTranslations[finalKey] = k.defaultValue || finalKey;
+          newKeysCount++;
+        }
       }
-    }
 
-    // Sort keys alphabetically
-    const sortedTranslations: Record<string, string> = {};
-    Object.keys(currentTranslations).sort().forEach(key => {
-      sortedTranslations[key] = currentTranslations[key];
-    });
+      // Sort keys alphabetically
+      const sortedTranslations: Record<string, string> = {};
+      Object.keys(currentTranslations).sort().forEach(key => {
+        sortedTranslations[key] = currentTranslations[key];
+      });
 
-    await fs.writeJson(filePath, sortedTranslations, { spaces: 2 });
-    if (newKeysCount > 0) {
-      console.log(chalk.magenta(`  + ${namespace}.json: Added ${newKeysCount} new keys.`));
+      await fs.writeJson(filePath, sortedTranslations, { spaces: 2 });
+      if (newKeysCount > 0) {
+        console.log(chalk.magenta(`  + ${namespace}.json: Added ${newKeysCount} new keys.`));
+      }
     }
   }
 
-  console.log(chalk.blue(`\n✅ Baking complete! Translations ready in ${options.out}/${options.locale}`));
+  console.log(chalk.blue(`\n✅ Baking complete! Translations ready in ${options.out} for [${locales.join(', ')}]`));
 }
 
 function validatePathSegment(segment: string, name: string) {

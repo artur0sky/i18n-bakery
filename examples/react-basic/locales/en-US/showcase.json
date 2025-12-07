@@ -1,0 +1,21 @@
+{
+  "capitalize_title": "Capitalization",
+  "currency": "Price: {price|currency:USD}",
+  "formatting_title": "Number Formatting",
+  "interpolation": "Hello {{name}}!",
+  "interpolation_title": "Interpolation",
+  "namespaces_title": "Namespaces",
+  "percent": "Growth: {val|percent}",
+  "plural": "You have {{count}} item",
+  "plural_0": "You have no items",
+  "plural_plural": "You have {{count}} items",
+  "plural_title": "Pluralization",
+  "tests.basic": "This key should exist in all locales.",
+  "tests.basic_title": "Basic Translation",
+  "tests.fallback": "This content is from en-US because it is missing in the current locale.",
+  "tests.fallback_title": "Fallback Behavior",
+  "text": "hello world",
+  "text_capitalize": "hello world",
+  "text_upper": "hello world",
+  "title": "Feature Showcase"
+}

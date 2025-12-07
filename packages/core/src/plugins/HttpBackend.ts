@@ -108,6 +108,11 @@ export class HttpBackend implements Plugin, Loader {
     if (this.manifest) {
       const key = `${locale}/${namespace}`;
       if (this.manifest[key]) {
+         // If manifestPath is defined, resolve relative to it
+         if (this.options.manifestPath) {
+             const basePath = this.options.manifestPath.substring(0, this.options.manifestPath.lastIndexOf('/') + 1);
+             return basePath + this.manifest[key];
+         }
          return this.manifest[key];
       }
     }

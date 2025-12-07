@@ -27,6 +27,15 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ config, children }) 
 
   const [locale, setLocaleState] = useState(i18n.getCurrentLocale());
   const [isLoading, setIsLoading] = useState(false);
+  const [tick, setTick] = useState(0); // Force update state
+
+  useEffect(() => {
+    // Subscribe to i18n service changes (loaded translations, etc.)
+    const unsubscribe = i18n.subscribe(() => {
+      setTick(t => t + 1);
+    });
+    return () => unsubscribe();
+  }, [i18n]);
 
   const setLocale = async (newLocale: string) => {
     setIsLoading(true);
@@ -42,8 +51,9 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ config, children }) 
     i18n,
     locale,
     setLocale,
-    isLoading
-  }), [i18n, locale, isLoading]);
+    isLoading,
+    tick // Include tick to force context update
+  }), [i18n, locale, isLoading, tick]);
 
   return (
     <I18nContext.Provider value={value}>

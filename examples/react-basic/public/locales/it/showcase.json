@@ -1,0 +1,21 @@
+{
+  "capitalize_title": "Capitalizzazione",
+  "currency": "Prezzo: {price|currency:EUR}",
+  "formatting_title": "Formattazione Numeri",
+  "interpolation": "Ciao {{name}}!",
+  "interpolation_title": "Interpolazione",
+  "namespaces_title": "Namespace",
+  "percent": "Crescita: {val|percent}",
+  "plural": "Hai {{count}} elemento",
+  "plural_plural": "Hai {{count}} elementi",
+  "plural_0": "Non hai elementi",
+  "plural_title": "Pluralizzazione",
+  "tests.basic": "Questa chiave esiste in tutte le lingue.",
+  "tests.basic_title": "Traduzione Base",
+  "tests.fallback": "Questo contenuto è in en-US perché manca nella lingua corrente.",
+  "tests.fallback_title": "Comportamento di Fallback",
+  "text": "ciao mondo",
+  "text_capitalize": "ciao mondo",
+  "text_upper": "ciao mondo",
+  "title": "Vetrina Funzionalità"
+}

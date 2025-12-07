@@ -1,0 +1,18 @@
+{
+  "en-US/showcase": "en-US/showcase.json",
+  "en-US/features": "en-US/features.json",
+  "en-US/common": "en-US/common.json",
+  "en-US/actions": "en-US/actions.json",
+  "es-MX/showcase": "es-MX/showcase.json",
+  "es-MX/features": "es-MX/features.json",
+  "es-MX/common": "es-MX/common.json",
+  "es-MX/actions": "es-MX/actions.json",
+  "it/showcase": "it/showcase.json",
+  "it/features": "it/features.json",
+  "it/common": "it/common.json",
+  "it/actions": "it/actions.json",
+  "jp/showcase": "jp/showcase.json",
+  "jp/features": "jp/features.json",
+  "jp/common": "jp/common.json",
+  "jp/actions": "jp/actions.json"
+}

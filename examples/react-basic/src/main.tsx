@@ -1,20 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
 import { I18nProvider } from '@i18n-bakery/react';
-import { HttpBackend } from '@i18n-bakery/core';
-import App from './App';
+import { HttpBackend, NumberFormatPlugin, CapitalizePlugin } from '@i18n-bakery/core';
 
-// Initialize the HttpBackend plugin
+// Initialize plugins
 const httpBackend = new HttpBackend({
   loadPath: '/locales/{{lng}}/{{ns}}.json',
   manifestPath: '/locales/manifest.json'
 });
 
+const numberFormat = new NumberFormatPlugin();
+const capitalize = new CapitalizePlugin();
+
 const config = {
-  locale: 'en',
-  fallbackLocale: 'en',
-  plugins: [httpBackend], // Register the plugin
-  loader: httpBackend,    // Use it as the loader
+  locale: 'en-US',
+  fallbackLocale: 'en-US',
+  supportedLocales: ['en-US', 'es-MX', 'it', 'jp'],
+  plugins: [httpBackend, numberFormat, capitalize], // Register plugins
+  loader: httpBackend,
   debug: true
 };
 

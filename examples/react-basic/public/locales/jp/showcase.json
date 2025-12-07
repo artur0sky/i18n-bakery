@@ -1,0 +1,21 @@
+{
+  "capitalize_title": "大文字化",
+  "currency": "価格: {price|currency:JPY}",
+  "formatting_title": "数値フォーマット",
+  "interpolation": "こんにちは、{{name}}さん！",
+  "interpolation_title": "補間",
+  "namespaces_title": "名前空間",
+  "percent": "成長: {val|percent}",
+  "plural": "{{count}}個のアイテムがあります",
+  "plural_plural": "{{count}}個のアイテムがあります",
+  "plural_0": "アイテムはありません",
+  "plural_title": "複数形",
+  "tests.basic": "このキーはすべての言語に存在します。",
+  "tests.basic_title": "基本翻訳",
+  "tests.fallback": "現在の言語にないため、en-USの内容が表示されています。",
+  "tests.fallback_title": "フォールバック動作",
+  "text": "こんにちは世界",
+  "text_capitalize": "こんにちは世界",
+  "text_upper": "こんにちは世界",
+  "title": "機能紹介"
+}

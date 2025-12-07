@@ -5,6 +5,8 @@ import { ICUMessageFormatter } from '../adapters/ICUMessageFormatter';
 import { PluralResolver, PluralCategory } from '../domain/Pluralization';
 import { SuffixPluralResolver } from '../adapters/SuffixPluralResolver';
 import { CLDRPluralResolver } from '../adapters/CLDRPluralResolver';
+import { PluginManager, PluginContext } from '../domain/Plugin';
+import { DefaultPluginManager } from '../adapters/DefaultPluginManager';
 
 export class I18nService {
   private store: Store;
@@ -12,6 +14,7 @@ export class I18nService {
   private loader?: Loader;
   private saver?: TranslationSaver;
   private pluralResolver: PluralResolver;
+  private pluginManager: PluginManager;
   
   private currentLocale: Locale;
   private fallbackLocale?: Locale;
@@ -21,6 +24,7 @@ export class I18nService {
   private loadedNamespaces: Set<string> = new Set();
   private pendingLoads: Map<string, Promise<void>> = new Map();
   private pendingSaves: Set<string> = new Set(); // Prevent spamming saves for same key
+  private listeners: Set<() => void> = new Set();
 
   constructor(config: I18nConfig) {
     this.currentLocale = config.locale;
@@ -32,6 +36,7 @@ export class I18nService {
     
     // Default adapters
     this.store = new MemoryStore();
+    this.pluginManager = new DefaultPluginManager(this.debug);
     
     // Initialize formatter based on messageFormat
     const messageFormat = config.messageFormat || 'mustache';
@@ -44,19 +49,65 @@ export class I18nService {
     this.pluralResolver = strategy === 'cldr' 
       ? new CLDRPluralResolver()
       : new SuffixPluralResolver();
+
+    // Register plugins
+    if (config.plugins) {
+      config.plugins.forEach(plugin => {
+        this.pluginManager.register(plugin);
+      });
+    }
   }
 
   public getCurrentLocale(): Locale {
     return this.currentLocale;
   }
 
+  public subscribe(listener: () => void): () => void {
+    this.listeners.add(listener);
+    return () => {
+      this.listeners.delete(listener);
+    };
+  }
+
+  private notifyListeners() {
+    this.listeners.forEach(listener => listener());
+  }
+
   public async setLocale(locale: Locale): Promise<void> {
+    const oldLocale = this.currentLocale;
     this.currentLocale = locale;
+
+    // Trigger onLocaleChange hook
+    await this.pluginManager.executeHook('onLocaleChange', {
+      locale: this.currentLocale,
+      data: { oldLocale, newLocale: locale }
+    });
+    
+    this.notifyListeners();
   }
 
   public t(key: string, defaultText?: string, vars?: Record<string, any>): string {
     const { namespace, key: actualKey } = this.parseKey(key);
     
+    // Create context for plugins
+    const context: PluginContext = {
+      locale: this.currentLocale,
+      namespace,
+      key: actualKey,
+      vars,
+      data: {}
+    };
+
+    // Execute beforeTranslate hook (Synchronous attempt)
+    const plugins = (this.pluginManager as any).getAll().filter((p: any) => p.config.enabled !== false);
+    
+    for (const plugin of plugins) {
+      if (plugin.beforeTranslate) {
+        const result = plugin.beforeTranslate(context);
+        if (result) Object.assign(context, result);
+      }
+    }
+
     // Determine if we need pluralization
     const count = vars?.count;
     const needsPluralization = typeof count === 'number';
@@ -65,21 +116,21 @@ export class I18nService {
     
     if (needsPluralization) {
       // Try pluralization
-      translation = this.getPluralTranslation(namespace, actualKey, count, vars);
+      translation = this.getPluralTranslation(namespace, context.key || actualKey, count, vars);
     } else {
       // Normal translation lookup
       // 1. Try current locale
-      translation = this.store.get(this.currentLocale, namespace, actualKey);
+      translation = this.store.get(this.currentLocale, namespace, context.key || actualKey);
 
       // 2. Try fallback locale
       if (!translation && this.fallbackLocale) {
-        translation = this.store.get(this.fallbackLocale, namespace, actualKey);
+        translation = this.store.get(this.fallbackLocale, namespace, context.key || actualKey);
       }
     }
 
     // 3. Fallback to default text or key
     if (!translation) {
-      const fallbackValue = defaultText || actualKey; // Use actualKey (without ns) if no default
+      const fallbackValue = defaultText || context.key || actualKey; 
       
       if (defaultText) {
           translation = defaultText;
@@ -88,26 +139,31 @@ export class I18nService {
       }
 
       // Handle Missing Key
-      this.handleMissingKey(this.currentLocale, namespace, actualKey, fallbackValue);
+      this.handleMissingKey(this.currentLocale, namespace, context.key || actualKey, fallbackValue);
       
       // Trigger load if not loaded/loading
       this.ensureNamespaceLoaded(this.currentLocale, namespace);
     }
 
-    return this.formatter.interpolate(translation, vars);
+    // Interpolate
+    let result = this.formatter.interpolate(translation, vars);
+    context.result = result;
+
+    // Execute afterTranslate hook (Synchronous attempt)
+    for (const plugin of plugins) {
+      if (plugin.afterTranslate) {
+        const res = plugin.afterTranslate(context);
+        if (res !== undefined && res !== null) {
+          context.result = res as string;
+        }
+      }
+    }
+
+    return context.result || result;
   }
 
   /**
    * Gets the appropriate plural translation based on count.
-   * 
-   * Uses the configured PluralResolver to determine the correct plural form.
-   * For suffix strategy, also tries exact count matches first.
-   * 
-   * @param namespace - The namespace
-   * @param key - The base key
-   * @param count - The count value
-   * @param vars - Variables for interpolation
-   * @returns Translation string or undefined
    */
   private getPluralTranslation(
     namespace: Namespace,
@@ -116,7 +172,6 @@ export class I18nService {
     vars?: Record<string, any>
   ): string | undefined {
     // Step 1: Try exact count match (key_0, key_1, key_2, etc.) for suffix strategy
-    // This is a special case for i18next compatibility
     const exactKey = `${key}_${count}`;
     let translation = this.store.get(this.currentLocale, namespace, exactKey);
     
@@ -165,6 +220,7 @@ export class I18nService {
   public addTranslations(locale: Locale, namespace: Namespace, data: Record<string, string>) {
     this.store.setNamespace(locale, namespace, data);
     this.loadedNamespaces.add(`${locale}:${namespace}`);
+    this.notifyListeners();
   }
 
   private parseKey(key: string): { namespace: Namespace; key: Key } {
@@ -187,9 +243,6 @@ export class I18nService {
     const cacheKey = `${locale}:${namespace}:${key}`;
     if (this.pendingSaves.has(cacheKey)) return;
 
-    // Update in-memory store immediately so we don't try to save again in this session
-    // But wait, if we update store, next render won't trigger missing key.
-    // That's good behavior for runtime.
     this.store.set(locale, namespace, key, value);
     
     this.pendingSaves.add(cacheKey);
