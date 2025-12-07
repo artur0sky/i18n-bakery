@@ -12,7 +12,7 @@ export function useTranslation(namespace?: string) {
     if (namespace && !key.includes('.') && !key.includes(':')) {
        // Check for both separators to be safe, though core handles it.
        // If the key already has a namespace (e.g. 'other:key'), don't prepend.
-       finalKey = `${namespace}.${key}`;
+       finalKey = `${namespace}:${key}`;
     }
     return i18n.t(finalKey, defaultText, vars);
   };
