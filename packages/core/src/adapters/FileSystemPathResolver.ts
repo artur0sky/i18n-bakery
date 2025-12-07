@@ -46,8 +46,13 @@ export class FileSystemPathResolver implements PathResolver {
    * @param locale - The locale (e.g., "en", "es-MX")
    * @param parsedKey - The parsed key structure
    * @returns Complete file path
+   * @throws Error if any path segment is invalid
    */
   resolve(locale: string, parsedKey: ParsedKey): string {
+    this.validatePathSegment(locale);
+    parsedKey.directories.forEach(dir => this.validatePathSegment(dir));
+    this.validatePathSegment(parsedKey.file);
+
     const dirPath = this.getDirectoryPath(locale, parsedKey);
     const fileName = `${parsedKey.file}.${this.extension}`;
     return this.joinPaths(dirPath, fileName);
@@ -61,8 +66,12 @@ export class FileSystemPathResolver implements PathResolver {
    * @param locale - The locale
    * @param parsedKey - The parsed key structure
    * @returns Directory path
+   * @throws Error if any path segment is invalid
    */
   getDirectoryPath(locale: string, parsedKey: ParsedKey): string {
+    this.validatePathSegment(locale);
+    parsedKey.directories.forEach(dir => this.validatePathSegment(dir));
+
     const segments = [this.baseDir, locale, ...parsedKey.directories];
     return this.joinPaths(...segments);
   }
@@ -77,5 +86,30 @@ export class FileSystemPathResolver implements PathResolver {
     return segments
       .filter(segment => segment && segment.length > 0)
       .join(this.separator);
+  }
+
+  /**
+   * Validates a path segment to prevent traversal and invalid characters.
+   * 
+   * @param segment - The path segment to validate
+   * @throws Error if the segment is invalid
+   */
+  private validatePathSegment(segment: string): void {
+    if (!segment) return;
+
+    // Check for path traversal
+    if (segment.includes('..')) {
+      throw new Error(`Invalid path segment: "${segment}" contains traversal characters`);
+    }
+
+    // Check for path separators (both forward and backward slashes)
+    if (segment.includes('/') || segment.includes('\\')) {
+      throw new Error(`Invalid path segment: "${segment}" contains path separators`);
+    }
+
+    // Check for null bytes
+    if (segment.includes('\0')) {
+      throw new Error(`Invalid path segment: "${segment}" contains null bytes`);
+    }
   }
 }

@@ -50,6 +50,11 @@ export class JSONFileWriter implements FileWriter {
    * @param content - Translation content to write
    */
   async write(filePath: string, content: TranslationFileContent): Promise<void> {
+    // Security: Enforce .json extension
+    if (!filePath.endsWith('.json')) {
+      throw new Error(`Security Error: JSONFileWriter only supports .json files. Attempted to write: ${filePath}`);
+    }
+
     // Ensure directory exists
     if (this.config.createDirectories) {
       const dirPath = this.fsManager.getDirectoryPath(filePath);

@@ -71,6 +71,7 @@ export class DefaultKeyParser implements KeyParser {
    */
   parse(key: string): ParsedKey {
     const originalKey = key;
+    
     const normalized = this.normalize(key);
 
     if (!normalized) {
@@ -80,6 +81,11 @@ export class DefaultKeyParser implements KeyParser {
         propertyPath: [''],
         originalKey,
       };
+    }
+
+    // Validate key for malicious characters
+    if (!this.isValidKey(normalized)) {
+      throw new Error(`Invalid key format: "${key}" contains invalid characters`);
     }
 
     // Split by colon to get directory segments
@@ -178,5 +184,19 @@ export class DefaultKeyParser implements KeyParser {
         originalKey,
       };
     }
+  }
+
+  /**
+   * Validates if a key contains only allowed characters.
+   * Allowed: alphanumeric, underscore, hyphen, dot, colon.
+   * 
+   * @param key - The key to validate
+   * @returns True if valid, false otherwise
+   */
+  private isValidKey(key: string): boolean {
+    // Whitelist allowed characters
+    // a-z, A-Z, 0-9, _, -, ., :
+    const validRegex = /^[a-zA-Z0-9_\-\.:]+$/;
+    return validRegex.test(key);
   }
 }
