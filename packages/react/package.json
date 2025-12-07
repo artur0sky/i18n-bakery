@@ -1,6 +1,6 @@
 {
     "name": "@i18n-bakery/react",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Freshly baked React bindings for i18n-bakery. Serve your translations with style using hooks and providers.",
     "main": "dist/index.js",
     "module": "dist/index.mjs",

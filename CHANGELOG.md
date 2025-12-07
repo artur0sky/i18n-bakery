@@ -5,6 +5,99 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2025-12-07 (The Multinational Bakery)
+
+### 🌍 Fresh from the Oven
+- **Multi-Locale Support (CLI):**
+  - **Batch Extraction:** `batter` command now supports comma-separated locale lists (e.g., `--locale en-US,es-MX,it,jp`).
+  - **Simultaneous Processing:** Extract and save translations for all specified locales in a single command execution.
+  - **Efficient Workflow:** Eliminates the need for multiple extraction runs when working with multiple languages.
+- **Reactive Translation Updates (Core & React):**
+  - **Event Subscription:** Added `subscribe()` and `unsubscribe()` methods to `I18nService`.
+  - **Automatic Re-renders:** React components now automatically update when translations are loaded asynchronously.
+  - **Listener Notifications:** `notifyListeners()` called on locale changes and translation additions.
+- **Enhanced HttpBackend (Core):**
+  - **Manifest Path Resolution:** Fixed `HttpBackend` to correctly resolve paths relative to `manifestPath` directory.
+  - **Proper URL Construction:** Ensures correct URL formation when using manifest-based lazy loading.
+- **Comprehensive Example (Examples):**
+  - **4-Language Showcase:** Updated `react-basic` example to demonstrate `en-US`, `es-MX`, `it`, and `jp` locales.
+  - **Complete Test Suite:** Added test cases for all i18n-bakery features including:
+    - Basic translation and fallback behavior
+    - Interpolation with missing variables
+    - Pluralization (singular, plural, zero forms)
+    - Number formatting (currency, percentage)
+    - Plugin usage (CapitalizePlugin)
+    - Namespace loading
+  - **Modern UI with Tailwind CSS v4:** Refactored example to use Tailwind CSS with clean component architecture.
+  - **Best Practices:** Implemented DRY, SOLID, and Clean Architecture principles with:
+    - Reusable UI components (`Card`, `TestItem`, `Button`)
+    - Layout components (`Header`, `MainLayout`)
+    - Custom hooks (`useCounter`)
+    - Proper separation of concerns
+
+### 🔧 Ingredients (Technical Details)
+- **Core:**
+  - Added `listeners: Set<() => void>` to `I18nService`.
+  - Implemented `subscribe()`, `notifyListeners()` methods.
+  - Updated `setLocale()` and `addTranslations()` to trigger listener notifications.
+  - Fixed `HttpBackend.resolveUrl()` to prepend `manifestPath` directory to resolved entries.
+- **React:**
+  - Updated `I18nProvider` to subscribe to `I18nService` changes.
+  - Added `tick` state to force context updates on translation changes.
+  - Included `tick` in `useMemo` dependencies for reactive updates.
+- **CLI:**
+  - Modified `batter` command to split `--locale` by comma and process each locale.
+  - Updated output messages to show all processed locales.
+- **Types:**
+  - Added `supportedLocales?: Locale[]` to `I18nConfig`.
+- **Examples:**
+  - Created component structure: `src/components/ui/`, `src/components/layout/`, `src/hooks/`.
+  - Implemented `Card`, `TestItem`, `Button`, `Header`, `MainLayout` components.
+  - Created `useCounter` custom hook.
+  - Added Tailwind CSS v4 with `@tailwindcss/vite` plugin.
+  - Updated to Vite 7.2.6 and React plugin 5.1.1 for compatibility.
+  - Created comprehensive translation files for 4 locales with test cases.
+
+### 📝 Example Usage
+
+```bash
+# Extract translations for multiple locales at once
+pnpm i18n:extract
+# Runs: i18n-bakery batter src --locale en-US,es-MX,it,jp --out locales
+
+# Bake all locales
+pnpm i18n:bake
+```
+
+```typescript
+// React component with reactive translations
+import { useTranslation, useI18n } from '@i18n-bakery/react';
+
+function App() {
+  const { t } = useTranslation('common');
+  const { setLocale, locale } = useI18n();
+
+  // Translations update automatically when locale changes
+  return (
+    <div>
+      <h1>{t('welcome')}</h1>
+      <select value={locale} onChange={(e) => setLocale(e.target.value)}>
+        <option value="en-US">English (US)</option>
+        <option value="es-MX">Español (MX)</option>
+        <option value="it">Italiano</option>
+        <option value="jp">日本語</option>
+      </select>
+    </div>
+  );
+}
+```
+
+### 🎯 Benefits
+- **Faster Development:** Extract translations for all languages in one command.
+- **Better UX:** Translations appear instantly when loaded, no manual refresh needed.
+- **Production Ready:** Example demonstrates real-world usage with modern tooling.
+- **Developer Experience:** Clean architecture makes the codebase easy to understand and extend.
+
 ## [1.0.4] - 2025-12-07 (The Encrypted Baker)
 
 ### 🔐 Fresh from the Oven
