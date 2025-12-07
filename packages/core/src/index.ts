@@ -35,6 +35,7 @@ export * from './adapters/MemoryStore';
 export * from './adapters/MustacheFormatter';
 export * from './adapters/ICUMessageFormatter';
 export * from './adapters/ConsoleSaver';
+export * from './adapters/node/JSONFileSaver';
 
 // Phase 7 - Advanced Key Engine
 export * from './adapters/DefaultKeyParser';
