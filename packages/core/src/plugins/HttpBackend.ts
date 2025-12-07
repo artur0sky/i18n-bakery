@@ -1,6 +1,7 @@
 
 import { Plugin, PluginMetadata, PluginConfig } from '../domain/Plugin';
 import { Loader, TranslationMap, Locale, Namespace } from '../domain/types';
+import { Cipher } from '../domain/Encryption';
 
 export interface HttpBackendOptions {
   /**
@@ -20,6 +21,18 @@ export interface HttpBackendOptions {
    * Custom request options for fetch.
    */
   requestOptions?: RequestInit;
+
+  /**
+   * Cipher implementation for decryption (optional).
+   * If provided, the backend will attempt to decrypt the response.
+   */
+  cipher?: Cipher;
+
+  /**
+   * Secret key for decryption (optional).
+   * Required if cipher is provided.
+   */
+  secret?: string;
 }
 
 /**
@@ -70,6 +83,19 @@ export class HttpBackend implements Plugin, Loader {
         console.warn(`[HttpBackend] Failed to load ${url}: ${response.statusText}`);
         return null;
       }
+
+      // If encryption is enabled, get text and decrypt
+      if (this.options.cipher && this.options.secret) {
+        const encryptedText = await response.text();
+        try {
+          const decryptedText = await this.options.cipher.decrypt(encryptedText, this.options.secret);
+          return JSON.parse(decryptedText);
+        } catch (e) {
+          console.error(`[HttpBackend] Decryption failed for ${url}`, e);
+          return null;
+        }
+      }
+
       return await response.json();
     } catch (e) {
       console.error(`[HttpBackend] Network error loading ${url}`, e);
@@ -80,23 +106,8 @@ export class HttpBackend implements Plugin, Loader {
   private resolveUrl(locale: Locale, namespace: Namespace): string {
     // Check manifest first if available
     if (this.manifest) {
-      // We assume the manifest keys are "locale/namespace" or just "namespace" if flat?
-      // Let's assume standard structure: "locale/namespace"
       const key = `${locale}/${namespace}`;
       if (this.manifest[key]) {
-         // If manifest contains the full URL or relative path, we use it.
-         // But we need to be careful about relative paths.
-         // If manifestPath was "/locales/manifest.json", and manifest has "en/common": "en/common.a1b2.json"
-         // We should probably resolve it relative to manifest directory?
-         // For simplicity, let's assume manifest values are relative to the root or absolute.
-         // Or we can replace the filename in loadPath?
-         
-         // Better approach: If manifest exists, we assume loadPath is the base directory if it doesn't contain {{}}.
-         // But loadPath is usually a pattern.
-         
-         // Let's assume if manifest is used, we ignore loadPath pattern and use the value from manifest, 
-         // potentially prepended by a base path if needed.
-         // But for now, let's return the value from manifest directly if it looks like a path.
          return this.manifest[key];
       }
     }
