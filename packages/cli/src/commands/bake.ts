@@ -19,6 +19,14 @@ export async function bake(source: string, options: BakeOptions) {
     const stat = await fs.stat(localePath);
     
     if (stat.isDirectory()) {
+      // Security: Validate locale
+      try {
+        validatePathSegment(locale, 'locale');
+      } catch (e) {
+        console.warn(chalk.red(`Skipping invalid locale directory "${locale}"`));
+        continue;
+      }
+
       console.log(chalk.cyan(`Baking locale: ${locale}...`));
       const files = await glob(`${localePath}/*.json`);
       const bundle: Record<string, any> = {};
@@ -39,4 +47,11 @@ export async function bake(source: string, options: BakeOptions) {
   }
   
   console.log(chalk.blue(`\n✅ Baking complete!`));
+}
+
+function validatePathSegment(segment: string, name: string) {
+  if (!segment) return;
+  if (segment.includes('..') || segment.includes('/') || segment.includes('\\')) {
+    throw new Error(`Invalid ${name}: "${segment}" contains traversal characters`);
+  }
 }

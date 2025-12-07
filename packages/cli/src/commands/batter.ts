@@ -16,6 +16,9 @@ export async function batter(source: string, options: BatterOptions) {
   console.log(chalk.gray(`Locale: ${options.locale}`));
   console.log(chalk.gray(`Output: ${options.out}`));
 
+  // Security: Validate locale
+  validatePathSegment(options.locale, 'locale');
+
   const extractor = new KeyExtractor();
   const files = await glob(`${source}/**/*.{js,jsx,ts,tsx}`, { ignore: ['**/*.d.ts', '**/node_modules/**'] });
 
@@ -29,6 +32,14 @@ export async function batter(source: string, options: BatterOptions) {
     totalKeys += keys.length;
 
     for (const key of keys) {
+      // Security: Validate namespace
+      try {
+        validatePathSegment(key.namespace, 'namespace');
+      } catch (e) {
+        console.warn(chalk.red(`Skipping malicious key "${key.key}" with invalid namespace "${key.namespace}"`));
+        continue;
+      }
+
       if (!keysByNamespace[key.namespace]) {
         keysByNamespace[key.namespace] = [];
       }
@@ -76,4 +87,11 @@ export async function batter(source: string, options: BatterOptions) {
   }
 
   console.log(chalk.blue(`\n✅ Baking complete! Translations ready in ${options.out}/${options.locale}`));
+}
+
+function validatePathSegment(segment: string, name: string) {
+  if (!segment) return;
+  if (segment.includes('..') || segment.includes('/') || segment.includes('\\')) {
+    throw new Error(`Invalid ${name}: "${segment}" contains traversal characters`);
+  }
 }
