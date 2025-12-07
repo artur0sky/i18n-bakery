@@ -8,8 +8,9 @@ export interface HttpBackendOptions {
    * Path pattern to load translations.
    * Use {{lng}} for locale and {{ns}} for namespace.
    * Example: '/locales/{{lng}}/{{ns}}.json'
+   * @default '/locales/{{lng}}/{{ns}}.json'
    */
-  loadPath: string;
+  loadPath?: string;
   
   /**
    * Path to the manifest file (optional).
@@ -54,7 +55,7 @@ export class HttpBackend implements Plugin, Loader {
   private options: HttpBackendOptions;
   private manifest: Record<string, string> | null = null;
 
-  constructor(options: HttpBackendOptions) {
+  constructor(options: HttpBackendOptions = {}) {
     this.options = options;
     this.config.options = options;
   }
@@ -127,7 +128,7 @@ export class HttpBackend implements Plugin, Loader {
       }
     }
 
-    return this.options.loadPath
+    return (this.options.loadPath || '/locales/{{lng}}/{{ns}}.json')
       .replace('{{lng}}', locale)
       .replace('{{ns}}', namespace);
   }

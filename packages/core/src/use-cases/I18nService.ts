@@ -1,4 +1,4 @@
-import { Store, Loader, Formatter, TranslationSaver, I18nConfig, Locale, Namespace, Key } from '../domain/types';
+import { Store, Loader, Formatter, TranslationSaver, I18nConfig, Locale, Namespace, Key, TranslationMap } from '../domain/types';
 import { MemoryStore } from '../adapters/MemoryStore';
 import { MustacheFormatter } from '../adapters/MustacheFormatter';
 import { ICUMessageFormatter } from '../adapters/ICUMessageFormatter';
@@ -238,9 +238,10 @@ export class I18nService {
   }
 
 
-  public addTranslations(locale: Locale, namespace: Namespace, data: Record<string, string>) {
+  public addTranslations(locale: Locale, namespace: Namespace, data: TranslationMap) {
     this.store.setNamespace(locale, namespace, data);
     this.loadedNamespaces.add(`${locale}:${namespace}`);
+    // Force notify listeners to update UI when new translations are loaded
     this.notifyListeners();
   }
 

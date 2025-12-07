@@ -1,7 +1,7 @@
 export type Locale = string;
 export type Namespace = string;
 export type Key = string;
-export type TranslationValue = string;
+export type TranslationValue = string | { [key: string]: TranslationValue };
 export type TranslationMap = Record<Key, TranslationValue>;
 export type NamespaceMap = Record<Namespace, TranslationMap>;
 export type LocaleMap = Record<Locale, NamespaceMap>;
