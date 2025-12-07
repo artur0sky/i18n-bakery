@@ -23,6 +23,9 @@ importers:
         specifier: 19.2.1
         version: 19.2.1(react@19.2.1)
     devDependencies:
+      '@i18n-bakery/cli':
+        specifier: workspace:*
+        version: link:../../packages/cli
       '@types/react':
         specifier: 19.2.7
         version: 19.2.7

@@ -9,6 +9,7 @@
         "react-dom": "19.2.1"
     },
     "devDependencies": {
+        "@i18n-bakery/cli": "workspace:*",
         "@types/react": "19.2.7",
         "@types/react-dom": "19.2.1",
         "@vitejs/plugin-react": "4.2.1",
@@ -17,6 +18,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "i18n:extract": "i18n-bakery batter src --locale en --out locales",
+        "i18n:bake": "i18n-bakery bake locales --out public/locales --split --manifest manifest.json"
     }
 }

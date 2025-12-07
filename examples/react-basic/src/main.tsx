@@ -1,25 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { I18nProvider } from '@i18n-bakery/react';
+import { HttpBackend } from '@i18n-bakery/core';
 import App from './App';
+
+// Initialize the HttpBackend plugin
+const httpBackend = new HttpBackend({
+  loadPath: '/locales/{{lng}}/{{ns}}.json',
+  manifestPath: '/locales/manifest.json'
+});
 
 const config = {
   locale: 'en',
-  fallbackLocale: 'es',
-  loader: {
-    load: async (locale: string, ns: string) => {
-      console.log(`Loading ${locale}/${ns}...`);
-      // Simulate async load
-      await new Promise(resolve => setTimeout(resolve, 500));
-      if (locale === 'en' && ns === 'common') {
-        return { welcome: 'Welcome to the Bakery!', switch: 'Switch Language' };
-      }
-      if (locale === 'es' && ns === 'common') {
-        return { welcome: '¡Bienvenido a la Panadería!', switch: 'Cambiar Idioma' };
-      }
-      return null;
-    }
-  }
+  fallbackLocale: 'en',
+  plugins: [httpBackend], // Register the plugin
+  loader: httpBackend,    // Use it as the loader
+  debug: true
 };
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
