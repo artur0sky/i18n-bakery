@@ -5,6 +5,24 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2025-12-07 (The Turbo Baker)
+
+### 🚀 Fresh from the Oven
+- **Smart Baking (CLI):**
+  - **Minification:** New `--minify` flag to remove whitespace from JSON output.
+  - **Hashing:** New `--hash` flag to generate cache-busting filenames (e.g., `en.a7f3b9.json`).
+  - **Manifest Generation:** New `--manifest` flag to create a mapping file for hashed assets.
+  - **Lazy Loading Chunks:** New `--split` flag to output individual namespace files instead of a single bundle.
+- **HttpBackend Plugin (Core):**
+  - New `HttpBackend` plugin for loading translations via fetch.
+  - Supports loading from a `manifest.json` to resolve hashed filenames automatically.
+  - Configurable `loadPath` pattern.
+
+### 🔧 Ingredients (Technical Details)
+- **CLI:** Updated `bake` command with new options.
+- **Core:** Added `HttpBackend` implementing `Plugin` and `Loader` interfaces.
+- **Testing:** Added `smartBaking.test.ts` (CLI) and `httpBackend.test.ts` (Core).
+
 ## [1.0.2] - 2025-12-07 (The Secure Baker)
 
 ### 🚀 Fresh from the Oven
