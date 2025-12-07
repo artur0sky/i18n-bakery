@@ -16,8 +16,8 @@ export function getI18n(): I18nService {
   return i18nInstance;
 }
 
-export function t(key: string, defaultText?: string, vars?: Record<string, any>): string {
-  return getI18n().t(key, defaultText, vars);
+export function t(key: string, defaultTextOrVars?: string | Record<string, any>, options?: Record<string, any>): string {
+  return getI18n().t(key, defaultTextOrVars, options);
 }
 
 export function setLocale(locale: string): Promise<void> {

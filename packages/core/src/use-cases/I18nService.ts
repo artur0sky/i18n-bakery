@@ -88,7 +88,26 @@ export class I18nService {
     this.notifyListeners();
   }
 
-  public t(key: string, defaultText?: string, vars?: Record<string, any>): string {
+  public t(key: string, defaultTextOrVars?: string | Record<string, any>, options?: Record<string, any>): string {
+    let defaultText: string | undefined;
+    let vars: Record<string, any> | undefined;
+
+    // Handle argument overloading
+    if (typeof defaultTextOrVars === 'object' && defaultTextOrVars !== null) {
+      // Usage: t('key', { count: 1 }) or t('key', { defaultValue: 'Val' })
+      vars = defaultTextOrVars;
+      defaultText = vars.defaultValue as string; // Extract defaultValue if present
+    } else {
+      // Usage: t('key', 'Default Text', { count: 1 })
+      defaultText = defaultTextOrVars as string | undefined;
+      vars = options;
+      
+      // Also check options for defaultValue if defaultText is not provided as 2nd arg
+      if (!defaultText && vars && vars.defaultValue) {
+        defaultText = vars.defaultValue as string;
+      }
+    }
+
     const { namespace, key: actualKey } = this.parseKey(key);
     
     // Create context for plugins
