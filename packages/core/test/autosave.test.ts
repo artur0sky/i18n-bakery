@@ -13,16 +13,17 @@ describe('i18n-bakery auto-save', () => {
       locale: 'en',
       saveMissing: true,
       saver: mockSaver,
+      defaultNamespace: 'common',
     });
   });
 
   it('should call saver when key is missing and default text provided', () => {
-    t('home.title', 'Welcome Home');
+    t('home:title', 'Welcome Home');
     expect(mockSaver.save).toHaveBeenCalledWith('en', 'home', 'title', 'Welcome Home');
   });
 
   it('should call saver with key part if no default text provided', () => {
-    t('home.subtitle');
+    t('home:subtitle');
     expect(mockSaver.save).toHaveBeenCalledWith('en', 'home', 'subtitle', 'subtitle');
   });
 
@@ -31,18 +32,19 @@ describe('i18n-bakery auto-save', () => {
       locale: 'en',
       saveMissing: false,
       saver: mockSaver,
+      defaultNamespace: 'common',
     });
-    t('home.desc', 'Description');
+    t('home:desc', 'Description');
     expect(mockSaver.save).not.toHaveBeenCalled();
   });
 
   it('should not call saver if key already exists', () => {
     // First call saves it and adds to memory
-    t('home.exists', 'Existing');
+    t('home:exists', 'Existing');
     expect(mockSaver.save).toHaveBeenCalledTimes(1);
     
     // Second call should find it in memory (because handleMissingKey updates store)
-    t('home.exists', 'Existing');
+    t('home:exists', 'Existing');
     expect(mockSaver.save).toHaveBeenCalledTimes(1);
   });
 });

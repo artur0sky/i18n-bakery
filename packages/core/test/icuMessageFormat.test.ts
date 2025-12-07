@@ -14,6 +14,7 @@ describe('ICU MessageFormat', () => {
       initI18n({
         locale: 'en',
         messageFormat: 'icu',
+        defaultNamespace: 'common',
       });
     });
 
@@ -52,6 +53,7 @@ describe('ICU MessageFormat', () => {
       initI18n({
         locale: 'en',
         messageFormat: 'icu',
+        defaultNamespace: 'common',
       });
     });
 
@@ -80,6 +82,7 @@ describe('ICU MessageFormat', () => {
       initI18n({
         locale: 'en',
         messageFormat: 'icu',
+        defaultNamespace: 'common',
       });
     });
 
@@ -106,6 +109,7 @@ describe('ICU MessageFormat', () => {
       initI18n({
         locale: 'en',
         messageFormat: 'icu',
+        defaultNamespace: 'common',
       });
     });
 
@@ -131,6 +135,7 @@ describe('ICU MessageFormat', () => {
       initI18n({
         locale: 'en',
         messageFormat: 'icu',
+        defaultNamespace: 'common',
       });
     });
 
@@ -161,6 +166,7 @@ describe('ICU MessageFormat', () => {
       initI18n({
         locale: 'en',
         messageFormat: 'icu',
+        defaultNamespace: 'common',
       });
     });
 
@@ -199,6 +205,7 @@ describe('ICU MessageFormat', () => {
       initI18n({
         locale: 'es',
         messageFormat: 'icu',
+        defaultNamespace: 'common',
       });
 
       addTranslations('es', 'common', {
@@ -214,6 +221,7 @@ describe('ICU MessageFormat', () => {
       initI18n({
         locale: 'ar',
         messageFormat: 'icu',
+        defaultNamespace: 'common',
       });
 
       addTranslations('ar', 'common', {
@@ -228,3 +236,4 @@ describe('ICU MessageFormat', () => {
     });
   });
 });
+
