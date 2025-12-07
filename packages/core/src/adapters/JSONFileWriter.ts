@@ -163,6 +163,11 @@ export class JSONFileWriter implements FileWriter {
     const result: TranslationFileContent = { ...existing };
 
     for (const [key, newEntry] of Object.entries(newContent)) {
+      // Security: Prevent prototype pollution
+      if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+        continue;
+      }
+
       if (!result[key]) {
         // Key doesn't exist, add it
         result[key] = newEntry;
@@ -171,6 +176,11 @@ export class JSONFileWriter implements FileWriter {
 
       // Key exists, merge variants
       for (const [signatureKey, newVariant] of Object.entries(newEntry.variants)) {
+        // Security: Prevent prototype pollution in variants
+        if (signatureKey === '__proto__' || signatureKey === 'constructor' || signatureKey === 'prototype') {
+          continue;
+        }
+
         if (mode === 'append' && result[key].variants[signatureKey]) {
           // Append mode: don't overwrite existing variants
           continue;

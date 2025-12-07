@@ -4,6 +4,7 @@ import { FileSystemPathResolver } from '../src/adapters/FileSystemPathResolver';
 import { DefaultKeyParser } from '../src/adapters/DefaultKeyParser';
 import { ParsedKey } from '../src/domain/KeyParser';
 import { JSONFileWriter } from '../src/adapters/JSONFileWriter';
+import { MustacheFormatter } from '../src/adapters/MustacheFormatter';
 
 describe('Security Tests', () => {
   describe('FileSystemPathResolver - Path Traversal Prevention', () => {
@@ -93,6 +94,22 @@ describe('Security Tests', () => {
       
       const content = { key: { variants: {} } };
       await expect(writer.write('test.json', content)).resolves.not.toThrow();
+    });
+  });
+
+  describe('XSS Prevention', () => {
+    const formatter = new MustacheFormatter();
+
+    it('should escape HTML in interpolated values', () => {
+      const template = 'Hello {{name}}';
+      const result = formatter.interpolate(template, { name: '<script>alert(1)</script>' });
+      expect(result).toBe('Hello &lt;script&gt;alert(1)&lt;/script&gt;');
+    });
+
+    it('should escape quotes in interpolated values', () => {
+      const template = 'Title: {{title}}';
+      const result = formatter.interpolate(template, { title: '"Hello"' });
+      expect(result).toBe('Title: &quot;Hello&quot;');
     });
   });
 });
