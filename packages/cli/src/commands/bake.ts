@@ -5,12 +5,80 @@ import chalk from 'chalk';
 
 import crypto from 'crypto';
 
+// Local implementation to avoid cross-package import issues in CLI
+class Aes256GcmCipher {
+  private static readonly ALGORITHM = 'AES-GCM';
+  private static readonly KEY_LENGTH = 256;
+  private static readonly IV_LENGTH = 12;
+  private static readonly SALT_LENGTH = 16;
+  private static readonly ITERATIONS = 100000;
+
+  async encrypt(data: string, secret: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const dataBuffer = encoder.encode(data);
+    const salt = crypto.getRandomValues(new Uint8Array(Aes256GcmCipher.SALT_LENGTH));
+    const iv = crypto.getRandomValues(new Uint8Array(Aes256GcmCipher.IV_LENGTH));
+    const key = await this.deriveKey(secret, salt);
+    const encryptedBuffer = await crypto.subtle.encrypt(
+      { name: Aes256GcmCipher.ALGORITHM, iv },
+      key,
+      dataBuffer
+    );
+    const combined = new Uint8Array(salt.length + iv.length + encryptedBuffer.byteLength);
+    combined.set(salt, 0);
+    combined.set(iv, salt.length);
+    combined.set(new Uint8Array(encryptedBuffer), salt.length + iv.length);
+    return this.arrayBufferToBase64(combined);
+  }
+
+  private async deriveKey(secret: string, salt: Uint8Array): Promise<CryptoKey> {
+    const encoder = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey(
+      'raw',
+      encoder.encode(secret),
+      { name: 'PBKDF2' },
+      false,
+      ['deriveKey']
+    );
+    return crypto.subtle.deriveKey(
+      {
+        name: 'PBKDF2',
+        salt: salt as any,
+        iterations: Aes256GcmCipher.ITERATIONS,
+        hash: 'SHA-256'
+      },
+      keyMaterial,
+      { name: Aes256GcmCipher.ALGORITHM, length: Aes256GcmCipher.KEY_LENGTH },
+      false,
+      ['encrypt']
+    );
+  }
+
+  private arrayBufferToBase64(buffer: Uint8Array): string {
+    let binary = '';
+    const len = buffer.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(buffer[i]);
+    }
+    return btoa(binary);
+  }
+}
+
+
+// Polyfill for Node.js environment if not globally available
+if (!globalThis.crypto) {
+  // @ts-ignore
+  globalThis.crypto = crypto.webcrypto;
+}
+
 interface BakeOptions {
   out: string;
   minify?: boolean;
   hash?: boolean;
   manifest?: string;
   split?: boolean;
+  encrypt?: boolean;
+  key?: string;
 }
 
 export async function bake(source: string, options: BakeOptions) {
@@ -20,7 +88,13 @@ export async function bake(source: string, options: BakeOptions) {
   if (options.minify) console.log(chalk.gray(`Minify: Enabled`));
   if (options.hash) console.log(chalk.gray(`Hash: Enabled`));
   if (options.split) console.log(chalk.gray(`Split: Enabled (Lazy Loading)`));
+  if (options.encrypt) console.log(chalk.gray(`Encryption: Enabled (AES-256-GCM)`));
 
+  if (options.encrypt && !options.key) {
+    throw new Error('Encryption key is required when encryption is enabled. Use --key <secret>');
+  }
+
+  const cipher = options.encrypt ? new Aes256GcmCipher() : null;
   const locales = await fs.readdir(source);
   const manifest: Record<string, string> = {};
   
@@ -59,10 +133,14 @@ export async function bake(source: string, options: BakeOptions) {
          await fs.ensureDir(localeOutDir);
          
          for (const [ns, content] of Object.entries(namespaceFiles)) {
-            const jsonContent = options.minify 
+            let jsonContent = options.minify 
               ? JSON.stringify(content) 
               : JSON.stringify(content, null, 2);
             
+            if (cipher && options.key) {
+               jsonContent = await cipher.encrypt(jsonContent, options.key);
+            }
+
             let filename = `${ns}.json`;
             if (options.hash) {
               const hash = crypto.createHash('md5').update(jsonContent).digest('hex').substring(0, 8);
@@ -79,9 +157,13 @@ export async function bake(source: string, options: BakeOptions) {
          }
       } else {
          // Output single bundle
-         const jsonContent = options.minify 
+         let jsonContent = options.minify 
             ? JSON.stringify(bundle) 
             : JSON.stringify(bundle, null, 2);
+
+         if (cipher && options.key) {
+            jsonContent = await cipher.encrypt(jsonContent, options.key);
+         }
             
          let filename = `${locale}.json`;
          if (options.hash) {
