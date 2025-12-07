@@ -20,6 +20,12 @@ export interface I18nConfig {
   saveMissing?: boolean;    // Feature Flag
   debug?: boolean;
   /**
+   * Default namespace to use when no namespace is specified in the key.
+   * If not set, keys without namespace will use a file named after the locale (e.g., 'en-US.json').
+   * @default undefined (uses locale-named file like i18next)
+   */
+  defaultNamespace?: Namespace;
+  /**
    * Output format for translation files.
    * @default 'json'
    */
@@ -32,9 +38,9 @@ export interface I18nConfig {
    */
   pluralizationStrategy?: 'suffix' | 'cldr';
   /**
-   * Message format syntax to use.
-   * - 'mustache': Simple {{variable}} syntax (default)
-   * - 'icu': ICU MessageFormat syntax with plural, select, selectordinal
+   * Message format to use for interpolation.
+   * - 'mustache': Simple {{variable}} syntax
+   * - 'icu': ICU MessageFormat syntax
    * @default 'mustache'
    */
   messageFormat?: 'mustache' | 'icu';
@@ -46,9 +52,9 @@ export interface I18nConfig {
    */
   fileStructure?: 'nested' | 'flat';
   /**
-   * Plugins to register on initialization.
+   * Plugin instances to register.
    */
-  plugins?: Array<any>; // Using any to avoid circular dependency
+  plugins?: any[];
 }
 
 export interface Loader {

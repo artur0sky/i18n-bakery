@@ -18,6 +18,7 @@ export class I18nService {
   
   private currentLocale: Locale;
   private fallbackLocale?: Locale;
+  private defaultNamespace?: Namespace;
   private saveMissing: boolean;
   private debug: boolean;
 
@@ -29,6 +30,7 @@ export class I18nService {
   constructor(config: I18nConfig) {
     this.currentLocale = config.locale;
     this.fallbackLocale = config.fallbackLocale;
+    this.defaultNamespace = config.defaultNamespace;
     this.loader = config.loader;
     this.saver = config.saver;
     this.saveMissing = config.saveMissing || false;
@@ -223,18 +225,40 @@ export class I18nService {
     this.notifyListeners();
   }
 
+  /**
+   * Parses a translation key into namespace and key components.
+   * 
+   * Supports hierarchical namespaces:
+   * - 'home:hero:title' → namespace: 'home/hero', key: 'title'
+   * - 'home:hero.title' → namespace: 'home', key: 'hero.title'
+   * - 'hero.title' → namespace: defaultNamespace or locale, key: 'hero.title'
+   * 
+   * Rules:
+   * 1. Multiple colons (:) create directory structure (namespace path)
+   * 2. The last colon separates namespace from key
+   * 3. Dots (.) within the key create nested properties
+   * 4. If no colon, uses defaultNamespace or locale-based file
+   */
   private parseKey(key: string): { namespace: Namespace; key: Key } {
-    // i18next style: ns:key
+    // Check if key contains colon (namespace separator)
     if (key.includes(':')) {
-      const parts = key.split(':');
-      return { namespace: parts[0], key: parts.slice(1).join(':') };
+      const lastColonIndex = key.lastIndexOf(':');
+      const namespacePart = key.substring(0, lastColonIndex);
+      const keyPart = key.substring(lastColonIndex + 1);
+      
+      // Convert multiple colons to directory path
+      // 'home:navigation:showcase' → 'home/navigation/showcase'
+      const namespace = namespacePart.replace(/:/g, '/');
+      
+      return { namespace, key: keyPart };
     }
 
-    const parts = key.split('.');
-    if (parts.length > 1) {
-      return { namespace: parts[0], key: parts.slice(1).join('.') };
-    }
-    return { namespace: 'common', key }; // Default namespace
+    // No colon found - use defaultNamespace or locale-based file
+    // If defaultNamespace is set, use it
+    // Otherwise, use locale (e.g., 'en-US') like i18next
+    const defaultNs = this.defaultNamespace || this.currentLocale;
+    
+    return { namespace: defaultNs, key };
   }
 
   private handleMissingKey(locale: Locale, namespace: Namespace, key: Key, value: string) {
