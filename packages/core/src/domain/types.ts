@@ -6,6 +6,11 @@ export type TranslationMap = Record<Key, TranslationValue>;
 export type NamespaceMap = Record<Namespace, TranslationMap>;
 export type LocaleMap = Record<Locale, NamespaceMap>;
 
+/**
+ * Supported output formats for translation files.
+ */
+export type OutputFormat = 'json' | 'yml' | 'yaml' | 'toml' | 'toon';
+
 export interface I18nConfig {
   locale: Locale;
   fallbackLocale?: Locale;
@@ -13,6 +18,29 @@ export interface I18nConfig {
   saver?: TranslationSaver; // New Port
   saveMissing?: boolean;    // Feature Flag
   debug?: boolean;
+  /**
+   * Output format for translation files.
+   * @default 'json'
+   */
+  outputFormat?: OutputFormat;
+  /**
+   * Pluralization strategy to use.
+   * - 'suffix': i18next-style (key, key_plural, key_0, key_1)
+   * - 'cldr': CLDR-style (key_one, key_other, key_zero, key_few, key_many)
+   * @default 'suffix'
+   */
+  pluralizationStrategy?: 'suffix' | 'cldr';
+  /**
+   * Message format syntax to use.
+   * - 'mustache': Simple {{variable}} syntax (default)
+   * - 'icu': ICU MessageFormat syntax with plural, select, selectordinal
+   * @default 'mustache'
+   */
+  messageFormat?: 'mustache' | 'icu';
+  /**
+   * Plugins to register on initialization.
+   */
+  plugins?: Array<any>; // Using any to avoid circular dependency
 }
 
 export interface Loader {
@@ -35,6 +63,15 @@ export interface Store {
   getAll(locale: Locale): NamespaceMap;
 }
 
-// Export KeyParser types (Phase 7)
+// Re-export Phase 7 & 8 interfaces
 export * from './KeyParser';
+export * from './VariableDetection';
 
+// Re-export Phase 9 interfaces
+export * from './FileWriter';
+
+// Re-export Pluralization interfaces
+export * from './Pluralization';
+
+// Re-export Plugin interfaces
+export * from './Plugin';

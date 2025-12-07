@@ -33,8 +33,28 @@ export * from './domain/types';
 export * from './use-cases/I18nService';
 export * from './adapters/MemoryStore';
 export * from './adapters/MustacheFormatter';
+export * from './adapters/ICUMessageFormatter';
 export * from './adapters/ConsoleSaver';
-// Phase 7 exports
+
+// Phase 7 - Advanced Key Engine
 export * from './adapters/DefaultKeyParser';
 export * from './adapters/FileSystemPathResolver';
+
+// Phase 8 - Variable Detection
+export * from './adapters/DefaultVariableDetector';
+export * from './adapters/MemoryTranslationEntryManager';
+
+// Phase 9 - File Auto-creation
+export * from './adapters/JSONFileWriter';
+export * from './adapters/NodeFileSystemManager';
+export * from './use-cases/TranslationFileManager';
+
+// Pluralization
+export * from './adapters/SuffixPluralResolver';
+export * from './adapters/CLDRPluralResolver';
+
+// Plugin System
+export * from './adapters/DefaultPluginManager';
+export * from './plugins/NumberFormatPlugin';
+export * from './plugins/CapitalizePlugin';
 

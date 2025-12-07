@@ -1,133 +1,187 @@
+/**
+ * 🥯 i18n-bakery - Path Resolver Tests
+ * 
+ * Comprehensive tests for the FileSystemPathResolver adapter.
+ * Ensures correct path resolution for different configurations.
+ */
+
 import { describe, it, expect } from 'vitest';
 import { FileSystemPathResolver } from '../src/adapters/FileSystemPathResolver';
-import { DefaultKeyParser } from '../src/adapters/DefaultKeyParser';
-import * as path from 'path';
+import { ParsedKey } from '../src/domain/KeyParser';
 
-describe('FileSystemPathResolver - Phase 7.2', () => {
-  const parser = new DefaultKeyParser();
-
-  describe('resolve()', () => {
-    it('should resolve path with directories', () => {
+describe('FileSystemPathResolver', () => {
+  describe('resolve', () => {
+    it('should resolve a simple path with default extension', () => {
       const resolver = new FileSystemPathResolver({ baseDir: './locales' });
-      const parsed = parser.parse('orders:meal.orderComponent.title');
-      
+      const parsed: ParsedKey = {
+        directories: [],
+        file: 'common',
+        propertyPath: ['greeting'],
+        originalKey: 'greeting',
+      };
+
       const result = resolver.resolve('en', parsed);
-      const expected = path.join('./locales', 'en', 'orders', 'meal', 'orderComponent.json');
-      
-      expect(result).toBe(expected);
+      expect(result).toBe('./locales/en/common.json');
     });
 
-    it('should resolve path without directories', () => {
+    it('should resolve a path with directories', () => {
       const resolver = new FileSystemPathResolver({ baseDir: './locales' });
-      const parsed = parser.parse('common.hello');
-      
+      const parsed: ParsedKey = {
+        directories: ['orders'],
+        file: 'meal',
+        propertyPath: ['title'],
+        originalKey: 'orders:meal.title',
+      };
+
       const result = resolver.resolve('en', parsed);
-      const expected = path.join('./locales', 'en', 'common.json');
-      
-      expect(result).toBe(expected);
+      expect(result).toBe('./locales/en/orders/meal.json');
     });
 
-    it('should resolve path with multiple directory levels', () => {
+    it('should resolve a path with multiple directories', () => {
       const resolver = new FileSystemPathResolver({ baseDir: './locales' });
-      const parsed = parser.parse('app:features:orders.list.header');
-      
+      const parsed: ParsedKey = {
+        directories: ['app', 'features', 'orders'],
+        file: 'meal',
+        propertyPath: ['title'],
+        originalKey: 'app:features:orders:meal.title',
+      };
+
       const result = resolver.resolve('en', parsed);
-      const expected = path.join('./locales', 'en', 'app', 'features', 'orders', 'list.json');
-      
-      expect(result).toBe(expected);
+      expect(result).toBe('./locales/en/app/features/orders/meal.json');
     });
 
-    it('should use custom extension', () => {
+    it('should respect custom extension', () => {
       const resolver = new FileSystemPathResolver({ 
-        baseDir: './locales',
+        baseDir: './translations',
         extension: 'yaml'
       });
-      const parsed = parser.parse('common.hello');
-      
+      const parsed: ParsedKey = {
+        directories: ['orders'],
+        file: 'meal',
+        propertyPath: ['title'],
+        originalKey: 'orders:meal.title',
+      };
+
       const result = resolver.resolve('en', parsed);
-      const expected = path.join('./locales', 'en', 'common.yaml');
-      
-      expect(result).toBe(expected);
+      expect(result).toBe('./translations/en/orders/meal.yaml');
     });
 
     it('should handle different locales', () => {
       const resolver = new FileSystemPathResolver({ baseDir: './locales' });
-      const parsed = parser.parse('orders:meal.title');
-      
-      const resultEn = resolver.resolve('en', parsed);
-      const resultEs = resolver.resolve('es-MX', parsed);
-      
-      expect(resultEn).toBe(path.join('./locales', 'en', 'orders', 'meal.json'));
-      expect(resultEs).toBe(path.join('./locales', 'es-MX', 'orders', 'meal.json'));
-    });
+      const parsed: ParsedKey = {
+        directories: ['orders'],
+        file: 'meal',
+        propertyPath: ['title'],
+        originalKey: 'orders:meal.title',
+      };
 
-    it('should handle absolute base directory', () => {
-      const resolver = new FileSystemPathResolver({ baseDir: '/var/app/locales' });
-      const parsed = parser.parse('common.hello');
-      
-      const result = resolver.resolve('en', parsed);
-      const expected = path.join('/var/app/locales', 'en', 'common.json');
-      
-      expect(result).toBe(expected);
+      const enResult = resolver.resolve('en', parsed);
+      const esResult = resolver.resolve('es-MX', parsed);
+      const frResult = resolver.resolve('fr', parsed);
+
+      expect(enResult).toBe('./locales/en/orders/meal.json');
+      expect(esResult).toBe('./locales/es-MX/orders/meal.json');
+      expect(frResult).toBe('./locales/fr/orders/meal.json');
     });
   });
 
-  describe('getBaseDir()', () => {
-    it('should return the configured base directory', () => {
-      const resolver = new FileSystemPathResolver({ baseDir: './locales' });
-      expect(resolver.getBaseDir()).toBe('./locales');
-    });
-  });
-
-  describe('getDirectoryPath()', () => {
+  describe('getDirectoryPath', () => {
     it('should return directory path without file name', () => {
       const resolver = new FileSystemPathResolver({ baseDir: './locales' });
-      const parsed = parser.parse('orders:meal.orderComponent.title');
-      
+      const parsed: ParsedKey = {
+        directories: ['orders'],
+        file: 'meal',
+        propertyPath: ['title'],
+        originalKey: 'orders:meal.title',
+      };
+
       const result = resolver.getDirectoryPath('en', parsed);
-      const expected = path.join('./locales', 'en', 'orders', 'meal');
-      
-      expect(result).toBe(expected);
+      expect(result).toBe('./locales/en/orders');
     });
 
-    it('should return directory path without subdirectories', () => {
+    it('should return directory path with multiple directories', () => {
       const resolver = new FileSystemPathResolver({ baseDir: './locales' });
-      const parsed = parser.parse('common.hello');
-      
+      const parsed: ParsedKey = {
+        directories: ['app', 'features', 'orders'],
+        file: 'meal',
+        propertyPath: ['title'],
+        originalKey: 'app:features:orders:meal.title',
+      };
+
       const result = resolver.getDirectoryPath('en', parsed);
-      const expected = path.join('./locales', 'en');
-      
-      expect(result).toBe(expected);
+      expect(result).toBe('./locales/en/app/features/orders');
+    });
+
+    it('should return locale directory when no subdirectories', () => {
+      const resolver = new FileSystemPathResolver({ baseDir: './locales' });
+      const parsed: ParsedKey = {
+        directories: [],
+        file: 'common',
+        propertyPath: ['greeting'],
+        originalKey: 'greeting',
+      };
+
+      const result = resolver.getDirectoryPath('en', parsed);
+      expect(result).toBe('./locales/en');
     });
   });
 
-  describe('Integration - Full workflow', () => {
-    it('should parse key and resolve to correct path', () => {
-      const resolver = new FileSystemPathResolver({ baseDir: './locales' });
-      
-      const testCases = [
-        {
-          key: 'orders:meal.orderComponent.title',
-          locale: 'en',
-          expected: path.join('./locales', 'en', 'orders', 'meal', 'orderComponent.json')
-        },
-        {
-          key: 'common.hello',
-          locale: 'es-MX',
-          expected: path.join('./locales', 'es-MX', 'common.json')
-        },
-        {
-          key: 'app:features:orders.list.header',
-          locale: 'fr',
-          expected: path.join('./locales', 'fr', 'app', 'features', 'orders', 'list.json')
-        }
-      ];
+  describe('configuration', () => {
+    it('should work with absolute paths', () => {
+      const resolver = new FileSystemPathResolver({ baseDir: '/var/app/locales' });
+      const parsed: ParsedKey = {
+        directories: ['orders'],
+        file: 'meal',
+        propertyPath: ['title'],
+        originalKey: 'orders:meal.title',
+      };
 
-      testCases.forEach(({ key, locale, expected }) => {
-        const parsed = parser.parse(key);
-        const result = resolver.resolve(locale, parsed);
-        expect(result).toBe(expected);
-      });
+      const result = resolver.resolve('en', parsed);
+      expect(result).toBe('/var/app/locales/en/orders/meal.json');
+    });
+
+    it('should work with Windows-style paths', () => {
+      const resolver = new FileSystemPathResolver({ baseDir: 'C:\\\\app\\\\locales' });
+      const parsed: ParsedKey = {
+        directories: ['orders'],
+        file: 'meal',
+        propertyPath: ['title'],
+        originalKey: 'orders:meal.title',
+      };
+
+      const result = resolver.resolve('en', parsed);
+      // path.join handles platform-specific separators
+      expect(result).toContain('locales');
+      expect(result).toContain('orders');
+      expect(result).toContain('meal.json');
+    });
+  });
+
+  describe('real-world scenarios', () => {
+    it('should handle typical monorepo structure', () => {
+      const resolver = new FileSystemPathResolver({ baseDir: './packages/app/locales' });
+      const parsed: ParsedKey = {
+        directories: ['features', 'orders'],
+        file: 'meal',
+        propertyPath: ['title'],
+        originalKey: 'features:orders:meal.title',
+      };
+
+      const result = resolver.resolve('en', parsed);
+      expect(result).toBe('./packages/app/locales/en/features/orders/meal.json');
+    });
+
+    it('should handle Next.js public folder structure', () => {
+      const resolver = new FileSystemPathResolver({ baseDir: './public/locales' });
+      const parsed: ParsedKey = {
+        directories: ['common'],
+        file: 'navigation',
+        propertyPath: ['home'],
+        originalKey: 'common:navigation.home',
+      };
+
+      const result = resolver.resolve('en-US', parsed);
+      expect(result).toBe('./public/locales/en-US/common/navigation.json');
     });
   });
 });

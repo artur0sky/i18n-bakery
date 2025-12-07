@@ -1,12 +1,17 @@
 import { Store, Loader, Formatter, TranslationSaver, I18nConfig, Locale, Namespace, Key } from '../domain/types';
 import { MemoryStore } from '../adapters/MemoryStore';
 import { MustacheFormatter } from '../adapters/MustacheFormatter';
+import { ICUMessageFormatter } from '../adapters/ICUMessageFormatter';
+import { PluralResolver, PluralCategory } from '../domain/Pluralization';
+import { SuffixPluralResolver } from '../adapters/SuffixPluralResolver';
+import { CLDRPluralResolver } from '../adapters/CLDRPluralResolver';
 
 export class I18nService {
   private store: Store;
   private formatter: Formatter;
   private loader?: Loader;
   private saver?: TranslationSaver;
+  private pluralResolver: PluralResolver;
   
   private currentLocale: Locale;
   private fallbackLocale?: Locale;
@@ -27,7 +32,18 @@ export class I18nService {
     
     // Default adapters
     this.store = new MemoryStore();
-    this.formatter = new MustacheFormatter();
+    
+    // Initialize formatter based on messageFormat
+    const messageFormat = config.messageFormat || 'mustache';
+    this.formatter = messageFormat === 'icu'
+      ? new ICUMessageFormatter(config.locale)
+      : new MustacheFormatter();
+    
+    // Initialize plural resolver based on strategy
+    const strategy = config.pluralizationStrategy || 'suffix';
+    this.pluralResolver = strategy === 'cldr' 
+      ? new CLDRPluralResolver()
+      : new SuffixPluralResolver();
   }
 
   public getCurrentLocale(): Locale {
@@ -41,12 +57,24 @@ export class I18nService {
   public t(key: string, defaultText?: string, vars?: Record<string, any>): string {
     const { namespace, key: actualKey } = this.parseKey(key);
     
-    // 1. Try current locale
-    let translation = this.store.get(this.currentLocale, namespace, actualKey);
+    // Determine if we need pluralization
+    const count = vars?.count;
+    const needsPluralization = typeof count === 'number';
+    
+    let translation: string | undefined;
+    
+    if (needsPluralization) {
+      // Try pluralization
+      translation = this.getPluralTranslation(namespace, actualKey, count, vars);
+    } else {
+      // Normal translation lookup
+      // 1. Try current locale
+      translation = this.store.get(this.currentLocale, namespace, actualKey);
 
-    // 2. Try fallback locale
-    if (!translation && this.fallbackLocale) {
-      translation = this.store.get(this.fallbackLocale, namespace, actualKey);
+      // 2. Try fallback locale
+      if (!translation && this.fallbackLocale) {
+        translation = this.store.get(this.fallbackLocale, namespace, actualKey);
+      }
     }
 
     // 3. Fallback to default text or key
@@ -68,6 +96,71 @@ export class I18nService {
 
     return this.formatter.interpolate(translation, vars);
   }
+
+  /**
+   * Gets the appropriate plural translation based on count.
+   * 
+   * Uses the configured PluralResolver to determine the correct plural form.
+   * For suffix strategy, also tries exact count matches first.
+   * 
+   * @param namespace - The namespace
+   * @param key - The base key
+   * @param count - The count value
+   * @param vars - Variables for interpolation
+   * @returns Translation string or undefined
+   */
+  private getPluralTranslation(
+    namespace: Namespace,
+    key: Key,
+    count: number,
+    vars?: Record<string, any>
+  ): string | undefined {
+    // Step 1: Try exact count match (key_0, key_1, key_2, etc.) for suffix strategy
+    // This is a special case for i18next compatibility
+    const exactKey = `${key}_${count}`;
+    let translation = this.store.get(this.currentLocale, namespace, exactKey);
+    
+    if (translation) {
+      return translation;
+    }
+
+    // Try fallback locale for exact match
+    if (this.fallbackLocale) {
+      translation = this.store.get(this.fallbackLocale, namespace, exactKey);
+      if (translation) {
+        return translation;
+      }
+    }
+
+    // Step 2: Use the plural resolver to get the appropriate key
+    const resolution = this.pluralResolver.resolve(key, count, this.currentLocale);
+    const pluralKey = resolution.key;
+    
+    // Try to get the translation for the resolved plural key
+    translation = this.store.get(this.currentLocale, namespace, pluralKey);
+    
+    if (translation) {
+      return translation;
+    }
+
+    // Try fallback locale
+    if (this.fallbackLocale) {
+      translation = this.store.get(this.fallbackLocale, namespace, pluralKey);
+      if (translation) {
+        return translation;
+      }
+    }
+
+    // If no plural form exists, fall back to base key
+    translation = this.store.get(this.currentLocale, namespace, key);
+    
+    if (!translation && this.fallbackLocale) {
+      translation = this.store.get(this.fallbackLocale, namespace, key);
+    }
+
+    return translation;
+  }
+
 
   public addTranslations(locale: Locale, namespace: Namespace, data: Record<string, string>) {
     this.store.setNamespace(locale, namespace, data);
