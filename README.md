@@ -96,7 +96,7 @@ import { I18nProvider } from "@i18n-bakery/react";
 ### 4.2. Hook
 
 ```typescript
-import { useT } from "@i18n-bakery/react";
+import { useTranslation } from "@i18n-bakery/react";
 
 const Home = () => {
   const t = useT();
