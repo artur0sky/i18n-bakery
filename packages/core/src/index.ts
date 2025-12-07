@@ -60,3 +60,7 @@ export * from './plugins/NumberFormatPlugin';
 export * from './plugins/CapitalizePlugin';
 export * from './plugins/HttpBackend';
 
+// Encryption
+export * from './domain/Encryption';
+export * from './adapters/Aes256GcmCipher';
+
