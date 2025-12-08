@@ -8,7 +8,8 @@ const cli = cac('i18n-bakery');
 cli
   .command('batter [source]', 'Extract translations from source files')
   .option('--locale <locale>', 'Target locale (e.g. es-mx)', { default: 'en' })
-  .option('--out <dir>', 'Output directory for locales', { default: 'locales' })
+  .option('--out <dir>', 'Output directory for locales', { default: 'public/locales' })
+  .option('--verbose', 'Enable verbose logging')
   .action(async (source, options) => {
     await batter(source || 'src', options);
   });
@@ -22,6 +23,7 @@ cli
   .option('--split', 'Split into multiple files per namespace')
   .option('--encrypt', 'Encrypt output files')
   .option('--key <secret>', 'Encryption key')
+  .option('--verbose', 'Enable verbose logging')
   .action(async (source, options) => {
     await bake(source || 'public/locales', options);
   });

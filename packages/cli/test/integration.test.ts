@@ -11,8 +11,8 @@ const DIST_DIR = path.join(TEST_DIR, 'dist');
 
 describe('CLI Integration Tests', () => {
   beforeEach(async () => {
-    await fs.ensureDir(SRC_DIR);
-    await fs.ensureDir(LOCALES_DIR);
+    await fs.emptyDir(SRC_DIR);
+    await fs.emptyDir(LOCALES_DIR);
   });
 
   afterEach(async () => {

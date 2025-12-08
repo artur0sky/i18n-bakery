@@ -1,7 +1,7 @@
 import { glob } from 'glob';
 import path from 'path';
 import fs from 'fs-extra';
-import chalk from 'chalk';
+import { logger } from '../services/Logger';
 
 import crypto from 'crypto';
 
@@ -79,16 +79,19 @@ interface BakeOptions {
   split?: boolean;
   encrypt?: boolean;
   key?: string;
+  verbose?: boolean;
 }
 
 export async function bake(source: string, options: BakeOptions) {
-  console.log(chalk.blue(`🥯 I18n Bakery: Bake (Compilation)`));
-  console.log(chalk.gray(`Source: ${source}`));
-  console.log(chalk.gray(`Output: ${options.out}`));
-  if (options.minify) console.log(chalk.gray(`Minify: Enabled`));
-  if (options.hash) console.log(chalk.gray(`Hash: Enabled`));
-  if (options.split) console.log(chalk.gray(`Split: Enabled (Lazy Loading)`));
-  if (options.encrypt) console.log(chalk.gray(`Encryption: Enabled (AES-256-GCM)`));
+  if (options.verbose) logger.setVerbose(true);
+
+  logger.section(`🥯 I18n Bakery: Bake (Compilation)`);
+  logger.gray(`Source: ${source}`);
+  logger.gray(`Output: ${options.out}`);
+  if (options.minify) logger.gray(`Minify: Enabled`);
+  if (options.hash) logger.gray(`Hash: Enabled`);
+  if (options.split) logger.gray(`Split: Enabled (Lazy Loading)`);
+  if (options.encrypt) logger.gray(`Encryption: Enabled (AES-256-GCM)`);
 
   if (options.encrypt && !options.key) {
     throw new Error('Encryption key is required when encryption is enabled. Use --key <secret>');
@@ -110,11 +113,11 @@ export async function bake(source: string, options: BakeOptions) {
       try {
         validatePathSegment(locale, 'locale');
       } catch (e) {
-        console.warn(chalk.red(`Skipping invalid locale directory "${locale}"`));
+        logger.warn(`Skipping invalid locale directory "${locale}"`);
         continue;
       }
 
-      console.log(chalk.cyan(`Baking locale: ${locale}...`));
+      logger.cyan(`Baking locale: ${locale}...`);
       // Recursive glob to find all json files
       const globPath = path.join(localePath, '**/*.json').replace(/\\/g, '/');
       const files = await glob(globPath);
@@ -158,7 +161,7 @@ export async function bake(source: string, options: BakeOptions) {
             // Update manifest
             // Key: "en/common" -> "en/common.a1b2.json"
             manifest[`${locale}/${ns}`] = `${locale}/${filename}`;
-            console.log(chalk.green(`  -> Baked ${locale}/${filename}`));
+            logger.success(`  -> Baked ${locale}/${filename}`);
          }
       } else {
          // Output single bundle
@@ -182,7 +185,7 @@ export async function bake(source: string, options: BakeOptions) {
          // Update manifest
          // Key: "en" -> "en.a1b2.json"
          manifest[locale] = filename;
-         console.log(chalk.green(`  -> Baked ${filename} (${(await fs.stat(filePath)).size} bytes)`));
+         logger.success(`  -> Baked ${filename} (${(await fs.stat(filePath)).size} bytes)`);
       }
     }
   }
@@ -190,10 +193,10 @@ export async function bake(source: string, options: BakeOptions) {
   if (options.manifest) {
     const manifestPath = path.join(outDir, options.manifest);
     await fs.writeJson(manifestPath, manifest, { spaces: options.minify ? 0 : 2 });
-    console.log(chalk.green(`  -> Generated manifest: ${options.manifest}`));
+    logger.success(`  -> Generated manifest: ${options.manifest}`);
   }
   
-  console.log(chalk.blue(`\n✅ Baking complete!`));
+  logger.section(`✅ Baking complete!`);
 }
 
 function validatePathSegment(segment: string, name: string) {

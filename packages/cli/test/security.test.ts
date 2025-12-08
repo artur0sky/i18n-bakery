@@ -10,8 +10,8 @@ const LOCALES_DIR = path.join(TEST_DIR, 'locales');
 
 describe('CLI Security Tests', () => {
   beforeEach(async () => {
-    await fs.ensureDir(SRC_DIR);
-    await fs.ensureDir(LOCALES_DIR);
+    await fs.emptyDir(SRC_DIR);
+    await fs.emptyDir(LOCALES_DIR);
   });
 
   afterEach(async () => {
