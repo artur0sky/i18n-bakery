@@ -27,11 +27,13 @@ export class KeyExtractor {
                 defaultValue = args[1].value;
               }
 
-              // Infer namespace from key (e.g., "common.hello" -> "common", "auth:login" -> "auth")
+              // Infer namespace from key (e.g., "common.hello" -> "common", "auth:login" -> "auth", "home:hero:title" -> "home/hero")
               let namespace = 'common';
               if (key.includes(':')) {
-                const parts = key.split(':');
-                namespace = parts[0];
+                const lastColonIndex = key.lastIndexOf(':');
+                const namespacePart = key.substring(0, lastColonIndex);
+                // Convert colons to slashes for directory structure
+                namespace = namespacePart.replace(/:/g, '/');
               } else if (key.includes('.')) {
                 const parts = key.split('.');
                 namespace = parts[0];

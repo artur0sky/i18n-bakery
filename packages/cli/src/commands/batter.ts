@@ -125,9 +125,16 @@ export async function batter(source: string, options: BatterOptions) {
         let finalKey = k.key;
         // Strip namespace from key if present (e.g. "actions.save" -> "save", "actions:save" -> "save")
         // Also handle hierarchical namespaces: "home/hero.title" -> "title"
-        const namespacePrefix = namespace.replace(/\//g, '.');
-        if (finalKey.startsWith(`${namespacePrefix}.`) || finalKey.startsWith(`${namespace}:`)) {
-          finalKey = finalKey.slice(namespace.length + 1);
+        // Strip namespace from key if present
+        // Handle hierarchical namespaces: "home/hero:title" (namespace: home/hero) -> "title"
+        // The key in source is "home:hero:title"
+        const namespacePrefixDots = namespace.replace(/\//g, '.');
+        const namespacePrefixColons = namespace.replace(/\//g, ':');
+        
+        if (finalKey.startsWith(`${namespacePrefixDots}.`)) {
+          finalKey = finalKey.slice(namespacePrefixDots.length + 1);
+        } else if (finalKey.startsWith(`${namespacePrefixColons}:`)) {
+          finalKey = finalKey.slice(namespacePrefixColons.length + 1);
         }
 
         if (!currentTranslations[finalKey]) {
@@ -157,7 +164,7 @@ export async function batter(source: string, options: BatterOptions) {
 
 function validatePathSegment(segment: string, name: string) {
   if (!segment) return;
-  if (segment.includes('..') || segment.includes('/') || segment.includes('\\')) {
+  if (segment.includes('..') || segment.includes('\\')) {
     throw new Error(`Invalid ${name}: "${segment}" contains traversal characters`);
   }
 }

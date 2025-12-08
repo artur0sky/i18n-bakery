@@ -115,14 +115,18 @@ export async function bake(source: string, options: BakeOptions) {
       }
 
       console.log(chalk.cyan(`Baking locale: ${locale}...`));
-      const globPath = path.join(localePath, '*.json').replace(/\\/g, '/');
+      // Recursive glob to find all json files
+      const globPath = path.join(localePath, '**/*.json').replace(/\\/g, '/');
       const files = await glob(globPath);
       
       const bundle: Record<string, any> = {};
       const namespaceFiles: Record<string, any> = {};
 
       for (const file of files) {
-        const namespace = path.basename(file, '.json');
+        // Derive namespace from relative path
+        // e.g. locales/en-US/docs/namespaces.json -> docs/namespaces
+        const relativePath = path.relative(localePath, file);
+        const namespace = relativePath.replace(/\\/g, '/').replace(/\.json$/, '');
         const content = await fs.readJson(file);
         bundle[namespace] = content;
         namespaceFiles[namespace] = content;
