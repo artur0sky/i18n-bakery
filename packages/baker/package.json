@@ -1,0 +1,44 @@
+{
+    "name": "@i18n-bakery/baker",
+    "version": "1.0.0",
+    "description": "The Master Baker. Handles file system operations, extraction, compilation, and encryption for i18n-bakery.",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsup src/index.ts --format cjs,esm --dts",
+        "dev": "tsup src/index.ts --format cjs,esm --watch --dts",
+        "test": "vitest run"
+    },
+    "keywords": [
+        "i18n",
+        "bakery",
+        "compiler",
+        "extractor",
+        "filesystem",
+        "build-tool"
+    ],
+    "author": "Arturo Sáenz",
+    "license": "MIT",
+    "dependencies": {
+        "@babel/parser": "7.23.6",
+        "@babel/traverse": "7.23.6",
+        "@babel/types": "7.23.6",
+        "@i18n-bakery/core": "workspace:*",
+        "chalk": "5.6.2",
+        "crypto-js": "4.2.0",
+        "fs-extra": "11.3.2",
+        "glob": "13.0.0"
+    },
+    "devDependencies": {
+        "@types/babel__traverse": "7.20.4",
+        "@types/fs-extra": "11.0.4",
+        "@types/node": "24.10.1",
+        "tsup": "8.5.1",
+        "typescript": "5.9.3",
+        "vitest": "4.0.15"
+    }
+}
