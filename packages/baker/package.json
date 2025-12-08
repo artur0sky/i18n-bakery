@@ -13,6 +13,9 @@
         "dev": "tsup src/index.ts --format cjs,esm --watch --dts",
         "test": "vitest run"
     },
+    "publishConfig": {
+        "access": "public"
+    },
     "keywords": [
         "i18n",
         "bakery",
