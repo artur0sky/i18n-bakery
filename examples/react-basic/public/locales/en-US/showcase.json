@@ -1,0 +1,36 @@
+{
+  "page": {
+    "title": "Showcase",
+    "description": "Interactive examples demonstrating i18n-bakery features"
+  },
+  "tests": {
+    "basic": {
+      "title": "Basic Translation",
+      "value": "Hello, World!"
+    },
+    "fallback": {
+      "title": "Fallback Behavior",
+      "hint": "This key only exists in en-US to demonstrate fallback",
+      "value": "This text will fallback to English in other languages"
+    },
+    "interpolation": {
+      "title": "Variable Interpolation",
+      "value": "Hello, {{name}}!"
+    },
+    "plural": {
+      "title": "Pluralization",
+      "value": "You have {{count}} item",
+      "value_plural": "You have {{count}} items"
+    },
+    "formatting": {
+      "title": "Number Formatting",
+      "value": "Price: {{price, currency}}",
+      "percent": "Discount: {{val, percent}}"
+    },
+    "plugins": {
+      "title": "Plugin Transformations",
+      "text_upper": "hello world | upper",
+      "text_capitalize": "hello world | capitalize"
+    }
+  }
+}

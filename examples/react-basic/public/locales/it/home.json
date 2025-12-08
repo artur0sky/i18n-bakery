@@ -1,0 +1,42 @@
+{
+  "hero": {
+    "title": "i18n-bakery 🥯",
+    "subtitle": "Traduzioni fresche, cotte alla perfezione",
+    "description": "Una libreria di internazionalizzazione leggera e type-safe per applicazioni React moderne"
+  },
+  "nav": {
+    "showcase": {
+      "title": "Dimostrazione",
+      "description": "Guarda i18n-bakery in azione con esempi dal vivo"
+    },
+    "docs": {
+      "title": "Documentazione",
+      "description": "Impara come usare i18n-bakery nei tuoi progetti"
+    },
+    "github": {
+      "title": "GitHub",
+      "description": "Visualizza il codice sorgente e contribuisci"
+    }
+  },
+  "features": {
+    "title": "Caratteristiche Principali",
+    "items": {
+      "multilang": {
+        "title": "Supporto Multi-lingua",
+        "description": "Supporto per più lingue con fallback automatici"
+      },
+      "performance": {
+        "title": "Alte Prestazioni",
+        "description": "Ottimizzato per la velocità con dimensioni del bundle minime"
+      },
+      "plugins": {
+        "title": "Sistema di Plugin",
+        "description": "Estendi le funzionalità con plugin personalizzati"
+      },
+      "typesafe": {
+        "title": "Sicurezza dei Tipi",
+        "description": "Supporto completo TypeScript con traduzioni type-safe"
+      }
+    }
+  }
+}

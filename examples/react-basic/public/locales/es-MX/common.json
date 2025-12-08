@@ -1,0 +1,17 @@
+{
+  "description": "Una solución moderna de i18n para aplicaciones React",
+  "welcome": "Bienvenido a i18n-bakery",
+  "nav": {
+    "home": "Inicio",
+    "showcase": "Demostración",
+    "docs": "Documentación"
+  },
+  "errors": {
+    "not_found": "Página no encontrada",
+    "go_home": "Volver al inicio"
+  },
+  "footer": {
+    "powered_by": "Desarrollado con",
+    "version": "Versión {{version}}"
+  }
+}

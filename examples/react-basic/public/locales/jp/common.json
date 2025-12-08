@@ -1,0 +1,17 @@
+{
+  "description": "Reactアプリケーション向けのモダンなi18nソリューション",
+  "welcome": "i18n-bakeryへようこそ",
+  "nav": {
+    "home": "ホーム",
+    "showcase": "デモ",
+    "docs": "ドキュメント"
+  },
+  "errors": {
+    "not_found": "ページが見つかりません",
+    "go_home": "ホームに戻る"
+  },
+  "footer": {
+    "powered_by": "開発元",
+    "version": "バージョン {{version}}"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Entendiendo los Namespaces",
+  "colon": {
+    "title": "Sintaxis de Dos Puntos (:)",
+    "description": "Usa dos puntos para especificar de qué archivo de namespace cargar las traducciones",
+    "example_label": "Ejemplos de sintaxis de namespace"
+  },
+  "dot": {
+    "title": "Sintaxis de Punto (.)",
+    "description": "Usa puntos para navegar claves anidadas dentro de un namespace",
+    "example_label": "Ejemplos de claves anidadas"
+  }
+}

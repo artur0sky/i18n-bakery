@@ -1,0 +1,35 @@
+{
+  "page": {
+    "title": "Demostración",
+    "description": "Ejemplos interactivos demostrando las características de i18n-bakery"
+  },
+  "tests": {
+    "basic": {
+      "title": "Traducción Básica",
+      "value": "¡Hola, Mundo!"
+    },
+    "fallback": {
+      "title": "Comportamiento de Respaldo",
+      "hint": "Esta clave solo existe en en-US para demostrar el respaldo"
+    },
+    "interpolation": {
+      "title": "Interpolación de Variables",
+      "value": "¡Hola, {{name}}!"
+    },
+    "plural": {
+      "title": "Pluralización",
+      "value": "Tienes {{count}} artículo",
+      "value_plural": "Tienes {{count}} artículos"
+    },
+    "formatting": {
+      "title": "Formato de Números",
+      "value": "Precio: {{price, currency}}",
+      "percent": "Descuento: {{val, percent}}"
+    },
+    "plugins": {
+      "title": "Transformaciones de Plugins",
+      "text_upper": "hola mundo | upper",
+      "text_capitalize": "hola mundo | capitalize"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "hero": {
+    "title": "i18n-bakery 🥯",
+    "subtitle": "完璧に焼き上げられた新鮮な翻訳",
+    "description": "モダンなReactアプリケーション向けの軽量で型安全な国際化ライブラリ"
+  },
+  "nav": {
+    "showcase": {
+      "title": "デモ",
+      "description": "ライブ例でi18n-bakeryの動作を確認"
+    },
+    "docs": {
+      "title": "ドキュメント",
+      "description": "プロジェクトでi18n-bakeryを使用する方法を学ぶ"
+    },
+    "github": {
+      "title": "GitHub",
+      "description": "ソースコードを表示して貢献する"
+    }
+  },
+  "features": {
+    "title": "主な機能",
+    "items": {
+      "multilang": {
+        "title": "多言語サポート",
+        "description": "自動フォールバック付きの複数言語サポート"
+      },
+      "performance": {
+        "title": "高性能",
+        "description": "最小限のバンドルサイズで速度を最適化"
+      },
+      "plugins": {
+        "title": "プラグインシステム",
+        "description": "カスタムプラグインで機能を拡張"
+      },
+      "typesafe": {
+        "title": "型安全性",
+        "description": "型安全な翻訳を備えた完全なTypeScriptサポート"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Best Practices",
+  "items": {
+    "organize": {
+      "title": "Organize by Feature",
+      "description": "Group translations by page or feature for better maintainability"
+    },
+    "consistent": {
+      "title": "Use Consistent Naming",
+      "description": "Follow a consistent naming convention for your translation keys"
+    },
+    "namespace": {
+      "title": "Leverage Namespaces",
+      "description": "Use namespaces to avoid key conflicts and improve code organization"
+    }
+  }
+}

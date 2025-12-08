@@ -1,0 +1,13 @@
+{
+  "title": "Understanding Namespaces",
+  "colon": {
+    "title": "Colon Syntax (:)",
+    "description": "Use colons to specify which namespace file to load translations from",
+    "example_label": "Examples of namespace syntax"
+  },
+  "dot": {
+    "title": "Dot Syntax (.)",
+    "description": "Use dots to navigate nested keys within a namespace",
+    "example_label": "Examples of nested keys"
+  }
+}

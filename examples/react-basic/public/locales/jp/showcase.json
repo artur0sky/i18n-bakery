@@ -1,0 +1,34 @@
+{
+  "page": {
+    "title": "デモ",
+    "description": "i18n-bakeryの機能を示すインタラクティブな例"
+  },
+  "tests": {
+    "basic": {
+      "title": "基本的な翻訳",
+      "value": "こんにちは、世界！"
+    },
+    "fallback": {
+      "title": "フォールバック動作",
+      "hint": "このキーはen-USにのみ存在し、フォールバックを示します"
+    },
+    "interpolation": {
+      "title": "変数の補間",
+      "value": "こんにちは、{{name}}さん！"
+    },
+    "plural": {
+      "title": "複数形",
+      "value": "{{count}}個のアイテムがあります"
+    },
+    "formatting": {
+      "title": "数値のフォーマット",
+      "value": "価格：{{price, currency}}",
+      "percent": "割引：{{val, percent}}"
+    },
+    "plugins": {
+      "title": "プラグイン変換",
+      "text_upper": "こんにちは世界 | upper",
+      "text_capitalize": "こんにちは世界 | capitalize"
+    }
+  }
+}

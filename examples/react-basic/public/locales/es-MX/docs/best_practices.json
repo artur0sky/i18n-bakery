@@ -1,0 +1,17 @@
+{
+  "title": "Mejores Prácticas",
+  "items": {
+    "organize": {
+      "title": "Organizar por Característica",
+      "description": "Agrupa las traducciones por página o característica para mejor mantenibilidad"
+    },
+    "consistent": {
+      "title": "Usa Nomenclatura Consistente",
+      "description": "Sigue una convención de nomenclatura consistente para tus claves de traducción"
+    },
+    "namespace": {
+      "title": "Aprovecha los Namespaces",
+      "description": "Usa namespaces para evitar conflictos de claves y mejorar la organización del código"
+    }
+  }
+}

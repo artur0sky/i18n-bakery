@@ -1,0 +1,13 @@
+{
+  "title": "Estructura de Archivos",
+  "description": "Organiza tus traducciones creando archivos JSON separados para cada namespace",
+  "explorer_title": "Estructura del Proyecto",
+  "files": {
+    "home": "Traducciones de la página de inicio",
+    "showcase": "Traducciones de la página de demostración",
+    "docs": "Traducciones de documentación",
+    "common": "Traducciones compartidas",
+    "actions": "Acciones del usuario",
+    "features": "Descripciones de características"
+  }
+}

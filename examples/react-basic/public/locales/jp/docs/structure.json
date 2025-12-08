@@ -1,0 +1,13 @@
+{
+  "title": "ファイル構造",
+  "description": "各名前空間ごとに個別のJSONファイルを作成して翻訳を整理します",
+  "explorer_title": "プロジェクト構造",
+  "files": {
+    "home": "ホームページの翻訳",
+    "showcase": "デモページの翻訳",
+    "docs": "ドキュメントの翻訳",
+    "common": "共有翻訳",
+    "actions": "ユーザーアクション",
+    "features": "機能の説明"
+  }
+}
