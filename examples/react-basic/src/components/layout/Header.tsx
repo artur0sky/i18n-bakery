@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
       
       <div className="flex items-center gap-3 bg-white p-2 rounded-lg border border-gray-200 shadow-sm">
         <label htmlFor="locale-select" className="font-medium text-gray-700 text-sm pl-2">
-          {t('actions:switch_language')}:
+          {t('common:actions:switch_language')}:
         </label>
         <div className="relative">
           <select 

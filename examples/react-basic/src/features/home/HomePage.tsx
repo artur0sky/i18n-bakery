@@ -3,20 +3,20 @@ import { useTranslation } from '@i18n-bakery/react';
 import { Link } from 'wouter';
 
 export const HomePage: React.FC = () => {
-  const { t } = useTranslation('home');
+  const { t } = useTranslation();
 
   return (
     <div className="max-w-4xl mx-auto">
       {/* Using home namespace with nested keys */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          {t('hero.title')}
+          {t('home:hero.title')}
         </h1>
         <p className="text-xl text-gray-600 mb-8">
-          {t('hero.subtitle')}
+          {t('home:hero.subtitle')}
         </p>
         <p className="text-gray-500">
-          {t('hero.description')}
+          {t('home:hero.description')}
         </p>
       </div>
 
@@ -25,10 +25,10 @@ export const HomePage: React.FC = () => {
         <Link href="/showcase">
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              {t('navigation.showcase.title')}
+              {t('home:nav.showcase.title')}
             </h3>
             <p className="text-sm text-gray-600">
-              {t('navigation.showcase.description')}
+              {t('home:nav.showcase.description')}
             </p>
           </div>
         </Link>
@@ -36,10 +36,10 @@ export const HomePage: React.FC = () => {
         <Link href="/docs">
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              {t('navigation.docs.title')}
+              {t('home:nav.docs.title')}
             </h3>
             <p className="text-sm text-gray-600">
-              {t('navigation.docs.description')}
+              {t('home:nav.docs.description')}
             </p>
           </div>
         </Link>
@@ -47,10 +47,10 @@ export const HomePage: React.FC = () => {
         <a href="https://github.com/artur0sky/i18n-bakery" target="_blank" rel="noopener noreferrer">
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              {t('navigation.github.title')}
+              {t('home:nav.github.title')}
             </h3>
             <p className="text-sm text-gray-600">
-              {t('navigation.github.description')}
+              {t('home:nav.github.description')}
             </p>
           </div>
         </a>
@@ -59,35 +59,35 @@ export const HomePage: React.FC = () => {
       {/* Features section */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-xl">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          {t('features.title')}
+          {t('home:features.title')}
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
           <div className="flex items-start gap-3">
             <span className="text-2xl">🌍</span>
             <div>
-              <h4 className="font-semibold text-gray-900">{t('features.items.multilang.title')}</h4>
-              <p className="text-sm text-gray-600">{t('features.items.multilang.description')}</p>
+              <h4 className="font-semibold text-gray-900">{t('home:features.items.multilang.title')}</h4>
+              <p className="text-sm text-gray-600">{t('home:features.items.multilang.description')}</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
             <span className="text-2xl">⚡</span>
             <div>
-              <h4 className="font-semibold text-gray-900">{t('features.items.performance.title')}</h4>
-              <p className="text-sm text-gray-600">{t('features.items.performance.description')}</p>
+              <h4 className="font-semibold text-gray-900">{t('home:features.items.performance.title')}</h4>
+              <p className="text-sm text-gray-600">{t('home:features.items.performance.description')}</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
             <span className="text-2xl">🔌</span>
             <div>
-              <h4 className="font-semibold text-gray-900">{t('features.items.plugins.title')}</h4>
-              <p className="text-sm text-gray-600">{t('features.items.plugins.description')}</p>
+              <h4 className="font-semibold text-gray-900">{t('home:features.items.plugins.title')}</h4>
+              <p className="text-sm text-gray-600">{t('home:features.items.plugins.description')}</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
             <span className="text-2xl">🎯</span>
             <div>
-              <h4 className="font-semibold text-gray-900">{t('features.items.typesafe.title')}</h4>
-              <p className="text-sm text-gray-600">{t('features.items.typesafe.description')}</p>
+              <h4 className="font-semibold text-gray-900">{t('home:features.items.typesafe.title')}</h4>
+              <p className="text-sm text-gray-600">{t('home:features.items.typesafe.description')}</p>
             </div>
           </div>
         </div>

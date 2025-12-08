@@ -13,46 +13,46 @@ export const ShowcasePage: React.FC = () => {
     <div className="max-w-5xl mx-auto">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          {t('page.title')}
+          {t('showcase:page.title')}
         </h1>
         <p className="text-gray-600">
-          {t('page.description')}
+          {t('showcase:page.description')}
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Basic Translation */}
-        <Card title={t('tests.basic_title')}>
+        <Card title={t('showcase:tests.basic.title')}>
           <TestItem 
             label="Key exists" 
-            value={t('tests.basic')} 
+            value={t('showcase:tests.basic.value')} 
             status="success"
           />
         </Card>
 
         {/* Fallback Behavior */}
-        <Card title={t('tests.fallback_title')}>
+        <Card title={t('showcase:tests.fallback.title')}>
           <p className="text-sm text-gray-500 mb-4">
-            {t('tests.fallback_hint')}
+            {t('showcase:tests.fallback.hint')}
           </p>
           <TestItem 
             label="Fallback to en-US" 
-            value={t('tests.fallback')}
+            value={t('showcase:tests.fallback.value')}
             status="warning"
             note="(Missing in es-MX)"
           />
         </Card>
 
         {/* Interpolation */}
-        <Card title={t('interpolation_title')}>
+        <Card title={t('showcase:tests.interpolation.title')}>
           <TestItem 
             label="Simple Variable" 
-            value={t('interpolation', { name: 'Baker' })} 
+            value={t('showcase:tests.interpolation.value', { name: 'Baker' })} 
           />
         </Card>
 
         {/* Pluralization */}
-        <Card title={t('plural_title')}>
+        <Card title={t('showcase:tests.plural.title')}>
           <div className="flex gap-3 items-center mb-4 bg-gray-50 p-2 rounded-lg border border-gray-100 w-fit">
             <Button onClick={decrement} variant="secondary" className="w-8 h-8 flex items-center justify-center p-0">-</Button>
             <span className="font-bold text-lg min-w-[24px] text-center">{count}</span>
@@ -60,36 +60,36 @@ export const ShowcasePage: React.FC = () => {
           </div>
           <TestItem 
             label="Result" 
-            value={t('plural', { count })} 
+            value={t('showcase:tests.plural.value', { count })} 
             status="success"
           />
         </Card>
 
         {/* Formatting */}
-        <Card title={t('formatting_title')}>
+        <Card title={t('showcase:tests.formatting.title')}>
           <TestItem 
             label="Currency (USD)" 
-            value={t('currency', { price: 1234.56 })} 
+            value={t('showcase:tests.formatting.value', { price: 1234.56 })} 
           />
           <TestItem 
             label="Percentage" 
-            value={t('percent', { val: 12.5 })} 
+            value={t('showcase:tests.formatting.percent', { val: 12.5 })} 
           />
         </Card>
 
         {/* Plugins */}
-        <Card title={t('capitalize_title')}>
+        <Card title={t('showcase:tests.plugins.title')}>
           <TestItem 
             label="Original" 
             value="hello world"
           />
           <TestItem 
             label="Uppercase" 
-            value={t('text_upper')} 
+            value={t('showcase:tests.plugins.text_upper')} 
           />
           <TestItem 
             label="Capitalize" 
-            value={t('text_capitalize')} 
+            value={t('showcase:tests.plugins.text_capitalize')} 
           />
         </Card>
       </div>

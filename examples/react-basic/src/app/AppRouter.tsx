@@ -15,9 +15,9 @@ export const AppRouter: React.FC = () => {
   };
 
   const navItems = [
-    { path: '/', label: t('nav.home') },
-    { path: '/showcase', label: t('nav.showcase') },
-    { path: '/docs', label: t('nav.docs') },
+    { path: '/', label: t('common:nav.home') },
+    { path: '/showcase', label: t('common:nav.showcase') },
+    { path: '/docs', label: t('common:nav.docs') },
   ];
 
   return (
@@ -94,12 +94,12 @@ export const AppRouter: React.FC = () => {
           <Route>
             <div className="text-center py-12">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">404</h1>
-              <p className="text-gray-600 mb-6">{t('errors.not_found')}</p>
+              <p className="text-gray-600 mb-6">{t('common:errors.not_found')}</p>
               <Link 
                 href="/"
                 className="text-blue-600 hover:text-blue-700 font-medium"
               >
-                {t('errors.go_home')}
+                {t('common:errors.go_home')}
               </Link>
             </div>
           </Route>
@@ -110,8 +110,8 @@ export const AppRouter: React.FC = () => {
       <footer className="bg-white border-t border-gray-200 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="text-center text-sm text-gray-500">
-            <p>{t('footer.powered_by')} <span className="font-semibold">i18n-bakery 🥯</span></p>
-            <p className="mt-1">{t('footer.version', { version: '1.0.5' })}</p>
+            <p>{t('common:footer.powered_by')} <span className="font-semibold">i18n-bakery 🥯</span></p>
+            <p className="mt-1">{t('common:footer.version', { version: '1.0.5' })}</p>
           </div>
         </div>
       </footer>
