@@ -84,9 +84,29 @@ export class BakingManager {
         }
 
         this.logger.info(`Baking locale: ${locale}...`);
-        // Recursive glob to find all json files
-        const globPath = path.join(localePath, '**/*.json').replace(/\\/g, '/');
-        const files = await glob(globPath);
+        
+        // Detect format by checking for .toml or .json files
+        const tomlGlobPath = path.join(localePath, '**/*.toml').replace(/\\/g, '/');
+        const jsonGlobPath = path.join(localePath, '**/*.json').replace(/\\/g, '/');
+        
+        const tomlFiles = await glob(tomlGlobPath);
+        const jsonFiles = await glob(jsonGlobPath);
+        
+        let files: string[] = [];
+        let format: 'json' | 'toml' = 'json';
+        
+        if (tomlFiles.length > 0 && jsonFiles.length === 0) {
+          files = tomlFiles;
+          format = 'toml';
+          this.logger.info(`  Detected TOML format`);
+        } else if (jsonFiles.length > 0) {
+          files = jsonFiles;
+          format = 'json';
+          this.logger.info(`  Detected JSON format`);
+        } else {
+          this.logger.warn(`  No translation files found for locale ${locale}`);
+          continue;
+        }
         
         const bundle: Record<string, any> = {};
         const namespaceFiles: Record<string, any> = {};
@@ -95,8 +115,18 @@ export class BakingManager {
           // Derive namespace from relative path
           // e.g. locales/en-US/docs/namespaces.json -> docs/namespaces
           const relativePath = path.relative(localePath, file);
-          const namespace = relativePath.replace(/\\/g, '/').replace(/\.json$/, '');
-          const content = await fs.readJson(file);
+          const namespace = relativePath.replace(/\\/g, '/').replace(/\.(json|toml)$/, '');
+          
+          let content: any;
+          if (format === 'toml') {
+            const { TOMLFileSaver } = await import('../adapters/TOMLFileSaver');
+            const tomlContent = await fs.readFile(file, 'utf-8');
+            const saver = new TOMLFileSaver(localePath);
+            content = saver.parseTOML(tomlContent);
+          } else {
+            content = await fs.readJson(file);
+          }
+          
           bundle[namespace] = content;
           namespaceFiles[namespace] = content;
         }
