@@ -35,20 +35,8 @@ export * from './adapters/MemoryStore';
 export * from './adapters/MustacheFormatter';
 export * from './adapters/ICUMessageFormatter';
 export * from './adapters/ConsoleSaver';
-export * from './adapters/node/JSONFileSaver';
-
-// Phase 7 - Advanced Key Engine
-export * from './adapters/DefaultKeyParser';
-export * from './adapters/FileSystemPathResolver';
-
-// Phase 8 - Variable Detection
-export * from './adapters/DefaultVariableDetector';
-export * from './adapters/MemoryTranslationEntryManager';
-
 // Phase 9 - File Auto-creation
-export * from './adapters/JSONFileWriter';
-export * from './adapters/NodeFileSystemManager';
-export * from './use-cases/TranslationFileManager';
+// Moved to @i18n-bakery/baker
 
 // Pluralization
 export * from './adapters/SuffixPluralResolver';

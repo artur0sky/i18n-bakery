@@ -79,12 +79,7 @@ export interface Store {
   getAll(locale: Locale): NamespaceMap;
 }
 
-// Re-export Phase 7 & 8 interfaces
-export * from './KeyParser';
-export * from './VariableDetection';
-
-// Re-export Phase 9 interfaces
-export * from './FileWriter';
+// Re-export Pluralization interfaces
 
 // Re-export Pluralization interfaces
 export * from './Pluralization';
