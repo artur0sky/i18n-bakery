@@ -4,6 +4,8 @@ export * from './domain/VariableDetection';
 export * from './adapters/NodeFileSystemManager';
 export * from './adapters/JSONFileWriter';
 export * from './adapters/JSONFileSaver';
+export * from './adapters/TOMLFileWriter';
+export * from './adapters/TOMLFileSaver';
 export * from './adapters/FileSystemPathResolver';
 export * from './adapters/DefaultKeyParser';
 export * from './adapters/DefaultVariableDetector';
