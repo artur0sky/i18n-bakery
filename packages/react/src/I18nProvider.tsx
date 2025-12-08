@@ -30,8 +30,10 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ config, children }) 
   const [tick, setTick] = useState(0); // Force update state
 
   useEffect(() => {
+    (i18n as any).getLogger().debug('[React-I18n] Provider mounted');
     // Subscribe to i18n service changes (loaded translations, etc.)
     const unsubscribe = i18n.subscribe(() => {
+      (i18n as any).getLogger().debug(`[React-I18n] Update triggered`);
       // Force update by incrementing tick
       setTick(t => t + 1);
     });
@@ -39,6 +41,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ config, children }) 
   }, [i18n]);
 
   const setLocale = async (newLocale: string) => {
+    (i18n as any).getLogger().info(`[React-I18n] Setting locale to ${newLocale}`);
     setIsLoading(true);
     try {
       await i18n.setLocale(newLocale);
