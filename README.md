@@ -291,12 +291,12 @@ t("home.title", "Welcome");
 // → locales/en/home.json → { "title": "Welcome" }
 
 // Nested: namespace:directory.key
-t("orders:meal.title", "Pizza");
-// → locales/en/orders/meal.json → { "title": "Pizza" }
+t("shop:bread.title", "Sourdough");
+// → locales/en/shop/bread.json → { "title": "Sourdough" }
 
-// Deep nesting: app:features:orders:meal.component.title
-t("app:features:orders:meal.component.title", "Order Pizza");
-// → locales/en/app/features/orders/meal/component.json
+// Deep nesting: app:features:shop:bread.component.title
+t("app:features:shop:bread.component.title", "Order Sourdough");
+// → locales/en/app/features/shop/bread/component.json
 ```
 
 ### Translation Variants (Multiple Recipes)
@@ -304,18 +304,18 @@ t("app:features:orders:meal.component.title", "Order Pizza");
 Same key, different variable combinations:
 
 ```typescript
-// Variant 1: Just the meal
-t('meal.title', '{{meal}}', { meal: 'Pizza' });
+// Variant 1: Just the bread
+t('bread.title', '{{bread}}', { bread: 'Croissant' });
 
-// Variant 2: Meal with price
-t('meal.title', '{{meal}} - ${{price}}', { meal: 'Pizza', price: 12 });
+// Variant 2: Bread with price
+t('bread.title', '{{bread}} - ${{price}}', { bread: 'Croissant', price: 4.50 });
 
 // Stored as:
 {
   "title": {
     "variants": {
-      "meal": { "value": "{{meal}}", "variables": ["meal"] },
-      "meal_price": { "value": "{{meal}} - ${{price}}", "variables": ["meal", "price"] }
+      "bread": { "value": "{{bread}}", "variables": ["bread"] },
+      "bread_price": { "value": "{{bread}} - ${{price}}", "variables": ["bread", "price"] }
     }
   }
 }
@@ -402,9 +402,9 @@ function ShoppingCart() {
 
   return (
     <div>
-      <h2>{t("cart.title", "Shopping Cart")}</h2>
-      <p>{t("cart.items", { count: itemCount })}</p>
-      <button>{t("cart.checkout", "Checkout")}</button>
+      <h2>{t("basket.title", "Order Basket")}</h2>
+      <p>{t("basket.items", { count: itemCount })}</p>
+      <button>{t("basket.checkout", "Checkout")}</button>
     </div>
   );
 }
