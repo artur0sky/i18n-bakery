@@ -70,6 +70,10 @@ export class I18nService {
     return this.currentLocale;
   }
 
+  public getLogger(): Logger {
+    return this.logger;
+  }
+
   public subscribe(listener: () => void): () => void {
     this.listeners.add(listener);
     return () => {
