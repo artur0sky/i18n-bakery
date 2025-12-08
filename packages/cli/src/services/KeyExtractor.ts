@@ -2,7 +2,7 @@ import { parse } from '@babel/parser';
 import traverse from '@babel/traverse';
 import * as t from '@babel/types';
 import fs from 'fs-extra';
-import { ExtractedKey } from '../domain/types';
+import { ExtractedKey } from '@i18n-bakery/baker';
 
 export class KeyExtractor {
   async extractFromFile(filePath: string): Promise<ExtractedKey[]> {

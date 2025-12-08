@@ -1,8 +1,7 @@
 import { glob } from 'glob';
 import path from 'path';
 import fs from 'fs-extra';
-import { KeyExtractor } from '../services/KeyExtractor';
-import { ExtractedKey } from '../domain/types';
+import { BabelKeyExtractor, ExtractedKey } from '@i18n-bakery/baker';
 import { logger } from '../services/Logger';
 
 /**
@@ -68,7 +67,7 @@ export async function batter(source: string, options: BatterOptions) {
   const locales = options.locale.split(',').map(l => l.trim());
   locales.forEach(l => validatePathSegment(l, 'locale'));
 
-  const extractor = new KeyExtractor();
+  const extractor = new BabelKeyExtractor();
   const files = await glob(`${source}/**/*.{js,jsx,ts,tsx}`, { ignore: ['**/*.d.ts', '**/node_modules/**'] });
 
   logger.cyan(`Found ${files.length} files to scan...`);

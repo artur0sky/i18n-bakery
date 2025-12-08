@@ -49,6 +49,8 @@
         "@babel/parser": "7.23.6",
         "@babel/traverse": "7.23.6",
         "@babel/types": "7.23.6",
+        "@i18n-bakery/baker": "workspace:*",
+        "@i18n-bakery/core": "workspace:*",
         "cac": "6.7.14",
         "chalk": "4.1.2",
         "fs-extra": "11.2.0",
