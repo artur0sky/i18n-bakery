@@ -34,7 +34,7 @@ export * from './use-cases/I18nService';
 export * from './adapters/MemoryStore';
 export * from './adapters/MustacheFormatter';
 export * from './adapters/ICUMessageFormatter';
-export * from './adapters/ConsoleSaver';
+export * from './adapters/TOMLLoader';
 // Phase 9 - File Auto-creation
 // Moved to @i18n-bakery/baker
 
