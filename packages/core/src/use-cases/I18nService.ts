@@ -7,6 +7,8 @@ import { SuffixPluralResolver } from '../adapters/SuffixPluralResolver';
 import { CLDRPluralResolver } from '../adapters/CLDRPluralResolver';
 import { PluginManager, PluginContext } from '../domain/Plugin';
 import { DefaultPluginManager } from '../adapters/DefaultPluginManager';
+import { Logger } from '../domain/Logger';
+import { ConsoleLogger } from '../adapters/ConsoleLogger';
 
 export class I18nService {
   private store: Store;
@@ -15,6 +17,7 @@ export class I18nService {
   private saver?: TranslationSaver;
   private pluralResolver: PluralResolver;
   private pluginManager: PluginManager;
+  private logger: Logger;
   
   private currentLocale: Locale;
   private fallbackLocale?: Locale;
@@ -39,6 +42,9 @@ export class I18nService {
     // Default adapters
     this.store = new MemoryStore();
     this.pluginManager = new DefaultPluginManager(this.debug);
+    this.logger = config.logger || new ConsoleLogger(this.debug);
+
+    this.logger.info(`Initialized with locale: ${this.currentLocale}`);
     
     // Initialize formatter based on messageFormat
     const messageFormat = config.messageFormat || 'mustache';
@@ -85,6 +91,7 @@ export class I18nService {
       data: { oldLocale, newLocale: locale }
     });
     
+    this.logger.info(`Locale changed from ${oldLocale} to ${locale}`);
     this.notifyListeners();
   }
 
@@ -290,11 +297,11 @@ export class I18nService {
     this.store.set(locale, namespace, key, value);
     
     this.pendingSaves.add(cacheKey);
-    if (this.debug) console.log(`[i18n-bakery] Missing key detected: ${cacheKey}. Saving...`);
+    this.logger.debug(`Missing key detected: ${cacheKey}. Saving...`);
 
     this.saver.save(locale, namespace, key, value)
       .catch(err => {
-        console.error(`[i18n-bakery] Failed to save missing key ${cacheKey}`, err);
+        this.logger.error(`Failed to save missing key ${cacheKey}`, err);
       })
       .finally(() => {
         this.pendingSaves.delete(cacheKey);
@@ -308,7 +315,7 @@ export class I18nService {
     if (this.loadedNamespaces.has(cacheKey)) return;
     if (this.pendingLoads.has(cacheKey)) return;
 
-    if (this.debug) console.log(`[i18n-bakery] Triggering load for ${cacheKey}`);
+    if (this.debug) this.logger.debug(`Triggering load for ${cacheKey}`);
 
     const promise = this.loader.load(locale, namespace)
       .then((data) => {
@@ -317,7 +324,7 @@ export class I18nService {
         }
       })
       .catch((err) => {
-        console.error(`[i18n-bakery] Failed to load ${cacheKey}`, err);
+        this.logger.error(`Failed to load ${cacheKey}`, err);
       })
       .finally(() => {
         this.pendingLoads.delete(cacheKey);

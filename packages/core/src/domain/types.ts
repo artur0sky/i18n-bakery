@@ -1,3 +1,4 @@
+import { Logger } from './Logger';
 export type Locale = string;
 export type Namespace = string;
 export type Key = string;
@@ -19,6 +20,7 @@ export interface I18nConfig {
   saver?: TranslationSaver; // New Port
   saveMissing?: boolean;    // Feature Flag
   debug?: boolean;
+  logger?: Logger;          // Logger Port
   /**
    * Default namespace to use when no namespace is specified in the key.
    * If not set, keys without namespace will use a file named after the locale (e.g., 'en-US.json').
@@ -89,3 +91,7 @@ export * from './Pluralization';
 
 // Re-export Plugin interfaces
 export * from './Plugin';
+
+// Logger
+export * from './Logger';
+export * from '../adapters/ConsoleLogger';
