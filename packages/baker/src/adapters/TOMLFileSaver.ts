@@ -126,7 +126,7 @@ export class TOMLFileSaver implements TranslationSaver {
    * @param prefix - Current key prefix for nested tables
    * @returns TOML string
    */
-  private stringifyTOML(obj: any, prefix: string = ''): string {
+  public stringifyTOML(obj: any, prefix: string = ''): string {
     const lines: string[] = [];
     const tables: string[] = [];
 
@@ -172,7 +172,7 @@ export class TOMLFileSaver implements TranslationSaver {
    * @param tomlString - TOML string to parse
    * @returns Parsed object
    */
-  private parseTOML(tomlString: string): Record<string, any> {
+  public parseTOML(tomlString: string): Record<string, any> {
     const result: Record<string, any> = {};
     const lines = tomlString.split('\n');
     
