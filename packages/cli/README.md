@@ -1,6 +1,6 @@
 # 🔧 @i18n-bakery/cli
 
-> *"Professional kitchen tools for your translation bakery. Automate extraction, compilation, and maintenance."*
+> _"Professional kitchen tools for your translation bakery. Automate extraction, compilation, and maintenance."_
 
 Command-line tools for **i18n-bakery** - your automated baker's assistant. Extract translation keys from your codebase, compile translation files, validate consistency, and maintain your translation pantry with ease.
 
@@ -34,6 +34,7 @@ npx i18n-bakery batter src --locale en
 ```
 
 This will:
+
 - 🔍 Find all `t()` calls in your code
 - 📝 Extract keys and default values
 - 📁 Create/update JSON files organized by namespace
@@ -48,6 +49,7 @@ npx i18n-bakery bake
 ```
 
 This will:
+
 - ✅ Validate all translation files
 - 🗜️ Minify JSON for production
 - 🧹 Remove orphaned keys (optional)
@@ -59,7 +61,7 @@ This will:
 
 ### `batter` - Extract & Mix Ingredients
 
-> *"Like a mixer that knows exactly what ingredients you need."*
+> _"Like a mixer that knows exactly what ingredients you need."_
 
 Scans your source code and extracts translation keys.
 
@@ -90,31 +92,37 @@ Options:
 #### Examples
 
 **Basic extraction:**
+
 ```bash
 npx i18n-bakery batter src --locale en
 ```
 
 **Custom output directory:**
+
 ```bash
 npx i18n-bakery batter src --locale en --output ./public/locales
 ```
 
 **Specific file extensions:**
+
 ```bash
 npx i18n-bakery batter src --locale en --extensions ts,tsx
 ```
 
 **Custom glob pattern:**
+
 ```bash
 npx i18n-bakery batter src --locale en --pattern "**/*.{ts,tsx}"
 ```
 
 **Flat file structure:**
+
 ```bash
 npx i18n-bakery batter src --locale en --structure flat
 ```
 
 **Dry run (preview):**
+
 ```bash
 npx i18n-bakery batter src --locale en --dry-run
 ```
@@ -125,23 +133,23 @@ The `batter` command finds all `t()` function calls:
 
 ```typescript
 // Simple translation
-t('home.title', 'Welcome');
+t("home.title", "Welcome");
 // ✓ Extracts: { key: 'home.title', default: 'Welcome' }
 
 // With variables
-t('greeting', 'Hello, {{name}}!', { name: 'World' });
+t("greeting", "Hello, {{name}}!", { name: "World" });
 // ✓ Extracts: { key: 'greeting', default: 'Hello, {{name}}!' }
 
 // With namespace
-t('auth:login.button', 'Sign In');
+t("auth:login.button", "Sign In");
 // ✓ Extracts: { key: 'auth:login.button', default: 'Sign In' }
 
 // With pluralization
-t('items', { count: 5 });
+t("items", { count: 5 });
 // ✓ Extracts: { key: 'items', requiresPlural: true }
 
 // ICU MessageFormat
-t('cart', '{count, plural, one {# item} other {# items}}', { count: 1 });
+t("cart", "{count, plural, one {# item} other {# items}}", { count: 1 });
 // ✓ Extracts: { key: 'cart', default: '{count, plural, one {# item} other {# items}}' }
 ```
 
@@ -169,7 +177,7 @@ $ npx i18n-bakery batter src --locale en
 
 ### `bake` - Compile & Optimize
 
-> *"Transform raw ingredients into perfectly baked translations."*
+> _"Transform raw ingredients into perfectly baked translations."_
 
 Compiles and optimizes translation files for production.
 
@@ -198,26 +206,31 @@ Options:
 #### Examples
 
 **Basic compilation:**
+
 ```bash
 npx i18n-bakery bake
 ```
 
 **Custom directories:**
+
 ```bash
 npx i18n-bakery bake --input ./public/locales --output ./build/locales
 ```
 
 **With orphan removal:**
+
 ```bash
 npx i18n-bakery bake --remove-orphans
 ```
 
 **Skip minification:**
+
 ```bash
 npx i18n-bakery bake --no-minify
 ```
 
 **Generate detailed report:**
+
 ```bash
 npx i18n-bakery bake --report
 ```
@@ -225,18 +238,21 @@ npx i18n-bakery bake --report
 #### What It Does
 
 1. **Validates** all translation files
+
    - Checks JSON syntax
    - Validates key structure
    - Detects missing variables
    - Finds duplicate keys
 
 2. **Optimizes** for production
+
    - Minifies JSON (removes whitespace)
    - Sorts keys alphabetically
    - Removes comments
    - Validates ICU syntax
 
 3. **Cleans** (if enabled)
+
    - Removes orphaned keys
    - Removes empty namespaces
    - Consolidates duplicates
@@ -315,19 +331,16 @@ The CLI can generate detailed reports about your translations:
   "missingKeys": {
     "es": [
       "profile.settings.title",
-      "profile.settings.description",
+      "profile.settings.description"
       // ...
     ],
     "fr": [
       "profile.settings.title",
-      "profile.bio.placeholder",
+      "profile.bio.placeholder"
       // ...
     ]
   },
-  "orphanedKeys": [
-    "old.unused.key",
-    "deprecated.feature.title"
-  ]
+  "orphanedKeys": ["old.unused.key", "deprecated.feature.title"]
 }
 ```
 
@@ -343,33 +356,33 @@ Create a configuration file for consistent builds:
 module.exports = {
   // Batter (extraction) config
   batter: {
-    sourceDir: 'src',
-    outputDir: './locales',
-    defaultLocale: 'en',
-    extensions: ['ts', 'tsx', 'js', 'jsx'],
-    pattern: '**/*.{ts,tsx,js,jsx}',
-    structure: 'nested', // or 'flat'
-    exclude: ['**/*.test.ts', '**/*.spec.ts', '**/node_modules/**']
+    sourceDir: "src",
+    outputDir: "./locales",
+    defaultLocale: "en",
+    extensions: ["ts", "tsx", "js", "jsx"],
+    pattern: "**/*.{ts,tsx,js,jsx}",
+    structure: "nested", // or 'flat'
+    exclude: ["**/*.test.ts", "**/*.spec.ts", "**/node_modules/**"],
   },
-  
+
   // Bake (compilation) config
   bake: {
-    inputDir: './locales',
-    outputDir: './dist/locales',
+    inputDir: "./locales",
+    outputDir: "./dist/locales",
     minify: true,
     validate: true,
     removeOrphans: false,
     generateReport: true,
-    reportPath: './dist/i18n-report.json'
+    reportPath: "./dist/i18n-report.json",
   },
-  
+
   // Validation rules
   validation: {
     checkVariables: true,
     checkPlurals: true,
     checkICU: true,
-    allowEmptyValues: false
-  }
+    allowEmptyValues: false,
+  },
 };
 ```
 
@@ -416,21 +429,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-      
+          node-version: "18"
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Extract translations
         run: npm run i18n:extract
-      
+
       - name: Validate translations
         run: npm run i18n:validate
-      
+
       - name: Check for missing translations
         run: |
           if [ -f dist/i18n-report.json ]; then
@@ -460,17 +473,17 @@ Using `husky`:
 
 ```javascript
 // scripts/extract-i18n.js
-const { exec } = require('child_process');
-const fs = require('fs');
+const { exec } = require("child_process");
+const fs = require("fs");
 
-const locales = ['en', 'es', 'fr', 'de', 'ja'];
+const locales = ["en", "es", "fr", "de", "ja"];
 
 async function extractAll() {
-  console.log('🥯 Extracting translations for all locales...\n');
-  
+  console.log("🥯 Extracting translations for all locales...\n");
+
   for (const locale of locales) {
     console.log(`📝 Extracting ${locale}...`);
-    
+
     await new Promise((resolve, reject) => {
       exec(
         `npx i18n-bakery batter src --locale ${locale}`,
@@ -486,8 +499,8 @@ async function extractAll() {
       );
     });
   }
-  
-  console.log('\n✨ All translations extracted!');
+
+  console.log("\n✨ All translations extracted!");
 }
 
 extractAll().catch(console.error);
@@ -497,20 +510,18 @@ extractAll().catch(console.error);
 
 ```javascript
 // scripts/check-translation-coverage.js
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 const REQUIRED_COVERAGE = 90; // 90%
 
-const report = JSON.parse(
-  fs.readFileSync('./dist/i18n-report.json', 'utf-8')
-);
+const report = JSON.parse(fs.readFileSync("./dist/i18n-report.json", "utf-8"));
 
 let failed = false;
 
 for (const [locale, data] of Object.entries(report.summary)) {
-  if (locale === 'en') continue; // Skip base locale
-  
+  if (locale === "en") continue; // Skip base locale
+
   if (data.coverage < REQUIRED_COVERAGE) {
     console.error(
       `❌ ${locale}: ${data.coverage}% coverage (required: ${REQUIRED_COVERAGE}%)`
@@ -518,9 +529,7 @@ for (const [locale, data] of Object.entries(report.summary)) {
     console.error(`   Missing ${data.missing} keys`);
     failed = true;
   } else {
-    console.log(
-      `✅ ${locale}: ${data.coverage}% coverage`
-    );
+    console.log(`✅ ${locale}: ${data.coverage}% coverage`);
   }
 }
 
@@ -574,6 +583,6 @@ MIT © Arturo Sáenz
 
 **🔧 Professional tools for your internationalization bakery**
 
-*Made with ❤️ and AST parsing*
+_Made with 🍩 and AST parsing_
 
 </div>
