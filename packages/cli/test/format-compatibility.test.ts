@@ -221,10 +221,20 @@ function NewComponent() {
         verbose: false,
       });
 
-      // Convert TOML to JSON for baking (BakingManager currently only supports JSON)
-      // This test will need to be updated once BakingManager supports TOML
-      // For now, we'll skip this test
-      // TODO: Update BakingManager to support TOML source files
+      // Then bake TOML files
+      await bake(LOCALES_DIR, {
+        out: DIST_DIR,
+        verbose: false,
+      });
+
+      const compiledFile = path.join(DIST_DIR, 'en.json');
+      expect(await fs.pathExists(compiledFile)).toBe(true);
+
+      const content = await fs.readJson(compiledFile);
+      expect(content).toHaveProperty('common');
+      expect(content.common).toHaveProperty('welcome');
+      expect(content).toHaveProperty('actions');
+      expect(content.actions).toHaveProperty('save');
     });
   });
 
