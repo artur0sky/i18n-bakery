@@ -5,6 +5,42 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6] - 2025-12-07 (The Nested Baker)
+
+### 🚀 Fresh from the Oven
+ **Enhanced Compatibility (Core & React):**
+  - **Argument Overloading:** `t()` function now supports `t(key, options)` style, aligning with i18next patterns.
+  - **Default Value Support:** Pass `defaultValue` directly in the options object: `t('key', { defaultValue: 'Hello' })`.
+  - **Flexible Destructuring:** `useTranslation` hook now returns a hybrid array/object, allowing both `const { t } = useTranslation()` and `const [t] = useTranslation()`.
+- **Hierarchical Namespaces (CLI & Core):**
+  - **Nested Folders:** Support for organizing translation files in subdirectories (e.g., `locales/en/home/hero.json`).
+  - **Deep Key Resolution:** `t('home:hero.title')` correctly resolves to `home/hero` namespace.
+  - **Recursive Baking:** `bake` command now recursively finds all JSON files in the locale directory.
+  - **Smart Extraction:** `batter` command correctly infers nested namespaces from keys like `home:hero:title`.
+- **Nested Key Support (Core):**
+  - **Deep Property Access:** `MemoryStore` now supports dot notation for nested objects within a namespace (e.g., `t('common:errors.not_found')` resolves to `{ errors: { not_found: "..." } }`).
+  - **Recursive Types:** Updated `TranslationMap` to support infinite nesting depth.
+- **Improved Reactivity (React):**
+  - **Instant Updates:** `I18nProvider` now forces a re-render immediately when new translations are loaded.
+  - **Namespace Handling:** `useTranslation` correctly handles namespace prepending for nested keys.
+
+### 🔧 Ingredients (Technical Details)
+- **Core:**
+  - Updated `I18nService.t()` to detect if the second argument is an object and treat it as variables/options.
+  - Extracted `defaultValue` from the options object if present.
+  - Updated exported `t()` function signature in `index.ts`.
+  - Updated `MemoryStore.get()` to traverse nested objects.
+  - Updated `I18nService.addTranslations()` to accept recursive `TranslationMap`.
+  - Made `loadPath` optional in `HttpBackend`.
+- **CLI:**
+  - Updated `KeyExtractor` to split on the last colon for namespace inference.
+  - Updated `batter` to allow slashes in namespace names.
+  - Updated `bake` to use recursive glob patterns (`**/*.json`).
+  - Default `bake` source is now `public/locales`.
+- **React:**
+  - Added `notifyListeners()` call in `I18nService` after loading translations.
+  - Added `tick` state update in `I18nProvider` subscription.
+
 ## [1.0.5] - 2025-12-07 (The Multinational Bakery)
 
 ### 🌍 Fresh from the Oven
