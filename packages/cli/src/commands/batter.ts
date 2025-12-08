@@ -1,7 +1,7 @@
 import { glob } from 'glob';
 import path from 'path';
 import fs from 'fs-extra';
-import { BabelKeyExtractor, ExtractedKey } from '@i18n-bakery/baker';
+import { BabelKeyExtractor, ExtractedKey, TOMLFileSaver, JSONFileSaver } from '@i18n-bakery/baker';
 import { logger } from '../services/Logger';
 
 /**
@@ -52,6 +52,7 @@ function flatten(data: Record<string, any>, prefix = '', res: Record<string, str
 interface BatterOptions {
   locale: string;
   out: string;
+  format?: 'json' | 'toml';
   verbose?: boolean;
 }
 
@@ -99,6 +100,8 @@ export async function batter(source: string, options: BatterOptions) {
 
   // Merge and Save for each locale
   const outDir = path.isAbsolute(options.out) ? options.out : path.join(process.cwd(), options.out);
+  const format = options.format || 'json';
+  const fileExtension = format === 'toml' ? '.toml' : '.json';
 
   for (const locale of locales) {
     logger.section(`Processing locale: ${locale}...`);
@@ -111,7 +114,7 @@ export async function batter(source: string, options: BatterOptions) {
         ? namespace 
         : namespace;
       
-      const filePath = path.join(localeDir, `${namespacePath}.json`);
+      const filePath = path.join(localeDir, `${namespacePath}${fileExtension}`);
       
       // Ensure directory exists for nested namespaces
       await fs.ensureDir(path.dirname(filePath));
@@ -120,7 +123,15 @@ export async function batter(source: string, options: BatterOptions) {
 
       if (await fs.pathExists(filePath)) {
         try {
-          const existingData = await fs.readJson(filePath);
+          let existingData;
+          if (format === 'toml') {
+            const content = await fs.readFile(filePath, 'utf-8');
+            // Use TOMLFileSaver to parse existing TOML
+            const tempSaver = new TOMLFileSaver(localeDir);
+            existingData = tempSaver.parseTOML(content);
+          } else {
+            existingData = await fs.readJson(filePath);
+          }
           // Flatten existing nested data to work with it
           currentTranslations = flatten(existingData);
         } catch (e) {
@@ -160,9 +171,17 @@ export async function batter(source: string, options: BatterOptions) {
       // Convert flat structure to nested before saving
       const nestedTranslations = unflatten(sortedTranslations);
 
-      await fs.writeJson(filePath, nestedTranslations, { spaces: 2 });
+      // Save using the appropriate format
+      if (format === 'toml') {
+        const tempSaver = new TOMLFileSaver(localeDir);
+        const tomlString = tempSaver.stringifyTOML(nestedTranslations);
+        await fs.writeFile(filePath, tomlString, 'utf-8');
+      } else {
+        await fs.writeJson(filePath, nestedTranslations, { spaces: 2 });
+      }
+      
       if (newKeysCount > 0) {
-        logger.magenta(`  + ${namespace}.json: Added ${newKeysCount} new keys.`);
+        logger.magenta(`  + ${namespace}${fileExtension}: Added ${newKeysCount} new keys.`);
       }
     }
   }

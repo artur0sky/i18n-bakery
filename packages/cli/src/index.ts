@@ -9,6 +9,7 @@ cli
   .command('batter [source]', 'Extract translations from source files')
   .option('--locale <locale>', 'Target locale (e.g. es-mx)', { default: 'en' })
   .option('--out <dir>', 'Output directory for locales', { default: 'public/locales' })
+  .option('--format <format>', 'Output format: json or toml', { default: 'json' })
   .option('--verbose', 'Enable verbose logging')
   .action(async (source, options) => {
     await batter(source || 'src', options);
