@@ -198,7 +198,12 @@ export async function bake(source: string, options: BakeOptions) {
 
 function validatePathSegment(segment: string, name: string) {
   if (!segment) return;
-  if (segment.includes('..') || segment.includes('/') || segment.includes('\\')) {
-    throw new Error(`Invalid ${name}: "${segment}" contains traversal characters`);
+  if (
+    segment.includes('..') || 
+    segment.includes('/') || 
+    segment.includes('\\') ||
+    path.isAbsolute(segment)
+  ) {
+    throw new Error(`Invalid ${name}: "${segment}" contains traversal characters or is absolute`);
   }
 }

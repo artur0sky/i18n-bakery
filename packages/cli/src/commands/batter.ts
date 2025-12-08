@@ -12,10 +12,16 @@ import { ExtractedKey } from '../domain/types';
 function unflatten(data: Record<string, string>): Record<string, any> {
   const result: Record<string, any> = {};
   for (const key in data) {
+    if (key.includes('__proto__') || key.includes('constructor') || key.includes('prototype')) {
+      continue;
+    }
     const parts = key.split('.');
     let cur = result;
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
+      if (part === '__proto__' || part === 'constructor' || part === 'prototype') {
+        break;
+      }
       if (i === parts.length - 1) {
         cur[part] = data[key];
       } else {
@@ -164,7 +170,12 @@ export async function batter(source: string, options: BatterOptions) {
 
 function validatePathSegment(segment: string, name: string) {
   if (!segment) return;
-  if (segment.includes('..') || segment.includes('\\')) {
-    throw new Error(`Invalid ${name}: "${segment}" contains traversal characters`);
+  if (
+    segment.includes('..') || 
+    segment.includes('\\') || 
+    path.isAbsolute(segment) ||
+    segment.startsWith('/')
+  ) {
+    throw new Error(`Invalid ${name}: "${segment}" contains traversal characters or is absolute`);
   }
 }
