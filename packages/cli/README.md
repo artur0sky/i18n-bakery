@@ -9,6 +9,11 @@ Command-line tools for **i18n-bakery** - your automated baker's assistant. Extra
 
 ---
 
+[![npm version](https://img.shields.io/npm/v/@i18n-bakery/cli.svg)](https://www.npmjs.com/package/@i18n-bakery/cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+---
+
 ## 📦 Installation
 
 ```bash
@@ -562,6 +567,8 @@ pnpm test -- compilation.test.ts
 
 - **[@i18n-bakery/core](../core)** - Core translation engine
 - **[@i18n-bakery/react](../react)** - React bindings
+
+---
 
 ---
 

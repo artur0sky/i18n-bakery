@@ -9,6 +9,11 @@ React integration for **i18n-bakery** - bringing the power of type-safe, auto-ba
 
 ---
 
+[![npm version](https://img.shields.io/npm/v/@i18n-bakery/react.svg)](https://www.npmjs.com/package/@i18n-bakery/react)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+---
+
 ## 📦 Installation
 
 ```bash
@@ -570,6 +575,8 @@ describe("MyComponent", () => {
 
 - **[@i18n-bakery/core](../core)** - Core translation engine
 - **[@i18n-bakery/cli](../cli)** - Command-line tools
+
+---
 
 ---
 
