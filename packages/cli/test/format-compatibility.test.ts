@@ -19,7 +19,16 @@ const DIST_DIR = path.join(TEST_DIR, 'dist');
 describe('Format Compatibility Tests', () => {
   beforeEach(async () => {
     // Clean up and create test directories
-    await fs.remove(TEST_DIR);
+    for (let i = 0; i < 5; i++) {
+        try {
+            await fs.remove(TEST_DIR);
+            break;
+        } catch (error: any) {
+            if (error.code === 'ENOENT') break;
+            if (i === 4) throw error; // Give up on last try
+            await new Promise(resolve => setTimeout(resolve, 200));
+        }
+    }
     await fs.ensureDir(SOURCE_DIR);
     await fs.ensureDir(LOCALES_DIR);
     
@@ -45,7 +54,16 @@ function App() {
 
   afterEach(async () => {
     // Clean up test directories
-    await fs.remove(TEST_DIR);
+    for (let i = 0; i < 5; i++) {
+        try {
+            await fs.remove(TEST_DIR);
+            break;
+        } catch (error: any) {
+            if (error.code === 'ENOENT') break;
+            if (i === 4) console.warn('Failed to cleanup TEST_DIR:', error);
+            await new Promise(resolve => setTimeout(resolve, 200));
+        }
+    }
   });
 
   describe('Batter Command (Extraction)', () => {

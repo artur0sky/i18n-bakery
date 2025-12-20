@@ -105,7 +105,16 @@ describe('Bake Encryption', () => {
   });
 
   afterEach(async () => {
-    await fs.remove(TEST_DIR);
+    for (let i = 0; i < 5; i++) {
+        try {
+            await fs.remove(TEST_DIR);
+            break;
+        } catch (error: any) {
+             if (error.code === 'ENOENT') break;
+             if (i === 4) console.warn('Failed to cleanup TEST_DIR:', error);
+             await new Promise(resolve => setTimeout(resolve, 200));
+        }
+    }
   });
 
   it('should encrypt output when encrypt option is true', async () => {
