@@ -1,0 +1,7 @@
+{
+    "welcome": "Bienvenido a Bakery",
+    "intro": "Horneando código con amor",
+    "greet": "Hola {{name}}",
+    "items_one": "Tienes {{count}} artículo",
+    "items_other": "Tienes {{count}} artículos"
+}

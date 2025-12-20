@@ -176,6 +176,40 @@ importers:
         specifier: 4.0.15
         version: 4.0.15(@types/node@24.10.1)(jiti@2.6.1)(jsdom@27.2.0)(lightningcss@1.30.2)(yaml@2.8.2)
 
+  packages/poacher:
+    dependencies:
+      '@i18n-bakery/baker':
+        specifier: workspace:*
+        version: link:../baker
+      '@i18n-bakery/core':
+        specifier: workspace:*
+        version: link:../core
+      cac:
+        specifier: ^6.7.14
+        version: 6.7.14
+      chalk:
+        specifier: 4.1.2
+        version: 4.1.2
+      fs-extra:
+        specifier: 11.2.0
+        version: 11.2.0
+    devDependencies:
+      '@types/fs-extra':
+        specifier: 11.0.4
+        version: 11.0.4
+      '@types/node':
+        specifier: 20.10.6
+        version: 20.10.6
+      tsup:
+        specifier: 8.0.1
+        version: 8.0.1(postcss@8.5.6)(typescript@5.3.3)
+      typescript:
+        specifier: 5.3.3
+        version: 5.3.3
+      vitest:
+        specifier: 1.1.0
+        version: 1.1.0(@types/node@20.10.6)(jsdom@27.2.0)(lightningcss@1.30.2)
+
   packages/react:
     dependencies:
       '@i18n-bakery/core':

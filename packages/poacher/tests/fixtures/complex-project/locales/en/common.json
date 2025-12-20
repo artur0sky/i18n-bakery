@@ -1,0 +1,9 @@
+{
+    "welcome": "Welcome to Bakery",
+    "intro": "Baking code with love",
+    "greet": "Hello {{name}}",
+    "items_one": "You have {{count}} item",
+    "items_other": "You have {{count}} items",
+    "context_home": "Home Page Content",
+    "context_other": "Other Page Content"
+}
