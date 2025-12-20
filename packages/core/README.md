@@ -597,6 +597,8 @@ const greeting: string = t("home.welcome", "Welcome!");
 
 ---
 
+---
+
 ## 📜 License
 
 MIT © Arturo Sáenz

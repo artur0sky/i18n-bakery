@@ -131,4 +131,25 @@ auth.logout,Logout,Cerrar Sesión
 Poacher is designed to be run once (or fully) during migration. Once you are migrated, you typically hand over duties to **The Sous-Chef (@i18n-bakery/cli)** for daily operations.
 
 ---
-_Part of the [i18n-bakery](https://github.com/artur0sky/i18n-bakery) suite._
+
+## 📜 License
+
+MIT © Arturo Sáenz
+
+---
+
+## 🙏 Support
+
+- 📖 [Main Documentation](../../README.md)
+- 🐛 [Issue Tracker](https://github.com/artur0sky/i18n-bakery/issues)
+- 💬 [Discussions](https://github.com/artur0sky/i18n-bakery/discussions)
+
+---
+
+<div align="center">
+
+**🥚 Recover your legacy translations with ease**
+
+_Made with 🍩 and Regex/AST Magic_
+
+</div>

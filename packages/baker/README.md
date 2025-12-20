@@ -4,6 +4,11 @@
 
 This package is the heavy machinery of the operation. It keeps the **Core** lightweight by taking on all the complex build-time tasks: parsing ASTs, handling file systems, compiling artifacts, and encrypting confidential recipes.
 
+[![npm version](https://img.shields.io/npm/v/@i18n-bakery/baker.svg)](https://www.npmjs.com/package/@i18n-bakery/baker)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+---
+
 ## 🎯 Purpose
 
 - **Build-Time Logic**: Keeps the `@i18n-bakery/core` package lightweight (0 dependencies).
@@ -102,3 +107,27 @@ pnpm add @i18n-bakery/baker
 - `fs-extra`: Enhanced file system operations.
 - `glob`: File pattern matching.
 - `@babel/parser`, `@babel/traverse`: AST parsing for extraction.
+
+---
+
+## 📜 License
+
+MIT © Arturo Sáenz
+
+---
+
+## 🙏 Support
+
+- 📖 [Main Documentation](../../README.md)
+- 🐛 [Issue Tracker](https://github.com/artur0sky/i18n-bakery/issues)
+- 💬 [Discussions](https://github.com/artur0sky/i18n-bakery/discussions)
+
+---
+
+<div align="center">
+
+**🥐 Heavy-lifting tools for your i18n build pipeline**
+
+_Made with 🍩 and File System Magic_
+
+</div>
