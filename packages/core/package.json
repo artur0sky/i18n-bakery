@@ -1,6 +1,6 @@
 {
   "name": "@i18n-bakery/core",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "The Head Chef. The mastermind managing logic, recipes (keys), and ensuring consistency across every dish. Framework-agnostic excellence.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
