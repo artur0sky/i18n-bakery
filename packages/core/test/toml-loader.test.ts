@@ -22,10 +22,19 @@ async function ensureDir(dirPath: string): Promise<void> {
 }
 
 async function remove(dirPath: string): Promise<void> {
-  try {
-    await fs.rm(dirPath, { recursive: true, force: true });
-  } catch (error: any) {
-    if (error.code !== 'ENOENT') throw error;
+  for (let i = 0; i < 5; i++) {
+    try {
+      await fs.rm(dirPath, { recursive: true, force: true });
+      return;
+    } catch (error: any) {
+      if (error.code === 'ENOENT') return;
+      if (error.code === 'EBUSY' || error.code === 'EPERM') {
+        // Wait and retry
+        await new Promise(resolve => setTimeout(resolve, 100));
+        continue;
+      }
+      throw error;
+    }
   }
 }
 

@@ -123,6 +123,10 @@ export class TOMLLoader implements Loader {
         // Navigate/create the table structure
         currentTable = result;
         for (const part of currentPath) {
+          if (part === '__proto__' || part === 'constructor' || part === 'prototype') {
+             continue; // Skip dangerous keys
+          }
+
           if (!currentTable[part]) {
             currentTable[part] = {};
           }
@@ -136,6 +140,11 @@ export class TOMLLoader implements Loader {
       if (kvMatch) {
         const [, key, value] = kvMatch;
         const cleanKey = this.unescapeKey(key.trim());
+
+        if (cleanKey === '__proto__' || cleanKey === 'constructor' || cleanKey === 'prototype') {
+            continue; // Skip dangerous keys
+        }
+
         currentTable[cleanKey] = this.deserializeValue(value.trim());
       }
     }
