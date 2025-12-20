@@ -1,7 +1,7 @@
 {
     "name": "@i18n-bakery/react",
     "version": "1.0.7",
-    "description": "Freshly baked React bindings for i18n-bakery. Serve your translations with style using hooks and providers.",
+    "description": "The React Waiter. Delivers freshly baked translations right to your React components' table. Impeccable service with hooks and context.",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
     "types": "dist/index.d.ts",

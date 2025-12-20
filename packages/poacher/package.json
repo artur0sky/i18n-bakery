@@ -1,7 +1,7 @@
 {
     "name": "@i18n-bakery/poacher",
     "version": "1.0.7",
-    "description": "Recovers and migrates translations from other libraries (like i18next) to i18n-bakery architecture. 'Poaching' your legacy recipes for a better taste.",
+    "description": "The Forager. Ventures into the wild (legacy code) to recover valuable ingredients (keys) and bring them back to the safety of the bakery.",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
     "types": "dist/index.d.ts",

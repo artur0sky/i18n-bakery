@@ -1,7 +1,7 @@
 {
   "name": "@i18n-bakery/core",
   "version": "1.0.7",
-  "description": "The essential ingredients for type-safe internationalization. Mixes perfectly with any JavaScript environment.",
+  "description": "The Head Chef. The mastermind managing logic, recipes (keys), and ensuring consistency across every dish. Framework-agnostic excellence.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

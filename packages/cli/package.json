@@ -1,7 +1,7 @@
 {
     "name": "@i18n-bakery/cli",
     "version": "1.0.7",
-    "description": "Professional kitchen tools for i18n-bakery. Automate your extraction and baking workflow.",
+    "description": "The Sous-Chef. Runs the kitchen floor, automating repetitive tasks, organizing extraction pipelines, and ensuring commands are executed flawlessly.",
     "main": "dist/index.js",
     "bin": {
         "i18n-bakery": "./bin/i18n-bakery.js"
