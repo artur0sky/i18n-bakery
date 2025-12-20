@@ -434,6 +434,29 @@ t("title_upper"); // → "WELCOME TO OUR BAKERY"
 
 ---
 
+---
+
+## 👨‍🍳 The Kitchen Staff (Packages)
+
+Meet the specialized team working behind the scenes to serve fresh translations:
+
+### 🧑‍🍳 [Core (@i18n-bakery/core)](./packages/core/README.md)
+**The Head Chef.** The mastermind managing logic, recipes (keys), and ensuring consistency across every dish. Framework-agnostic excellence.
+
+### 🥐 [Baker (@i18n-bakery/baker)](./packages/baker/README.md)
+**The Pastry Chef.** Precision-obsessed expert dealing with delicate file structures, compiling assets, and optimizing ingredients for the final bake.
+
+### 🍽️ [React (@i18n-bakery/react)](./packages/react/README.md)
+**The React Waiter.** Delivers freshly baked translations right to your React components' table. Impeccable service with hooks and context.
+
+### 🔪 [CLI (@i18n-bakery/cli)](./packages/cli/README.md)
+**The Sous-Chef.** Runs the kitchen floor, automating repetitive tasks, organizing extraction pipelines, and ensuring commands are executed flawlessly.
+
+### 🥚 [Poacher (@i18n-bakery/poacher)](./packages/poacher/README.md)
+**The Forager.** Ventures into the wild (legacy code) to recover valuable ingredients (keys) and bring them back to the safety of the bakery. Use this to migrate from i18next!
+
+---
+
 ## 🗂️ Project Structure (The Pantry)
 
 ```
