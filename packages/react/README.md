@@ -1,6 +1,6 @@
 # ⚛️ @i18n-bakery/react
 
-> _"Fresh React bindings, straight from the oven. Serve your translations with hooks and providers."_
+> **"The React Waiter"** - _Delivers freshly baked translations right to your React components' table. Impeccable service with hooks and context._
 
 React integration for **i18n-bakery** - bringing the power of type-safe, auto-baking translations to your React applications. Built with modern React patterns (hooks, context) and designed for both simplicity and performance.
 

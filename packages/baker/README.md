@@ -1,8 +1,8 @@
 # 🥯 @i18n-bakery/baker
 
-**The Master Baker for i18n-bakery.**
+> **"The Pastry Chef"** - _Precision-obsessed expert dealing with delicate file structures, compiling assets, and optimizing ingredients for the final bake._
 
-This package contains the heavy-lifting machinery for the i18n-bakery ecosystem. It handles all build-time operations, file system interactions, and complex logic that shouldn't be in the lightweight runtime core.
+This package is the heavy machinery of the operation. It keeps the **Core** lightweight by taking on all the complex build-time tasks: parsing ASTs, handling file systems, compiling artifacts, and encrypting confidential recipes.
 
 ## 🎯 Purpose
 

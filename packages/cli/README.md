@@ -1,6 +1,6 @@
 # 🔧 @i18n-bakery/cli
 
-> _"Professional kitchen tools for your translation bakery. Automate extraction, compilation, and maintenance."_
+> **"The Sous-Chef"** - _Runs the kitchen floor, automating repetitive tasks, organizing extraction pipelines, and ensuring commands are executed flawlessly._
 
 Command-line tools for **i18n-bakery** - your automated baker's assistant. Extract translation keys from your codebase, compile translation files, validate consistency, and maintain your translation pantry with ease.
 

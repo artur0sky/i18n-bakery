@@ -1,8 +1,8 @@
 # 🥖 @i18n-bakery/core
 
-> _"The heart of the bakery - where raw ingredients become delicious translations."_
+> **"The Head Chef"** - _The mastermind managing logic, recipes (keys), and ensuring consistency across every dish. Framework-agnostic excellence._
 
-The **core package** is the foundation of i18n-bakery. It's the master recipe that handles all translation logic, file management, pluralization, and plugin orchestration. Zero dependencies, pure TypeScript, and built with Clean Architecture principles.
+The **Core Package** is the kitchen line. It orchestrates the entire translation process, handles pluralization logic (counting loaves), processes message formats, and manages the menu (keys). Zero dependencies, pure TypeScript, and built with Clean Architecture principles.
 
 [![npm version](https://img.shields.io/npm/v/@i18n-bakery/core.svg)](https://www.npmjs.com/package/@i18n-bakery/core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
