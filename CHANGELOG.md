@@ -5,7 +5,42 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.7] - 2025-12-19 (The Honest Thief)
+
+## [1.0.8] - 2025-12-20 (The Head Chef)
+
+### 🚀 Fresh from the Oven
+
+- **i18next Parity (Core & Poacher):**
+  - **Option-based Defaults:** Full support for passing default values via the options object: `t('key', { defaultValue: 'My Default' })`.
+  - **Unified Syntax:** Now supports both `t('key', 'Default')` and `t('key', { defaultValue: 'Default' })` seamlessly in both runtime and extraction tools.
+  - **Migration Ready:** Poacher's `scout` command now correctly identifies keys and default values from legacy i18next codebases using this pattern.
+
+- **Documentation Overhaul (The Kitchen Staff):**
+  - **New Personas:** Assigned unique roles to each package to better explain their purpose in the ecosystem:
+    - 🧑‍🍳 **Core:** "The Head Chef" (Logic & Recipes)
+    - 🥐 **Baker:** "The Pastry Chef" (Build Tools & Complicated Pastries)
+    - 🍽️ **React:** "The React Waiter" (Service & Hooks)
+    - 🔧 **CLI:** "The Sous-Chef" (Automation & Organization)
+    - 🥚 **Poacher:** "The Forager" (Migration & Recovery)
+  - **Standardized Readmes:** Uniform headers, footers, and support sections across all packages.
+
+- **Security Hardening (The Vault):**
+  - **TOML Parser Safety:** Implemented strict validation in `TOMLLoader` (Core) to prevent **Prototype Pollution** attacks.
+  - **Dangerous Key Blocking:** Parser now explicitly rejects `__proto__`, `constructor`, and `prototype` keys in both TOML table headers (`[__proto__]`) and direct assignments.
+  - **Safe Navigation:** Ensures that malicious TOML files cannot modify the object prototype during the parsing process.
+
+### 🔧 Ingredients (Technical Details)
+
+- **Baker:**
+  - Updated `BabelKeyExtractor` to traverse `ObjectExpression` in the second argument of `t()` calls to find `defaultValue` property.
+  - Added unit tests ensuring both string literal and object expression variants are extracted correctly.
+- **Core:**
+  - Validated argument overloading in `I18nService.t()` to prioritize `options.defaultValue` when second argument is an object.
+- **Poacher:**
+  - Created comprehensive `README.md` with new "Forager" persona and field examples.
+- **Tests:**
+  - Improved test suite resilience on Windows environments by implementing retry logic for temporary directory cleanup, resolving `EBUSY` locking issues in `TOMLLoader` and CLI tests.
+
 
 ### 🚀 Fresh from the Oven
 
