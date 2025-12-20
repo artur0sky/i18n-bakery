@@ -38,8 +38,27 @@ export class BabelKeyExtractor implements KeyExtractor {
               const key = args[0].value;
               let defaultValue: string | undefined;
 
-              if (args.length > 1 && t.isStringLiteral(args[1])) {
-                defaultValue = args[1].value;
+              if (args.length > 1) {
+                const secondArg = args[1];
+
+                if (t.isStringLiteral(secondArg)) {
+                  // Case: t('key', 'Default Value')
+                  defaultValue = secondArg.value;
+                } else if (t.isObjectExpression(secondArg)) {
+                  // Case: t('key', { defaultValue: 'Default Value' })
+                  const properties = secondArg.properties;
+                  for (const prop of properties) {
+                    if (
+                      t.isObjectProperty(prop) &&
+                      t.isIdentifier(prop.key) &&
+                      prop.key.name === 'defaultValue' &&
+                      t.isStringLiteral(prop.value)
+                    ) {
+                      defaultValue = prop.value.value;
+                      break;
+                    }
+                  }
+                }
               }
 
               // Infer namespace from key (e.g., "common.hello" -> "common", "auth:login" -> "auth", "home:hero:title" -> "home/hero")
