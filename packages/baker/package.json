@@ -1,6 +1,6 @@
 {
     "name": "@i18n-bakery/baker",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "The Master Baker. Handles file system operations, extraction, compilation, and encryption for i18n-bakery.",
     "main": "dist/index.js",
     "module": "dist/index.mjs",

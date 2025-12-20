@@ -5,6 +5,29 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7] - 2025-12-19 (The Honest Thief)
+
+### 🚀 Fresh from the Oven
+
+- **Poacher Package (New Package):**
+  - **Migration Tool:** Introduced `@i18n-bakery/poacher`, a specialized CLI tool to migrate from i18next to i18n-bakery.
+  - **Recipe Recovery:** Scans source code to find `t()` usages and existing keys using `BabelKeyExtractor` (AST-based).
+  - **Structure Conversion:** Converts varied i18next folder structures (flat, nested, namespaced) into the standardized Bakery format.
+  - **Legacy Compatibility:** Preserves all keys, values, and plural forms during migration.
+  - **Safety First:** Automatically creates backups of target directories before any modification.
+  - **CSV Export:** Includes `serve` command to export translations to CSV for external review.
+
+### 🔧 Ingredients (Technical Details)
+
+- **Poacher:**
+  - Created `@i18n-bakery/poacher` package.
+  - Implemented `I18NextSource` adapter for reading varying legacy structures.
+  - Implemented `BakeryTarget` adapter for writing standards-compliant JSON structures.
+  - Integrated `BabelKeyExtractor` from `@i18n-bakery/baker` for precise source code scanning (DRY principle).
+  - Implemented `PoachRecipes` use case to orchestrate the migration flow.
+  - Added comprehensive integration tests covering flat files, nested namespaces, and backup recovery.
+  - Standardized logging using `@i18n-bakery/core` Logger interface while maintaining CLI personality.
+
 ## [1.0.6] - 2025-12-08 (The Responsive Baker)
 
 ### 🚀 Fresh from the Oven
