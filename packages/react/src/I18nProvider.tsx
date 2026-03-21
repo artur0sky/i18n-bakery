@@ -17,35 +17,23 @@ export interface I18nProviderProps {
 
 export const I18nProvider: React.FC<I18nProviderProps> = ({ config, children }) => {
   // Initialize singleton if not already done, or use existing
-  const i18n = useMemo(() => {
-    try {
-      return getI18n();
-    } catch {
-      return initI18n(config);
-    }
-  }, [config]);
+  const i18n = useMemo(() => initI18n(config), [config]);
 
   const [locale, setLocaleState] = useState(i18n.getCurrentLocale());
   const [isLoading, setIsLoading] = useState(false);
-  const [tick, setTick] = useState(0); // Force update state
+  const [tick, setTick] = useState(0);
 
   useEffect(() => {
-    i18n.getLogger().debug('[React-I18n] Provider mounted');
-    // Subscribe to i18n service changes (loaded translations, etc.)
-    const unsubscribe = i18n.subscribe(() => {
-      i18n.getLogger().debug(`[React-I18n] Update triggered`);
-      // Force update by incrementing tick
+    return i18n.subscribe(() => {
+      setLocaleState(i18n.getCurrentLocale());
       setTick(t => t + 1);
     });
-    return () => unsubscribe();
   }, [i18n]);
 
   const setLocale = async (newLocale: string) => {
-    i18n.getLogger().info(`[React-I18n] Setting locale to ${newLocale}`);
     setIsLoading(true);
     try {
       await i18n.setLocale(newLocale);
-      setLocaleState(newLocale);
     } finally {
       setIsLoading(false);
     }
@@ -55,8 +43,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ config, children }) 
     i18n,
     locale,
     setLocale,
-    isLoading,
-    tick // Include tick to force context update
+    isLoading
   }), [i18n, locale, isLoading, tick]);
 
   return (

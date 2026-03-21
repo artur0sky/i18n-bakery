@@ -172,28 +172,11 @@ export class ICUMessageFormatter implements Formatter {
    * Processes simple variable substitution.
    * Pattern: {variable}
    */
-  /**
-   * Processes simple variable substitution.
-   * Pattern: {variable}
-   */
   private processSimpleVariables(text: string, vars: Record<string, any>): string {
     return text.replace(/\{(\w+)\}/g, (match, variable) => {
       const value = vars[variable];
-      if (value === undefined || value === null) {
-        return match;
-      }
-      // Security: Escape HTML to prevent XSS
-      return this.escapeHtml(String(value));
+      return value !== undefined && value !== null ? String(value) : match;
     });
-  }
-
-  private escapeHtml(unsafe: string): string {
-    return unsafe
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
   }
 
   /**

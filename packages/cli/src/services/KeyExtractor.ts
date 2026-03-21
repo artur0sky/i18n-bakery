@@ -2,7 +2,7 @@ import { parse } from '@babel/parser';
 import traverse from '@babel/traverse';
 import * as t from '@babel/types';
 import fs from 'fs-extra';
-import { ExtractedKey } from '@i18n-bakery/baker';
+import { ExtractedKey } from '../domain/types';
 
 export class KeyExtractor {
   async extractFromFile(filePath: string): Promise<ExtractedKey[]> {
@@ -27,17 +27,9 @@ export class KeyExtractor {
                 defaultValue = args[1].value;
               }
 
-              // Infer namespace from key (e.g., "common.hello" -> "common", "auth:login" -> "auth", "home:hero:title" -> "home/hero")
-              let namespace = 'common';
-              if (key.includes(':')) {
-                const lastColonIndex = key.lastIndexOf(':');
-                const namespacePart = key.substring(0, lastColonIndex);
-                // Convert colons to slashes for directory structure
-                namespace = namespacePart.replace(/:/g, '/');
-              } else if (key.includes('.')) {
-                const parts = key.split('.');
-                namespace = parts[0];
-              }
+              // Infer namespace from key (e.g., "common.hello" -> "common")
+              const parts = key.split('.');
+              const namespace = parts.length > 1 ? parts[0] : 'common';
 
               keys.push({
                 key,

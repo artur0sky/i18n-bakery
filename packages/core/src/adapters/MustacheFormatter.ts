@@ -6,21 +6,8 @@ export class MustacheFormatter implements Formatter {
     
     return text.replace(/\{\{([^}]+)\}\}/g, (_, path) => {
       const value = this.getValue(vars, path.trim());
-      if (value === undefined || value === null) {
-        return `{{${path}}}`;
-      }
-      // Security: Escape HTML to prevent XSS
-      return this.escapeHtml(String(value));
+      return value !== undefined && value !== null ? String(value) : `{{${path}}}`;
     });
-  }
-
-  private escapeHtml(unsafe: string): string {
-    return unsafe
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
   }
 
   private getValue(obj: any, path: string): any {

@@ -14,7 +14,6 @@ describe('CLDR Pluralization', () => {
       initI18n({
         locale: 'en',
         pluralizationStrategy: 'cldr',
-        defaultNamespace: 'common',
       });
     });
 
@@ -46,7 +45,6 @@ describe('CLDR Pluralization', () => {
       initI18n({
         locale: 'es',
         pluralizationStrategy: 'cldr',
-        defaultNamespace: 'common',
       });
     });
 
@@ -77,7 +75,6 @@ describe('CLDR Pluralization', () => {
       initI18n({
         locale: 'pl',
         pluralizationStrategy: 'cldr',
-        defaultNamespace: 'common',
       });
     });
 
@@ -125,7 +122,6 @@ describe('CLDR Pluralization', () => {
       initI18n({
         locale: 'ar',
         pluralizationStrategy: 'cldr',
-        defaultNamespace: 'common',
       });
     });
 
@@ -221,7 +217,6 @@ describe('CLDR Pluralization', () => {
       initI18n({
         locale: 'ru',
         pluralizationStrategy: 'cldr',
-        defaultNamespace: 'common',
       });
     });
 
@@ -272,7 +267,6 @@ describe('CLDR Pluralization', () => {
       initI18n({
         locale: 'en',
         pluralizationStrategy: 'cldr',
-        defaultNamespace: 'common',
       });
     });
 
@@ -292,7 +286,6 @@ describe('CLDR Pluralization', () => {
       initI18n({
         locale: 'en',
         pluralizationStrategy: 'cldr',
-        defaultNamespace: 'common',
       });
     });
 

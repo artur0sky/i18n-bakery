@@ -116,44 +116,37 @@ Este documento describe el plan de implementación completo de **i18n-bakery**, 
 
 ---
 
-## 📊 Estado Actual: v1.0.1
+### ✅ FASE 15 — Context Support (The Context Baker) — **COMPLETADA** (v1.0.8)
+- ✅ Soporte para traducciones contextuales (género, etc.)
+- ✅ Extensión de I18nConfig con `contextSeparator`
+- ✅ Integración en I18nService
+- ✅ Testing completo en Core
 
-**Características Implementadas:** 14/14 fases core completadas
-**Paridad con i18next:** ~70% (core features)
-**Tests Totales:** 197 tests pasando
+### ✅ FASE 16 — Language Detection (The Detector Baker) — **PLANIFICADA** (v1.1.0)
+
+### ✅ FASE 17 — HTTP Backend (The Network Baker) — **COMPLETADA** (v1.0.3+)
+- ✅ Plugin HttpBackend para carga remota
+- ✅ Soporte para manifest.json y hashes
+- ✅ Soporte para desencriptación on-the-fly
+- ✅ Testing completo (vía fetch)
+
+### ✅ FASE 24 — Option-based Defaults (The Modern Chef) — **COMPLETADA** (v1.0.8)
+- ✅ Soporte para `t('key', { defaultValue: '...' })`
+- ✅ Paridad total con sintaxis i18next tradicional y moderna
+- ✅ Extracción automática en Baker para objetos de opciones
+
+---
+
+## 📊 Estado Actual: v1.0.8
+
+**Características Implementadas:** 17/24 fases planeadas
+**Paridad con i18next:** ~85% (core features)
+**Tests Totales:** 200+ tests pasando
 **Cobertura:** 100% en componentes críticos
 
 ---
 
 ## Fases Pendientes (Roadmap hacia Seamless i18next Integration)
-
-# FASE 15 — Context Support (The Context Baker) — **PRIORIDAD ALTA** (v1.1.0)
-
-## 15.1 Context Parameter
-Implementar soporte para traducciones contextuales (género, formalidad, etc.)
-
-**API:**
-```typescript
-t('friend', { context: 'male' })   // → friend_male
-t('friend', { context: 'female' }) // → friend_female
-t('friend', { context: 'formal' }) // → friend_formal
-```
-
-**Implementación:**
-- Extender `I18nConfig` con `contextSeparator?: string` (default: `'_'`)
-- Actualizar firma de `t()` para aceptar `options.context`
-- Modificar `I18nService` para resolver claves con contexto
-- Prioridad de resolución:
-  1. `key_context` (si context presente)
-  2. `key` (fallback)
-
-**Testing:**
-- Context con pluralization
-- Context con namespaces
-- Context con fallback locale
-- Context con ICU MessageFormat
-
-**Estimación:** 2-3 días
 
 ---
 
@@ -200,52 +193,6 @@ interface DetectorOptions {
 - Multi-source detection
 
 **Estimación:** 2 días
-
----
-
-# FASE 17 — HTTP Backend (The Network Baker) — **PRIORIDAD ALTA** (v1.2.0)
-
-## 17.1 HTTP Backend Plugin
-Cargar traducciones desde servidor HTTP
-
-**Implementación:**
-```typescript
-class HttpBackend implements Plugin {
-  metadata = {
-    name: 'http-backend',
-    type: 'backend',
-    version: '1.0.0'
-  };
-  
-  async load(locale: string, namespace: string): Promise<TranslationMap> {
-    const url = this.getUrl(locale, namespace);
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Failed to load ${url}`);
-    return response.json();
-  }
-}
-```
-
-## 17.2 Backend Options
-```typescript
-interface HttpBackendOptions {
-  loadPath?: string; // '/locales/{{lng}}/{{ns}}.json'
-  addPath?: string;  // '/locales/add/{{lng}}/{{ns}}'
-  allowMultiLoading?: boolean;
-  crossDomain?: boolean;
-  withCredentials?: boolean;
-  requestOptions?: RequestInit;
-}
-```
-
-**Testing:**
-- Successful loading
-- Error handling
-- Retry logic
-- Cache strategy
-- Multi-namespace loading
-
-**Estimación:** 3 días
 
 ---
 
@@ -548,29 +495,20 @@ El proyecto sigue estrictamente Clean Architecture:
 
 ## 📈 Roadmap Summary
 
-### v1.1.0 (Q1 2025) - The Context & Detection Release
-- Context Support
+### v1.1.0 (Q1 2026) - The Detection Release
 - Language Detection Plugin
-- **Target:** 80% i18next parity
-
-### v1.2.0 (Q1 2025) - The Network Release
-- HTTP Backend Plugin
-- Event System
-- **Target:** 85% i18next parity
-
-### v1.3.0 (Q2 2025) - The Advanced Features Release
-- Nesting Translations
-- Return Objects
+- Event System (EventEmitter)
 - **Target:** 90% i18next parity
 
-### v1.4.0 (Q2 2025) - The Enterprise Release
-- Multiple Instances
-- Advanced Formatting
+### v1.2.0 (Q2 2026) - The Advanced Features Release
+- Nesting Translations (`$t(key)`)
+- Return Objects & Arrays
 - **Target:** 95% i18next parity
 
-### v1.5.0 (Q3 2025) - The Complete Release
+### v1.3.0 (Q3 2026) - The Complete Release
+- Multiple Instances
+- Advanced Formatting (Date/Time/List)
 - Missing Key Handler
-- Additional Plugins
 - **Target:** 98% i18next parity (Seamless Integration Achieved)
 
 ---

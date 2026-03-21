@@ -14,7 +14,6 @@ describe('Pluralization', () => {
     initI18n({
       locale: 'en',
       fallbackLocale: 'en',
-      defaultNamespace: 'common',  // Use 'common' as default namespace
     });
   });
 
