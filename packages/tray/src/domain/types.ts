@@ -85,6 +85,8 @@ export interface BakeResult {
 export interface PantryInput {
   /** Base directory containing locale subdirectories (e.g., "public/locales") */
   localesDir: string;
+  /** Optional: Source directory to scan for t() calls. If provided, the report includes keys from code. */
+  sourceDir?: string;
   /** Reference locale to compare against (default: "en-US" or first found) */
   referenceLocale?: string;
   /** Current working directory, resolved at call time */
@@ -98,12 +100,14 @@ export interface PantryResult {
   locales: string[];
   /** Per-locale status report */
   status: Record<string, LocaleStatus>;
+  /** Keys found in source code but missing in the reference locale JSON files */
+  missingInReference?: string[];
 }
 
 export interface LocaleStatus {
   /** Locale identifier */
   locale: string;
-  /** Total keys in the reference locale */
+  /** Total keys in the reference locale (or combined reference + source) */
   totalKeys: number;
   /** Number of keys present in this locale */
   presentKeys: number;
@@ -113,6 +117,8 @@ export interface LocaleStatus {
   completionPercent: number;
   /** The actual missing key paths */
   missingKeyList: string[];
+  /** Optional: detailed info about missing keys (fallback values, etc.) */
+  missingKeyDetails?: Record<string, { fallback?: string; file?: string; line?: number }>;
 }
 
 // ─── Recipe Update (Write) ────────────────────────────────────────────────────
