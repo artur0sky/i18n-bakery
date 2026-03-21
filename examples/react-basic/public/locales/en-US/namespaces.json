@@ -1,0 +1,13 @@
+{
+  "colon": {
+    "description": "colon.description",
+    "example_label": "colon.example_label",
+    "title": "colon.title"
+  },
+  "dot": {
+    "description": "dot.description",
+    "example_label": "dot.example_label",
+    "title": "dot.title"
+  },
+  "title": "title"
+}

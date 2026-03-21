@@ -1,0 +1,63 @@
+{
+  "title": "Tray — Servidor MCP",
+  "description": "Entrega las capacidades de i18n-bakery directamente a agentes de IA mediante el Protocolo de Contexto de Modelos. Permite que Claude, Cursor o cualquier cliente MCP gestionen tus traducciones automáticamente.",
+  "tabs": {
+    "overview": "Descripción",
+    "tools": "Herramientas",
+    "security": "Seguridad"
+  },
+  "overview": {
+    "body": "En lugar de ejecutar comandos CLI manualmente, un agente de IA conectado mediante MCP puede detectar traducciones faltantes, extraer claves nuevas del código fuente, escribir cadenas traducidas y compilar bundles de producción, todo en un flujo automático. Tray es la bandeja de plata que hace posible todo eso."
+  },
+  "workflow": {
+    "title": "Flujo del Agente de IA",
+    "step1": "check_pantry — detecta qué falta",
+    "step2": "El LLM genera traducciones",
+    "step3": "update_recipe — persiste cada clave",
+    "step4": "bake_bundle — compila para producción"
+  },
+  "setup": {
+    "claude_title": "Configuración de Claude Desktop",
+    "this_project": "Iniciar el Servidor MCP (este proyecto)"
+  },
+  "tools": {
+    "check_pantry": {
+      "title": "check_pantry",
+      "desc": "Escanea todos los directorios de locales y devuelve un reporte de estado: claves presentes, faltantes y porcentaje de completitud por locale vs. el locale de referencia. Es la primera llamada del agente en cualquier flujo de traducción."
+    },
+    "fry_batter": {
+      "title": "fry_batter",
+      "desc": "Escanea archivos TypeScript/JavaScript en busca de llamadas t() y escribe las claves extraídas en los archivos de locale. Las claves nuevas reciben valores placeholder; las existentes nunca se sobreescriben."
+    },
+    "update_recipe": {
+      "title": "update_recipe",
+      "desc": "Escribe o actualiza una clave de traducción individual en un archivo de locale. Este es el primitivo de escritura atómica: el agente lo llama una vez por clave para persistir cada cadena traducida."
+    },
+    "bake_bundle": {
+      "title": "bake_bundle",
+      "desc": "Compila los archivos fuente de locales en bundles de producción optimizados. Soporta minificación, nombres de archivo con hash de contenido (cache busting), división por namespace para lazy loading, y cifrado AES-256-GCM."
+    }
+  },
+  "security": {
+    "traversal": {
+      "title": "Prevención de Traversal de Rutas",
+      "desc": "Todos los segmentos de locale, namespace y clave proporcionados por el usuario se validan para prevenir ataques de traversal de directorios (ej. ../etc/passwd)."
+    },
+    "prototype": {
+      "title": "Protección contra Polución de Prototipo",
+      "desc": "Cada operación de fusión de objetos verifica las claves __proto__, constructor y prototype para prevenir ataques de contaminación de prototipo."
+    },
+    "encryption": {
+      "title": "Validación de Clave de Cifrado",
+      "desc": "La herramienta bake_bundle valida que se proporcione encryptionKey a nivel de herramienta antes de delegar al BakingManager, previniendo operaciones silenciosas sin efecto."
+    },
+    "validation": {
+      "title": "Validación de Claves en Notación de Puntos",
+      "desc": "Las claves de traducción se validan para rechazar caracteres prohibidos (/ \\ ..) y vectores de polución de prototipo antes de cualquier escritura de archivo."
+    }
+  },
+  "cta": {
+    "title": "¿Listo para conectar tu agente de IA?",
+    "subtitle": "Inicia el servidor MCP y conecta Claude Desktop o cualquier cliente MCP compatible."
+  }
+}

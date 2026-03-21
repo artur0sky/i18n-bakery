@@ -32,6 +32,9 @@ importers:
       '@i18n-bakery/cli':
         specifier: workspace:*
         version: link:../../packages/cli
+      '@i18n-bakery/tray':
+        specifier: workspace:*
+        version: link:../../packages/tray
       '@tabler/icons-react':
         specifier: 3.36.0
         version: 3.36.0(react@19.2.3)

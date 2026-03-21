@@ -1,20 +1,14 @@
 {
-  "app_name": "i18n-bakery",
-  "tagline": "新鮮な翻訳、完璧に焼き上げました",
-  "nav": {
-    "home": "ホーム",
-    "showcase": "ショーケース",
-    "docs": "ドキュメント",
-    "roadmap": "ロードマップ"
-  },
-  "footer": {
-    "description": "i18n-bakery — 新鮮な翻訳、完璧に焼き上げました",
-    "github": "GitHub",
-    "mit_license": "MITライセンス",
-    "version": "v{{version}}"
-  },
-  "errors": {
-    "not_found": "ページが見つかりません",
-    "go_home": "ホームに戻る"
-  }
+  "capitalize_title": "大文字変換",
+  "currency": "通貨",
+  "description": "説明",
+  "formatting_title": "高度なフォーマット",
+  "interpolation": "補間",
+  "interpolation_title": "変数の補間",
+  "percent": "パーセント",
+  "plural": "複数形",
+  "plural_title": "複数形と ICU",
+  "text_capitalize": "タイトルケースに変換",
+  "text_upper": "大文字に変換",
+  "welcome": "ようこそ"
 }

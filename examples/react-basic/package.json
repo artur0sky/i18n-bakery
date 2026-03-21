@@ -12,6 +12,7 @@
     },
     "devDependencies": {
         "@i18n-bakery/cli": "workspace:*",
+        "@i18n-bakery/tray": "workspace:*",
         "@tabler/icons-react": "3.36.0",
         "@tailwindcss/vite": "4.1.17",
         "@types/react": "19.2.7",
@@ -29,7 +30,8 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "i18n:extract": "i18n-bakery batter src --locale en-US,es-MX,it,jp",
-        "i18n:bake": "i18n-bakery bake locales --split --manifest manifest.json"
+        "i18n:extract": "i18n-bakery batter src --locale en-US,es-MX,it,jp --out public/locales",
+        "i18n:bake": "i18n-bakery bake public/locales --split --manifest manifest.json",
+        "i18n:tray": "i18n-bakery-tray"
     }
 }
