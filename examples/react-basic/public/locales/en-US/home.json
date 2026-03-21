@@ -1,42 +1,60 @@
 {
   "hero": {
-    "title": "i18n-bakery 🥯",
+    "badge": "v1.0.8 — The Head Chef Release &mdash; Now Stable",
+    "title_bakery": "-bakery",
     "subtitle": "Fresh translations, baked to perfection",
-    "description": "A lightweight, type-safe internationalization library for modern React applications"
+    "description": "A lightweight, type-safe i18n library for React. Drop-in alternative to i18next with a clean plugin architecture, zero runtime dependencies, and delicious DX.",
+    "cta": {
+      "showcase": "Live Showcase",
+      "github": "GitHub"
+    }
   },
-  "nav": {
+  "stats": {
+    "languages": "Languages via CLDR",
+    "tests": "Tests passing",
+    "runtime_deps": "Runtime deps",
+    "coverage": "Test coverage"
+  },
+  "nav_cards": {
     "showcase": {
-      "title": "Showcase",
-      "description": "See i18n-bakery in action with live examples"
+      "title": "Live Showcase",
+      "desc": "See every feature in action with interactive demos"
     },
     "docs": {
       "title": "Documentation",
-      "description": "Learn how to use i18n-bakery in your projects"
+      "desc": "Learn namespaces, file structure, and best practices"
     },
-    "github": {
-      "title": "GitHub",
-      "description": "View source code and contribute"
+    "roadmap": {
+      "title": "Roadmap",
+      "desc": "Upcoming features with estimated release timelines",
+      "badge": "New"
     }
   },
   "features": {
-    "title": "Key Features",
-    "items": {
-      "multilang": {
-        "title": "Multi-language Support",
-        "description": "Support for multiple languages with automatic fallbacks"
-      },
-      "performance": {
-        "title": "High Performance",
-        "description": "Optimized for speed with minimal bundle size"
-      },
-      "plugins": {
-        "title": "Plugin System",
-        "description": "Extend functionality with custom plugins"
-      },
-      "typesafe": {
-        "title": "Type Safety",
-        "description": "Full TypeScript support with type-safe translations"
-      }
+    "section_title": "What's in the Oven",
+    "multi_lang": {
+      "title": "Multi-language Support",
+      "desc": "4 locales out of the box. CLDR pluralization for 100+ languages."
+    },
+    "zero_deps": {
+      "title": "Zero Dependencies",
+      "desc": "Core uses only native Web APIs. Tiny bundle size, maximum speed."
+    },
+    "plugin_system": {
+      "title": "Plugin System",
+      "desc": "NumberFormat, Capitalize, Custom backends, detectors & more."
+    },
+    "type_safe": {
+      "title": "Type-Safe",
+      "desc": "Full TypeScript support. Strict key validation. Prototype pollution guard."
+    },
+    "toml_json": {
+      "title": "TOML + JSON",
+      "desc": "Write translations in JSON or TOML. Zero-dep TOML parser built-in."
+    },
+    "encryption": {
+      "title": "AES-256 Encryption",
+      "desc": "Encrypt translation bundles at build time. Decrypt on-the-fly client-side."
     }
   }
 }

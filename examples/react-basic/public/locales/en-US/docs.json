@@ -1,6 +1,66 @@
 {
-  "page": {
-    "title": "Documentation",
-    "description": "Learn how to organize and use translations effectively"
+  "title": "Documentation",
+  "description": "Reference guide for namespaces, file layout, React hooks, CLI commands, and best practices.",
+  "sections": {
+    "quickstart": "Quick Start",
+    "namespaces": "Namespaces",
+    "structure": "File Structure",
+    "react": "React API",
+    "cli": "CLI Reference",
+    "best_practices": "Best Practices"
+  },
+  "quickstart": {
+    "installation": "Installation",
+    "initialize": "Initialize",
+    "react_provider": "React Provider"
+  },
+  "namespaces": {
+    "colon_syntax": "Colon Syntax — Namespace Separator",
+    "colon_desc": "The colon : separates the file name (namespace) from the key path.",
+    "hierarchical": "Hierarchical Namespaces (Subdirectories)",
+    "hierarchical_desc": "Multiple colons create subdirectory paths inside your locale folder.",
+    "dot_notation": "Dot Notation — Nested Object Access"
+  },
+  "structure": {
+    "recommended": "Recommended Directory Layout",
+    "nested_vs_flat": "Nested vs Flat JSON"
+  },
+  "react_api": {
+    "useTranslation": "useTranslation(namespace?)",
+    "useI18n": "useI18n()",
+    "t_signature": "t() Signature"
+  },
+  "cli": {
+    "batter": "batter — Extract Keys",
+    "bake": "bake — Compile & Optimize",
+    "poacher": "poacher — Migrate from i18next"
+  },
+  "best_practices": {
+    "items": {
+      "organize": {
+        "title": "Organize by feature/page",
+        "desc": "One JSON/TOML file per page or feature. Avoids bloated single-file translation sets."
+      },
+      "semantic": {
+        "title": "Use semantic keys",
+        "desc": "Keys should describe the content, not the UI position. Easier for translators."
+      },
+      "default_ns": {
+        "title": "Set defaultNamespace",
+        "desc": "Avoid repeating the namespace prefix for common translations."
+      },
+      "lazy_load": {
+        "title": "Use HttpBackend + --split",
+        "desc": "Lazy-load only the namespaces needed per page. Massive performance win for large apps."
+      },
+      "encrypt": {
+        "title": "Encrypt sensitive bundles",
+        "desc": "Use AES-256-GCM encryption for bundles with sensitive copy (legal, internal tools)."
+      },
+      "whitelist": {
+        "title": "Key whitelist validation",
+        "desc": "The DefaultKeyParser allows only a-zA-Z0-9_-.:: — safe by default."
+      }
+    }
   }
 }

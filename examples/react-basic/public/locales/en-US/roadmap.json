@@ -1,0 +1,42 @@
+{
+  "title": "Roadmap",
+  "subtitle": "From v0.1.0 to seamless i18next parity — every phase planned and tracked. Estimated dates are targets, not guarantees.",
+  "progress": {
+    "title": "Overall Progress",
+    "parity": "~70% i18next parity",
+    "target": "v1.5.0 (target: 98%)"
+  },
+  "next_release": {
+    "title": "Next: v1.1.0",
+    "desc": "— Context Support + Language Detection — ETA Q2 2025"
+  },
+  "filters": {
+    "all": "All",
+    "released": "Released",
+    "planned": "Planned",
+    "future": "Future"
+  },
+  "status": {
+    "released": "Released",
+    "in_progress": "In Progress",
+    "planned": "Planned",
+    "future": "Future"
+  },
+  "items": {
+    "phase1": { "title": "Runtime Core", "subtitle": "The Foundation" },
+    "phase2": { "title": "Auto-Save", "subtitle": "Self-Rising" },
+    "phase3": { "title": "CLI", "subtitle": "The Mixer" },
+    "phase4": { "title": "React Bindings", "subtitle": "The Glaze" },
+    "phase9": { "title": "Advanced Pluralization", "subtitle": "The Counter" },
+    "phase13": { "title": "Plugin System", "subtitle": "First Stable Release" },
+    "phase14": { "title": "The Head Chef Era", "subtitle": "Security, Formats, Migration" },
+    "phase15": { "title": "Context Support", "subtitle": "The Context Baker" },
+    "phase16": { "title": "Language Detection", "subtitle": "The Detector Baker" },
+    "phase17": { "title": "Event System", "subtitle": "The Observer Baker" },
+    "phase18": { "title": "Nesting Translations", "subtitle": "The Nesting Baker" },
+    "phase19": { "title": "Return Objects", "subtitle": "The Object Baker" },
+    "phase20": { "title": "Multiple Instances", "subtitle": "The Multi-Baker" },
+    "phase21": { "title": "Advanced Formatting", "subtitle": "The Format Baker" },
+    "phase22": { "title": "Missing Key Handler", "subtitle": "The Handler Baker" }
+  }
+}

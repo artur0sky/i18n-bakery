@@ -1,14 +1,14 @@
 {
-  "capitalize_title": "capitalize_title",
-  "currency": "currency",
-  "description": "description",
-  "formatting_title": "formatting_title",
-  "interpolation": "interpolation",
-  "interpolation_title": "interpolation_title",
-  "percent": "percent",
-  "plural": "plural",
-  "plural_title": "plural_title",
-  "text_capitalize": "text_capitalize",
-  "text_upper": "text_upper",
-  "welcome": "welcome"
+  "capitalize_title": "Conversione Maiuscole/Minuscole",
+  "currency": "Valuta",
+  "description": "Descrizione",
+  "formatting_title": "Formattazione Avanzata",
+  "interpolation": "Interpolazione",
+  "interpolation_title": "Interpolazione di Variabili",
+  "percent": "Percentuale",
+  "plural": "Plurale",
+  "plural_title": "Pluralizzazione e ICU",
+  "text_capitalize": "testo con maiuscole",
+  "text_upper": "TESTO IN MAIUSCOLO",
+  "welcome": "Benvenuto"
 }

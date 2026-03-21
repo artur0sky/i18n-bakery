@@ -1,17 +1,20 @@
 {
-  "description": "A modern i18n solution for React applications",
-  "welcome": "Welcome to i18n-bakery",
+  "app_name": "i18n-bakery",
+  "tagline": "Fresh translations, baked to perfection",
   "nav": {
     "home": "Home",
     "showcase": "Showcase",
-    "docs": "Documentation"
+    "docs": "Docs",
+    "roadmap": "Roadmap"
+  },
+  "footer": {
+    "description": "i18n-bakery — Fresh translations, baked to perfection",
+    "github": "GitHub",
+    "mit_license": "MIT License",
+    "version": "v{{version}}"
   },
   "errors": {
     "not_found": "Page not found",
     "go_home": "Go back home"
-  },
-  "footer": {
-    "powered_by": "Powered by",
-    "version": "Version {{version}}"
   }
 }

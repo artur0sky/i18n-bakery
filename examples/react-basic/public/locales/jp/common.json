@@ -1,17 +1,20 @@
 {
-  "description": "Reactアプリケーション向けのモダンなi18nソリューション",
-  "welcome": "i18n-bakeryへようこそ",
+  "app_name": "i18n-bakery",
+  "tagline": "新鮮な翻訳、完璧に焼き上げました",
   "nav": {
     "home": "ホーム",
-    "showcase": "デモ",
-    "docs": "ドキュメント"
+    "showcase": "ショーケース",
+    "docs": "ドキュメント",
+    "roadmap": "ロードマップ"
+  },
+  "footer": {
+    "description": "i18n-bakery — 新鮮な翻訳、完璧に焼き上げました",
+    "github": "GitHub",
+    "mit_license": "MITライセンス",
+    "version": "v{{version}}"
   },
   "errors": {
     "not_found": "ページが見つかりません",
     "go_home": "ホームに戻る"
-  },
-  "footer": {
-    "powered_by": "開発元",
-    "version": "バージョン {{version}}"
   }
 }

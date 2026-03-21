@@ -1,0 +1,42 @@
+{
+  "title": "ロードマップ",
+  "subtitle": "すべてのフェーズが計画され、追跡されています。",
+  "progress": {
+    "title": "全体的な進捗",
+    "parity": "~70% i18next互換",
+    "target": "v1.5.0 (目標: 98%)"
+  },
+  "next_release": {
+    "title": "次期リリース: v1.1.0",
+    "desc": "— 構成サポート＋言語検出"
+  },
+  "filters": {
+    "all": "すべて",
+    "released": "リリース済み",
+    "planned": "計画中",
+    "future": "将来"
+  },
+  "status": {
+    "released": "リリース済み",
+    "in_progress": "進行中",
+    "planned": "計画中",
+    "future": "将来"
+  },
+  "items": {
+    "phase1": { "title": "ランタイム・コア", "subtitle": "土台の作成" },
+    "phase2": { "title": "自動保存", "subtitle": "自然発酵" },
+    "phase3": { "title": "CLI", "subtitle": "ミキサー（抽出機）" },
+    "phase4": { "title": "Reactバインディング", "subtitle": "仕上げのグレイズ" },
+    "phase9": { "title": "高度な複数形対応", "subtitle": "カウンター" },
+    "phase13": { "title": "プラグイン・システム", "subtitle": "初の安定版リリース" },
+    "phase14": { "title": "ヘッドシェフ・エラ", "subtitle": "セキュリティ、フォーマット、移行" },
+    "phase15": { "title": "コンテキスト対応", "subtitle": "コンテキスト・ベイカー" },
+    "phase16": { "title": "言語検出", "subtitle": "ディテクター・ベイカー" },
+    "phase17": { "title": "イベント・システム", "subtitle": "オブザーバー・ベイカー" },
+    "phase18": { "title": "翻訳のネスト", "subtitle": "ネスティング・ベイカー" },
+    "phase19": { "title": "オブジェクトの返却", "subtitle": "オブジェクト・ベイカー" },
+    "phase20": { "title": "複数インスタンス", "subtitle": "マルチ・ベイカー" },
+    "phase21": { "title": "高度なフォーマット", "subtitle": "フォーマット・ベイカー" },
+    "phase22": { "title": "未定義キーのハンドラー", "subtitle": "ハンドラー・ベイカー" }
+  }
+}

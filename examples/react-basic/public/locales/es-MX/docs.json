@@ -1,6 +1,66 @@
 {
-  "page": {
-    "title": "Documentación",
-    "description": "Aprende cómo organizar y usar las traducciones efectivamente"
+  "title": "Documentación",
+  "description": "Guía de referencia para espacios de nombres, diseño de archivos, ganchos de React, comandos CLI y mejores prácticas.",
+  "sections": {
+    "quickstart": "Inicio Rápido",
+    "namespaces": "Espacios de Nombres",
+    "structure": "Estructura de Archivos",
+    "react": "API de React",
+    "cli": "Referencia CLI",
+    "best_practices": "Mejores Prácticas"
+  },
+  "quickstart": {
+    "installation": "Instalación",
+    "initialize": "Inicialización",
+    "react_provider": "Proveedor de React"
+  },
+  "namespaces": {
+    "colon_syntax": "Sintaxis de Dos Puntos — Separador de Espacios de Nombres",
+    "colon_desc": "Los dos puntos : separan el nombre del archivo (espacio de nombres) de la ruta de la clave.",
+    "hierarchical": "Espacios de Nombres Jerárquicos (Subdirectorios)",
+    "hierarchical_desc": "Múltiples dos puntos crean rutas de subdirectorios dentro de su carpeta de idioma.",
+    "dot_notation": "Notación de Punto — Acceso a Objetos Anidados"
+  },
+  "structure": {
+    "recommended": "Esquema de Directorio Recomendado",
+    "nested_vs_flat": "JSON Anidado vs Plano"
+  },
+  "react_api": {
+    "useTranslation": "useTranslation(namespace?)",
+    "useI18n": "useI18n()",
+    "t_signature": "Firma de t()"
+  },
+  "cli": {
+    "batter": "batter — Extraer Claves",
+    "bake": "bake — Compilar y Optimizar",
+    "poacher": "poacher — Migrar desde i18next"
+  },
+  "best_practices": {
+    "items": {
+      "organize": {
+        "title": "Organiza por característica/página",
+        "desc": "Un archivo JSON/TOML por página o función. Evita conjuntos de traducción de un solo archivo inflados."
+      },
+      "semantic": {
+        "title": "Usa claves semánticas",
+        "desc": "Las claves deben describir el contenido, no la posición de la interfaz de usuario. Más fácil para los traductores."
+      },
+      "default_ns": {
+        "title": "Establece defaultNamespace",
+        "desc": "Evita repetir el prefijo de espacio de nombres para traducciones comunes."
+      },
+      "lazy_load": {
+        "title": "Usa HttpBackend + --split",
+        "desc": "Carga perezosa solo de los espacios de nombres necesarios por página. Enorme ganancia de rendimiento para aplicaciones grandes."
+      },
+      "encrypt": {
+        "title": "Cifrar paquetes sensibles",
+        "desc": "Usa el cifrado AES-256-GCM para paquetes con copia sensible (legal, herramientas internas)."
+      },
+      "whitelist": {
+        "title": "Validación de lista blanca de claves",
+        "desc": "El DefaultKeyParser permite solo a-zA-Z0-9_-.:: — seguro por defecto."
+      }
+    }
   }
 }

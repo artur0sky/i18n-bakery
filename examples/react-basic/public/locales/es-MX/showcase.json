@@ -1,35 +1,92 @@
 {
   "page": {
     "title": "Demostración",
-    "description": "Ejemplos interactivos demostrando las características de i18n-bakery"
+    "description": "Ejemplos interactivos que demuestran las características de i18n-bakery"
+  },
+  "sections": {
+    "core": {
+      "title": "Traducción Principal",
+      "desc": "API t() básica: la base de cada flujo de trabajo de i18n."
+    },
+    "interpolation": {
+      "title": "Interpolación de Variables",
+      "desc": "Inyecta valores dinámicos en las traducciones usando la sintaxis Mustache."
+    },
+    "pluralization": {
+      "title": "Pluralización e ICU",
+      "desc": "Maneja los conteos correctamente con las reglas CLDR y ICU MessageFormat."
+    },
+    "formatting": {
+      "title": "Formateo Avanzado",
+      "desc": "Formatea números, moneda y porcentajes usando el sistema de plugins integrado."
+    },
+    "react": {
+      "title": "Integración con React",
+      "desc": "Hooks y componentes de React integrados con renderizados automáticos."
+    },
+    "security": {
+      "title": "Características de Seguridad",
+      "desc": "Prevención de recorrido de ruta, protección contra contaminación de prototipos, sanitización de claves."
+    }
+  },
+  "cards": {
+    "basic": "Traducción Básica",
+    "fallback": "Idioma de Respaldo",
+    "defaultValueString": "Valor por Defecto (cadena)",
+    "defaultValueOptions": "Valor por Defecto (opciones)",
+    "simpleVar": "Variable Simple",
+    "nestedVar": "Variable Anidada",
+    "standardPlural": "Pluralización Estándar",
+    "zeroPlural": "Sobrescribir conteo cero",
+    "ordinal": "Plurales ordinales (ICU)",
+    "currency": "Formato de Moneda",
+    "percentage": "Porcentaje y Compacto",
+    "hook": "Hook useTranslation",
+    "reactive": "Actualizaciones Reactivas",
+    "prototype": "Protección de Prototipos",
+    "traversal": "Prevención de Recorrido",
+    "sanitization": "Sanitización de Claves"
   },
   "tests": {
     "basic": {
       "title": "Traducción Básica",
-      "value": "¡Hola, Mundo!"
+      "value": "¡Hola, Mundo! 🥯"
     },
     "fallback": {
-      "title": "Comportamiento de Respaldo",
-      "hint": "Esta clave solo existe en en-US para demostrar el respaldo"
+      "title": "Comportamiento Fallback",
+      "hint": "Esta clave solo existe en en-US; otros idiomas usan el inglés como respaldo",
+      "value": "Este texto siempre volverá al inglés en otros idiomas",
+      "note": "(Falta en otros idiomas)"
+    },
+    "defaultValue": {
+      "title": "Valor por Defecto (v1.0.8)",
+      "string": "¡Default recién horneado! 🥯",
+      "object": "Default del objeto de opciones"
     },
     "interpolation": {
       "title": "Interpolación de Variables",
-      "value": "¡Hola, {{name}}!"
+      "value": "¡Hola, {{name}}!",
+      "nested": "¡Hola, {{user.name}}!"
     },
     "plural": {
       "title": "Pluralización",
       "value": "Tienes {{count}} artículo",
-      "value_plural": "Tienes {{count}} artículos"
+      "value_plural": "Tienes {{count}} artículos",
+      "value_0": "No hay artículos en tu carrito",
+      "zero": "No hay artículos en tu carrito"
     },
     "formatting": {
-      "title": "Formato de Números",
-      "value": "Precio: {{price, currency}}",
-      "percent": "Descuento: {{val, percent}}"
+      "title": "Formateo de Números",
+      "value": "Precio: {{price|currency:USD}}",
+      "percent": "Descuento: {{val|percent}}",
+      "compact": "{{views|compact}} vistas"
     },
     "plugins": {
-      "title": "Transformaciones de Plugins",
-      "text_upper": "hola mundo | upper",
-      "text_capitalize": "hola mundo | capitalize"
+      "title": "Transformaciones de Plugin",
+      "text": "hola mundo",
+      "text_upper": "hola mundo",
+      "text_capitalize": "hola mundo",
+      "text_title": "hola mundo"
     }
   }
 }

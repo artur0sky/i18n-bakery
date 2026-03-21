@@ -1,42 +1,60 @@
 {
   "hero": {
-    "title": "i18n-bakery 🥯",
+    "badge": "v1.0.8 — El Lanzamiento del Chef Principal — Ya Estable",
+    "title_bakery": "-bakery",
     "subtitle": "Traducciones frescas, horneadas a la perfección",
-    "description": "Una biblioteca de internacionalización ligera y type-safe para aplicaciones React modernas"
+    "description": "Una biblioteca liviana y con tipado seguro para React. Alternativa directa a i18next con una arquitectura limpia de complementos, cero dependencias en tiempo de ejecución y una experiencia de desarrollo deliciosa.",
+    "cta": {
+      "showcase": "Demostración en vivo",
+      "github": "GitHub"
+    }
   },
-  "nav": {
+  "stats": {
+    "languages": "Idiomas vía CLDR",
+    "tests": "Pruebas superadas",
+    "runtime_deps": "Dep. de ejecución",
+    "coverage": "Cobertura de pruebas"
+  },
+  "nav_cards": {
     "showcase": {
-      "title": "Demostración",
-      "description": "Mira i18n-bakery en acción con ejemplos en vivo"
+      "title": "Demostración en Vivo",
+      "desc": "Mira cada característica en acción con demostraciones interactivas"
     },
     "docs": {
       "title": "Documentación",
-      "description": "Aprende cómo usar i18n-bakery en tus proyectos"
+      "desc": "Aprende espacios de nombres, estructura de archivos y mejores prácticas"
     },
-    "github": {
-      "title": "GitHub",
-      "description": "Ver código fuente y contribuir"
+    "roadmap": {
+      "title": "Hoja de Ruta",
+      "desc": "Próximas funciones con cronogramas estimados de lanzamiento",
+      "badge": "Nuevo"
     }
   },
   "features": {
-    "title": "Características Principales",
-    "items": {
-      "multilang": {
-        "title": "Soporte Multi-idioma",
-        "description": "Soporte para múltiples idiomas con respaldos automáticos"
-      },
-      "performance": {
-        "title": "Alto Rendimiento",
-        "description": "Optimizado para velocidad con tamaño de paquete mínimo"
-      },
-      "plugins": {
-        "title": "Sistema de Plugins",
-        "description": "Extiende la funcionalidad con plugins personalizados"
-      },
-      "typesafe": {
-        "title": "Seguridad de Tipos",
-        "description": "Soporte completo de TypeScript con traducciones type-safe"
-      }
+    "section_title": "Lo que hay en el horno",
+    "multi_lang": {
+      "title": "Soporte Multi-idioma",
+      "desc": "Soporte para múltiples idiomas desde el primer momento. Pluralización CLDR para +100 idiomas."
+    },
+    "zero_deps": {
+      "title": "Cero Dependencias",
+      "desc": "El núcleo utiliza solo Web APIs nativas. Tamaño de paquete diminuto, velocidad máxima."
+    },
+    "plugin_system": {
+      "title": "Sistema de Plugins",
+      "desc": "Formato de números, mayúsculas, backends personalizados, detectores y más."
+    },
+    "type_safe": {
+      "title": "Tipado Seguro",
+      "desc": "Compatibilidad total con TypeScript. Validación estricta de claves. Protección contra contaminación de prototipos."
+    },
+    "toml_json": {
+      "title": "TOML + JSON",
+      "desc": "Escribe traducciones en JSON o TOML. Parser TOML sin dependencias incluido."
+    },
+    "encryption": {
+      "title": "Cifrado AES-256",
+      "desc": "Cifra paquetes de traducción en tiempo de compilación. Descifra sobre la marcha en el lado del cliente."
     }
   }
 }

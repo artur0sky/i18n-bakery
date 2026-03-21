@@ -11,7 +11,6 @@ import {
 
 // Initialize plugins
 const httpBackend = new HttpBackend();
-
 const numberFormat = new NumberFormatPlugin();
 const capitalize = new CapitalizePlugin();
 
@@ -19,10 +18,10 @@ const config = {
   locale: "en-US",
   fallbackLocale: "en-US",
   supportedLocales: ["en-US", "es-MX", "it", "jp"],
-  defaultNamespace: "common", // Set default namespace to 'common'
-  plugins: [httpBackend, numberFormat, capitalize], // Register plugins
+  defaultNamespace: "common",
+  plugins: [httpBackend, numberFormat, capitalize],
   loader: httpBackend,
-  debug: true,
+  debug: false,
 };
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
