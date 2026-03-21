@@ -17,22 +17,23 @@ export interface I18nProviderProps {
 
 export const I18nProvider: React.FC<I18nProviderProps> = ({ config, children }) => {
   // Initialize singleton if not already done, or use existing
-  const i18n = useMemo(() => {
-    try {
-      return getI18n();
-    } catch {
-      return initI18n(config);
-    }
-  }, [config]);
+  const i18n = useMemo(() => initI18n(config), [config]);
 
   const [locale, setLocaleState] = useState(i18n.getCurrentLocale());
   const [isLoading, setIsLoading] = useState(false);
+  const [tick, setTick] = useState(0);
+
+  useEffect(() => {
+    return i18n.subscribe(() => {
+      setLocaleState(i18n.getCurrentLocale());
+      setTick(t => t + 1);
+    });
+  }, [i18n]);
 
   const setLocale = async (newLocale: string) => {
     setIsLoading(true);
     try {
       await i18n.setLocale(newLocale);
-      setLocaleState(newLocale);
     } finally {
       setIsLoading(false);
     }
@@ -43,7 +44,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ config, children }) 
     locale,
     setLocale,
     isLoading
-  }), [i18n, locale, isLoading]);
+  }), [i18n, locale, isLoading, tick]);
 
   return (
     <I18nContext.Provider value={value}>

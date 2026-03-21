@@ -21,6 +21,7 @@ export class I18nService {
   private loadedNamespaces: Set<string> = new Set();
   private pendingLoads: Map<string, Promise<void>> = new Map();
   private pendingSaves: Set<string> = new Set(); // Prevent spamming saves for same key
+  private listeners: Set<() => void> = new Set();
 
   constructor(config: I18nConfig) {
     this.currentLocale = config.locale;
@@ -52,6 +53,16 @@ export class I18nService {
 
   public async setLocale(locale: Locale): Promise<void> {
     this.currentLocale = locale;
+    this.notifyListeners();
+  }
+
+  public subscribe(listener: () => void): () => void {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  }
+
+  private notifyListeners(): void {
+    this.listeners.forEach(listener => listener());
   }
 
   public t(key: string, defaultText?: string, vars?: Record<string, any>): string {
@@ -165,20 +176,30 @@ export class I18nService {
   public addTranslations(locale: Locale, namespace: Namespace, data: Record<string, string>) {
     this.store.setNamespace(locale, namespace, data);
     this.loadedNamespaces.add(`${locale}:${namespace}`);
+    this.notifyListeners();
   }
 
   private parseKey(key: string): { namespace: Namespace; key: Key } {
-    // i18next style: ns:key
+    // 1. i18next style with colon: "ns:key.subkey"
     if (key.includes(':')) {
-      const parts = key.split(':');
-      return { namespace: parts[0], key: parts.slice(1).join(':') };
+      const [namespace, ...keyParts] = key.split(':');
+      return { namespace, key: keyParts.join(':') };
     }
 
-    const parts = key.split('.');
-    if (parts.length > 1) {
-      return { namespace: parts[0], key: parts.slice(1).join('.') };
+    // 2. Dot notation ns fallback: "ns.key.subkey"
+    // To avoid splitting "user.name" into ns="user", key="name" when it's not and ns,
+    // we assume dots are normally subkeys UNLESS we decide they are namespaces.
+    // In i18next, a dot is a namespace separator only if specifically configured.
+    // For Bakery, we'll keep dots as subkeys by default and colon as namespace separator.
+    const dotIndex = key.indexOf('.');
+    if (dotIndex > 0) {
+        // If we want dots as fallback namespaces, we split here. 
+        // But for strict i18next parity where ":" is the ns separator, we might want to skip this.
+        // Let's make it work for the common case where 'common' is the default ns.
+        return { namespace: key.substring(0, dotIndex), key: key.substring(dotIndex + 1) };
     }
-    return { namespace: 'common', key }; // Default namespace
+
+    return { namespace: 'common', key };
   }
 
   private handleMissingKey(locale: Locale, namespace: Namespace, key: Key, value: string) {
