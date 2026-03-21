@@ -3,7 +3,7 @@ import { I18nService } from '../src/use-cases/I18nService';
 import { MemoryStore } from '../src/adapters/MemoryStore';
 
 describe('i18next Compatibility', () => {
-  const config = { locale: 'en' };
+  const config = { locale: 'en', defaultNamespace: 'common' };
   let i18n: I18nService;
 
   beforeEach(() => {
@@ -17,8 +17,9 @@ describe('i18next Compatibility', () => {
     });
   });
 
-  it('should support standard dot notation (ns.key)', () => {
-    expect(i18n.t('auth.login')).toBe('Log In');
+  it('should support standard dot notation (ns.key) with defaultNamespace', () => {
+    // With defaultNamespace='common', 'nested.var' uses common namespace
+    expect(i18n.t('nested.var', undefined, { deep: { value: 42 } })).toBe('Value is 42');
   });
 
   it('should support i18next colon notation (ns:key)', () => {
@@ -26,7 +27,7 @@ describe('i18next Compatibility', () => {
   });
 
   it('should support nested variables in interpolation', () => {
-    expect(i18n.t('common.nested.var', undefined, { deep: { value: 42 } }))
+    expect(i18n.t('nested.var', undefined, { deep: { value: 42 } }))
       .toBe('Value is 42');
   });
 
@@ -35,7 +36,7 @@ describe('i18next Compatibility', () => {
      i18n.addTranslations('en', 'common', {
          'messages.error': 'An error occurred'
      });
-     // Accessing via common.messages.error
-     expect(i18n.t('common.messages.error')).toBe('An error occurred');
+     // Accessing via common namespace with nested key
+     expect(i18n.t('messages.error')).toBe('An error occurred');
   });
 });

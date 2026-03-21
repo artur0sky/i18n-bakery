@@ -1,28 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { I18nProvider } from '@i18n-bakery/react';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+import { I18nProvider } from "@i18n-bakery/react";
+import {
+  HttpBackend,
+  NumberFormatPlugin,
+  CapitalizePlugin,
+} from "@i18n-bakery/core";
+
+// Initialize plugins
+const httpBackend = new HttpBackend();
+
+const numberFormat = new NumberFormatPlugin();
+const capitalize = new CapitalizePlugin();
 
 const config = {
-  locale: 'en',
-  fallbackLocale: 'es',
-  loader: {
-    load: async (locale: string, ns: string) => {
-      console.log(`Loading ${locale}/${ns}...`);
-      // Simulate async load
-      await new Promise(resolve => setTimeout(resolve, 500));
-      if (locale === 'en' && ns === 'common') {
-        return { welcome: 'Welcome to the Bakery!', switch: 'Switch Language' };
-      }
-      if (locale === 'es' && ns === 'common') {
-        return { welcome: '¡Bienvenido a la Panadería!', switch: 'Cambiar Idioma' };
-      }
-      return null;
-    }
-  }
+  locale: "en-US",
+  fallbackLocale: "en-US",
+  supportedLocales: ["en-US", "es-MX", "it", "jp"],
+  defaultNamespace: "common", // Set default namespace to 'common'
+  plugins: [httpBackend, numberFormat, capitalize], // Register plugins
+  loader: httpBackend,
+  debug: true,
 };
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <I18nProvider config={config}>
       <App />

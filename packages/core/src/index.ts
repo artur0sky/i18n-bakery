@@ -16,8 +16,8 @@ export function getI18n(): I18nService {
   return i18nInstance;
 }
 
-export function t(key: string, defaultText?: string, vars?: Record<string, any>): string {
-  return getI18n().t(key, defaultText, vars);
+export function t(key: string, defaultTextOrVars?: string | Record<string, any>, options?: Record<string, any>): string {
+  return getI18n().t(key, defaultTextOrVars, options);
 }
 
 export function setLocale(locale: string): Promise<void> {
@@ -34,21 +34,9 @@ export * from './use-cases/I18nService';
 export * from './adapters/MemoryStore';
 export * from './adapters/MustacheFormatter';
 export * from './adapters/ICUMessageFormatter';
-export * from './adapters/ConsoleSaver';
-export * from './adapters/node/JSONFileSaver';
-
-// Phase 7 - Advanced Key Engine
-export * from './adapters/DefaultKeyParser';
-export * from './adapters/FileSystemPathResolver';
-
-// Phase 8 - Variable Detection
-export * from './adapters/DefaultVariableDetector';
-export * from './adapters/MemoryTranslationEntryManager';
-
+export * from './adapters/TOMLLoader';
 // Phase 9 - File Auto-creation
-export * from './adapters/JSONFileWriter';
-export * from './adapters/NodeFileSystemManager';
-export * from './use-cases/TranslationFileManager';
+// Moved to @i18n-bakery/baker
 
 // Pluralization
 export * from './adapters/SuffixPluralResolver';
@@ -58,4 +46,9 @@ export * from './adapters/CLDRPluralResolver';
 export * from './adapters/DefaultPluginManager';
 export * from './plugins/NumberFormatPlugin';
 export * from './plugins/CapitalizePlugin';
+export * from './plugins/HttpBackend';
+
+// Encryption
+export * from './domain/Encryption';
+export * from './adapters/Aes256GcmCipher';
 

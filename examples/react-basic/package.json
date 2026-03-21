@@ -5,18 +5,29 @@
     "dependencies": {
         "@i18n-bakery/core": "workspace:*",
         "@i18n-bakery/react": "workspace:*",
-        "react": "19.2.1",
-        "react-dom": "19.2.1"
+        "tailwind-merge": "3.4.0",
+        "react": "19.2.3",
+        "react-dom": "19.2.3"
     },
     "devDependencies": {
+        "@i18n-bakery/cli": "workspace:*",
+        "@tailwindcss/vite": "4.1.17",
         "@types/react": "19.2.7",
-        "@types/react-dom": "19.2.1",
-        "@vitejs/plugin-react": "4.2.1",
-        "vite": "5.0.10"
+        "@types/react-dom": "19.2.3",
+        "@vitejs/plugin-react": "5.1.1",
+        "autoprefixer": "10.4.22",
+        "postcss": "8.5.6",
+        "tailwindcss": "4.1.17",
+        "tailwindcss-patch": "8.4.2",
+        "unplugin-tailwindcss-mangle": "5.0.0",
+        "wouter": "3.8.0",
+        "vite": "7.3.0"
     },
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "i18n:extract": "i18n-bakery batter src --locale en-US,es-MX,it,jp",
+        "i18n:bake": "i18n-bakery bake locales --split --manifest manifest.json"
     }
 }

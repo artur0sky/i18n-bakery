@@ -1,13 +1,17 @@
 import { describe, it, expect, vi } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { I18nProvider, useTranslation, useI18n } from '../src';
-import { I18nConfig, I18nService, initI18n } from '@i18n-bakery/core';
+import { I18nConfig, I18nService } from '@i18n-bakery/core';
 import React from 'react';
+
+// Mock I18nService to avoid full core dependency in unit tests if desired,
+// but integration testing with real core is better for this package.
+// We will use real core but mock loader/saver if needed.
 
 const mockConfig: I18nConfig = {
   locale: 'en',
   fallbackLocale: 'es',
-  debug: true,
+  defaultNamespace: 'common',
   loader: {
     load: async (locale, ns) => {
       if (locale === 'en' && ns === 'common') {
@@ -17,8 +21,6 @@ const mockConfig: I18nConfig = {
     }
   }
 };
-
-const service = initI18n(mockConfig);
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   React.createElement(I18nProvider, { config: mockConfig, children }, children)
@@ -32,21 +34,24 @@ describe('React Bindings', () => {
   });
 
   it('should translate using useTranslation', async () => {
+    // We need both hooks to test interaction
     const { result } = renderHook(() => {
-        const tObj = useTranslation();
-        const { i18n } = useI18n();
-        return { ...tObj, i18nInstance: i18n };
+        const t = useTranslation();
+        const i18n = useI18n();
+        return { ...t, setLocale: i18n.setLocale, i18nInstance: i18n.i18n };
     }, { wrapper });
     
+    // First render, translation missing
     expect(result.current.t('common:hello')).toBe('common:hello'); 
 
-    act(() => {
+    // Add translations manually
+    await act(async () => {
       result.current.i18nInstance.addTranslations('en', 'common', { hello: 'Hello World' });
+      // Force re-render
+      await result.current.setLocale('en');
     });
     
-    await waitFor(() => {
-      expect(result.current.t('common:hello')).toBe('Hello World');
-    });
+    expect(result.current.t('common:hello')).toBe('Hello World');
   });
 
   it('should change locale', async () => {
@@ -63,6 +68,9 @@ describe('React Bindings', () => {
   it('should handle namespaces in useTranslation', () => {
     const { result } = renderHook(() => useTranslation('auth'), { wrapper });
     
-    expect(result.current.t('login')).toBe('auth.login');
+    // Should prepend namespace
+    // i18n.t returns key if not found.
+    expect(result.current.t('login')).toBe('auth:login');
+    expect(result.current.t('common:login')).toBe('common:login'); // Already has namespace
   });
 });

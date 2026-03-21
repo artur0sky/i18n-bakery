@@ -1,7 +1,8 @@
+import { Logger } from './Logger';
 export type Locale = string;
 export type Namespace = string;
 export type Key = string;
-export type TranslationValue = string;
+export type TranslationValue = string | { [key: string]: TranslationValue };
 export type TranslationMap = Record<Key, TranslationValue>;
 export type NamespaceMap = Record<Namespace, TranslationMap>;
 export type LocaleMap = Record<Locale, NamespaceMap>;
@@ -14,10 +15,18 @@ export type OutputFormat = 'json' | 'yml' | 'yaml' | 'toml' | 'toon';
 export interface I18nConfig {
   locale: Locale;
   fallbackLocale?: Locale;
+  supportedLocales?: Locale[];
   loader?: Loader;
   saver?: TranslationSaver; // New Port
   saveMissing?: boolean;    // Feature Flag
   debug?: boolean;
+  logger?: Logger;          // Logger Port
+  /**
+   * Default namespace to use when no namespace is specified in the key.
+   * If not set, keys without namespace will use a file named after the locale (e.g., 'en-US.json').
+   * @default undefined (uses locale-named file like i18next)
+   */
+  defaultNamespace?: Namespace;
   /**
    * Output format for translation files.
    * @default 'json'
@@ -31,9 +40,9 @@ export interface I18nConfig {
    */
   pluralizationStrategy?: 'suffix' | 'cldr';
   /**
-   * Message format syntax to use.
-   * - 'mustache': Simple {{variable}} syntax (default)
-   * - 'icu': ICU MessageFormat syntax with plural, select, selectordinal
+   * Message format to use for interpolation.
+   * - 'mustache': Simple {{variable}} syntax
+   * - 'icu': ICU MessageFormat syntax
    * @default 'mustache'
    */
   messageFormat?: 'mustache' | 'icu';
@@ -45,9 +54,9 @@ export interface I18nConfig {
    */
   fileStructure?: 'nested' | 'flat';
   /**
-   * Plugins to register on initialization.
+   * Plugin instances to register.
    */
-  plugins?: Array<any>; // Using any to avoid circular dependency
+  plugins?: any[];
 }
 
 export interface Loader {
@@ -70,15 +79,14 @@ export interface Store {
   getAll(locale: Locale): NamespaceMap;
 }
 
-// Re-export Phase 7 & 8 interfaces
-export * from './KeyParser';
-export * from './VariableDetection';
-
-// Re-export Phase 9 interfaces
-export * from './FileWriter';
+// Re-export Pluralization interfaces
 
 // Re-export Pluralization interfaces
 export * from './Pluralization';
 
 // Re-export Plugin interfaces
 export * from './Plugin';
+
+// Logger
+export * from './Logger';
+export * from '../adapters/ConsoleLogger';
