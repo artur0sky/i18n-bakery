@@ -1,10 +1,11 @@
 {
-  "description": "A modern i18n solution for React applications",
   "welcome": "Welcome to i18n-bakery",
+  "description": "A modern i18n solution for React applications",
   "nav": {
     "home": "Home",
     "showcase": "Showcase",
-    "docs": "Documentation"
+    "docs": "Documentation",
+    "roadmap": "Roadmap"
   },
   "errors": {
     "not_found": "Page not found",

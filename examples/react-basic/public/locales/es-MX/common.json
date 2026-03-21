@@ -4,7 +4,8 @@
   "nav": {
     "home": "Inicio",
     "showcase": "Demostración",
-    "docs": "Documentación"
+    "docs": "Documentación",
+    "roadmap": "Hoja de Ruta"
   },
   "errors": {
     "not_found": "Página no encontrada",

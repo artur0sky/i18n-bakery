@@ -6,31 +6,42 @@
   "tests": {
     "basic": {
       "title": "Basic Translation",
-      "value": "Hello, World!"
+      "value": "Hello, World! 🥯"
     },
     "fallback": {
       "title": "Fallback Behavior",
-      "hint": "This key only exists in en-US to demonstrate fallback",
-      "value": "This text will fallback to English in other languages"
+      "hint": "This key only exists in en-US — other locales fall back to English",
+      "value": "This text will always fallback to English in other languages"
+    },
+    "defaultValue": {
+      "title": "Default Value (v1.0.8)",
+      "string": "Freshly baked default! 🥯",
+      "object": "Default from options object"
     },
     "interpolation": {
       "title": "Variable Interpolation",
-      "value": "Hello, {{name}}!"
+      "value": "Hello, {{name}}!",
+      "nested": "Hello, {{user.name}}!"
     },
     "plural": {
       "title": "Pluralization",
       "value": "You have {{count}} item",
-      "value_plural": "You have {{count}} items"
+      "value_plural": "You have {{count}} items",
+      "value_0": "No items in your cart",
+      "zero": "No items in your cart"
     },
     "formatting": {
       "title": "Number Formatting",
-      "value": "Price: {{price, currency}}",
-      "percent": "Discount: {{val, percent}}"
+      "value": "Price: {{price|currency:USD}}",
+      "percent": "Discount: {{val|percent}}",
+      "compact": "{{views|compact}} views"
     },
     "plugins": {
       "title": "Plugin Transformations",
-      "text_upper": "hello world | upper",
-      "text_capitalize": "hello world | capitalize"
+      "text": "hello world",
+      "text_upper": "hello world",
+      "text_capitalize": "hello world",
+      "text_title": "hello world"
     }
   }
 }

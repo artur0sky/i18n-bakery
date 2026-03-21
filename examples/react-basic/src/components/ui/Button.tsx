@@ -1,21 +1,40 @@
 import React from 'react';
+import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline';
+  size?: 'sm' | 'md';
 }
 
-export const Button: React.FC<ButtonProps> = ({ children, variant = 'secondary', className = '', ...props }) => {
-  const baseStyles = "px-3 py-1 rounded cursor-pointer transition-colors duration-200 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-1";
-  
-  const variants = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-    secondary: "bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200 focus:ring-gray-400",
-    outline: "bg-transparent border border-gray-300 text-gray-600 hover:bg-gray-50 focus:ring-gray-400"
-  };
+const variantStyles = {
+  primary: 'bg-amber-500 text-surface-0 hover:bg-amber-400 font-semibold shadow-lg shadow-amber-500/20',
+  secondary: 'bg-surface-4 text-ink-100 hover:bg-ink-700/60 border border-white/8',
+  ghost: 'text-ink-300 hover:text-ink-100 hover:bg-white/5',
+  outline: 'border border-white/12 text-ink-200 hover:border-amber-500/50 hover:text-amber-400',
+};
 
+const sizeStyles = {
+  sm: 'px-3 py-1.5 text-xs rounded-lg',
+  md: 'px-4 py-2 text-sm rounded-xl',
+};
+
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  variant = 'secondary',
+  size = 'md',
+  className = '',
+  ...props
+}) => {
   return (
-    <button 
-      className={`${baseStyles} ${variants[variant]} ${className}`}
+    <button
+      className={twMerge(
+        'inline-flex items-center justify-center cursor-pointer transition-all duration-150',
+        'font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50',
+        'active:scale-95 disabled:opacity-40 disabled:pointer-events-none',
+        variantStyles[variant],
+        sizeStyles[size],
+        className
+      )}
       {...props}
     >
       {children}

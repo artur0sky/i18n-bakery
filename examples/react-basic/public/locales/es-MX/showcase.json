@@ -1,35 +1,41 @@
 {
   "page": {
     "title": "Demostración",
-    "description": "Ejemplos interactivos demostrando las características de i18n-bakery"
+    "description": "Ejemplos interactivos de las características de i18n-bakery"
   },
   "tests": {
     "basic": {
       "title": "Traducción Básica",
-      "value": "¡Hola, Mundo!"
+      "value": "¡Hola, Mundo! 🥯"
     },
     "fallback": {
       "title": "Comportamiento de Respaldo",
-      "hint": "Esta clave solo existe en en-US para demostrar el respaldo"
+      "hint": "Esta clave solo existe en en-US para demostrar el respaldo automático"
     },
     "interpolation": {
       "title": "Interpolación de Variables",
-      "value": "¡Hola, {{name}}!"
+      "value": "¡Hola, {{name}}!",
+      "nested": "¡Hola, {{user.name}}!"
     },
     "plural": {
       "title": "Pluralización",
       "value": "Tienes {{count}} artículo",
-      "value_plural": "Tienes {{count}} artículos"
+      "value_plural": "Tienes {{count}} artículos",
+      "value_0": "No tienes artículos en el carrito",
+      "zero": "No tienes artículos en el carrito"
     },
     "formatting": {
       "title": "Formato de Números",
-      "value": "Precio: {{price, currency}}",
-      "percent": "Descuento: {{val, percent}}"
+      "value": "Precio: {{price|currency:MXN}}",
+      "percent": "Descuento: {{val|percent}}",
+      "compact": "{{views|compact}} vistas"
     },
     "plugins": {
       "title": "Transformaciones de Plugins",
-      "text_upper": "hola mundo | upper",
-      "text_capitalize": "hola mundo | capitalize"
+      "text": "hola mundo",
+      "text_upper": "hola mundo",
+      "text_capitalize": "hola mundo",
+      "text_title": "hola mundo"
     }
   }
 }

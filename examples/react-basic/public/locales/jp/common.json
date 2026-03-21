@@ -4,7 +4,8 @@
   "nav": {
     "home": "ホーム",
     "showcase": "デモ",
-    "docs": "ドキュメント"
+    "docs": "ドキュメント",
+    "roadmap": "ロードマップ"
   },
   "errors": {
     "not_found": "ページが見つかりません",
