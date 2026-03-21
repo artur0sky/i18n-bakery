@@ -3,6 +3,50 @@
     "title": "デモ",
     "description": "i18n-bakeryの機能を示すインタラクティブな例"
   },
+  "sections": {
+    "core": {
+      "title": "コア翻訳",
+      "desc": "基本的な t() API — すべての i18n ワークフローの基盤です。"
+    },
+    "interpolation": {
+      "title": "変数の補間",
+      "desc": "Mustache 構文を使用して、動的な値を翻訳に注入します。"
+    },
+    "pluralization": {
+      "title": "複数形と ICU",
+      "desc": "CLDR ルールと ICU MessageFormat を使用して、カウントを正しく処理します。"
+    },
+    "formatting": {
+      "title": "高度なフォーマット",
+      "desc": "組み込みのプラグインシステムを使用して、数値、通貨、パーセンテージをフォーマットします。"
+    },
+    "react": {
+      "title": "React 統合",
+      "desc": "シームレスな React フックとコンポーネントによる自動再レンダリング。"
+    },
+    "security": {
+      "title": "セキュリティ機能",
+      "desc": "パス・トラバーサル防止、プロトタイプ汚染ガード、キーのサニタイズ。"
+    }
+  },
+  "cards": {
+    "basic": "基本的な翻訳",
+    "fallback": "フォールバック・ロケール",
+    "defaultValueString": "デフォルト値 (文字列)",
+    "defaultValueOptions": "デフォルト値 (オプション)",
+    "simpleVar": "単純な変数",
+    "nestedVar": "入れ子構造の変数",
+    "standardPlural": "標準的な複数形",
+    "zeroPlural": "カウント 0 の上書き",
+    "ordinal": "序数 (ICU)",
+    "currency": "通貨のフォーマット",
+    "percentage": "パーセントとコンパクト表示",
+    "hook": "useTranslation フック",
+    "reactive": "リアクティブな更新",
+    "prototype": "プロトタイプ汚染ガード",
+    "traversal": "パス・トラバーサル防止",
+    "sanitization": "キーのサニタイズ"
+  },
   "tests": {
     "basic": {
       "title": "基本的な翻訳",

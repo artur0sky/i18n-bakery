@@ -3,9 +3,9 @@
   "tagline": "Traduzioni fresche, sfornate alla perfezione",
   "nav": {
     "home": "Home",
-    "showcase": "Showcase",
-    "docs": "Docs",
-    "roadmap": "Roadmap"
+    "showcase": "Vetrina",
+    "docs": "Documentazione",
+    "roadmap": "Tabella di marcia"
   },
   "footer": {
     "description": "i18n-bakery — Traduzioni fresche, sfornate alla perfezione",

@@ -3,6 +3,50 @@
     "title": "Dimostrazione",
     "description": "Esempi interattivi che dimostrano le caratteristiche di i18n-bakery"
   },
+  "sections": {
+    "core": {
+      "title": "Traduzione Core",
+      "desc": "API t() di base — la fondazione di ogni workflow i18n."
+    },
+    "interpolation": {
+      "title": "Interpolazione Variabili",
+      "desc": "Inserisci valori dinamici nelle traduzioni usando la sintassi Mustache."
+    },
+    "pluralization": {
+      "title": "Pluralizzazione e ICU",
+      "desc": "Gestisci i conteggi correttamente con le regole CLDR e ICU MessageFormat."
+    },
+    "formatting": {
+      "title": "Formattazione Avanzata",
+      "desc": "Formatta numeri, valuta e percentuali usando il sistema a plugin integrato."
+    },
+    "react": {
+      "title": "Integrazione con React",
+      "desc": "Hook e componenti React con re-render automatici."
+    },
+    "security": {
+      "title": "Funzioni di Sicurezza",
+      "desc": "Prevenzione path traversal, protezione prototipi e sanitizzazione chiavi."
+    }
+  },
+  "cards": {
+    "basic": "Traduzione Base",
+    "fallback": "Locale di Fallback",
+    "defaultValueString": "Valore Predefinito (stringa)",
+    "defaultValueOptions": "Valore Predefinito (opzioni)",
+    "simpleVar": "Variabile Semplice",
+    "nestedVar": "Variabile Annidata",
+    "standardPlural": "Pluralizzazione Standard",
+    "zeroPlural": "Override conteggio zero",
+    "ordinal": "Plurali ordinali (ICU)",
+    "currency": "Formattazione Valuta",
+    "percentage": "Percentuale e Compatto",
+    "hook": "Hook useTranslation",
+    "reactive": "Aggiornamenti Reattivi",
+    "prototype": "Protezione Prototipi",
+    "traversal": "Prevenzione Path Traversal",
+    "sanitization": "Sanitizzazione Chiavi"
+  },
   "tests": {
     "basic": {
       "title": "Traduzione Base",

@@ -21,5 +21,22 @@
     "in_progress": "In Corso",
     "planned": "Pianificato",
     "future": "Futuro"
+  },
+  "items": {
+    "phase1": { "title": "Nucleo Runtime", "subtitle": "La Fondazione" },
+    "phase2": { "title": "Salvataggio Automatico", "subtitle": "Auto-Lievitazione" },
+    "phase3": { "title": "CLI", "subtitle": "Il Mixer" },
+    "phase4": { "title": "Binding per React", "subtitle": "La Glassatura" },
+    "phase9": { "title": "Pluralizzazione Avanzata", "subtitle": "Il Bancone" },
+    "phase13": { "title": "Sistema a Plugin", "subtitle": "Primo Rilascio Stabile" },
+    "phase14": { "title": "L'era dell'Head Chef", "subtitle": "Sicurezza, Formati, Migrazione" },
+    "phase15": { "title": "Supporto per i Contesti", "subtitle": "Il Fornaio dei Contesti" },
+    "phase16": { "title": "Rilevamento della Lingua", "subtitle": "Il Fornaio del Rilevamento" },
+    "phase17": { "title": "Sistema di Eventi", "subtitle": "Il Fornaio Osservatore" },
+    "phase18": { "title": "Traduzioni Annidate", "subtitle": "Il Fornaio dei Nidi" },
+    "phase19": { "title": "Ritorno di Oggetti", "subtitle": "Il Fornaio degli Oggetti" },
+    "phase20": { "title": "Istanze Multiple", "subtitle": "Il Multi-Fornaio" },
+    "phase21": { "title": "Formattazione Avanzata", "subtitle": "Il Fornaio del Formato" },
+    "phase22": { "title": "Gestione Chiavi Mancanti", "subtitle": "Il Fornaio Gestore" }
   }
 }

@@ -8,5 +8,59 @@
     "react": "React API",
     "cli": "CLIリファレンス",
     "best_practices": "ベストプラクティス"
+  },
+  "quickstart": {
+    "installation": "インストール",
+    "initialize": "初期化",
+    "react_provider": "Reactプロバイダー"
+  },
+  "namespaces": {
+    "colon_syntax": "コロン形式 — 名前空間のセパレーター",
+    "colon_desc": "コロン : は、ファイル名（名前空間）とキーパスを区切ります。",
+    "hierarchical": "階層構造の名前空間（サブディレクトリ）",
+    "hierarchical_desc": "複数のコロンを使用して、ロケールフォルダ内にサブディレクトリのパスを作成できます。",
+    "dot_notation": "ドット形式 — ネストされたオブジェクトへのアクセス"
+  },
+  "structure": {
+    "recommended": "推奨されるディレクトリ構成",
+    "nested_vs_flat": "ネスト形式 vs フラット形式（JSON）"
+  },
+  "react_api": {
+    "useTranslation": "useTranslation(名前空間?)",
+    "useI18n": "useI18n()",
+    "t_signature": "t() のシグネチャ"
+  },
+  "cli": {
+    "batter": "batter — キーの抽出",
+    "bake": "bake — コンパイルと最適化",
+    "poacher": "poacher — i18nextからの移行"
+  },
+  "best_practices": {
+    "items": {
+      "organize": {
+        "title": "機能やページごとに整理する",
+        "desc": "ページや機能ごとに1つのJSON/TOMLファイルを用意します。1つの巨大な翻訳セットを避けることができます。"
+      },
+      "semantic": {
+        "title": "意味に基づいたキーを使用する",
+        "desc": "キーはUI上の位置ではなく、内容を説明するように命名します。翻訳者が内容を把握しやすくなります。"
+      },
+      "default_ns": {
+        "title": "デフォルト名前空間を設定する",
+        "desc": "共通の翻訳に対して名前空間のプレフィックスを繰り返す必要がなくなります。"
+      },
+      "lazy_load": {
+        "title": "HttpBackend + --split を使用する",
+        "desc": "ページごとに必要な名前空間のみを遅延読み込みします。大規模なアプリにおいて大幅なパフォーマンス向上を実現します。"
+      },
+      "encrypt": {
+        "title": "機密性の高いバンドルを暗号解除する",
+        "desc": "法的文書や社内向けツールのコピーなど、機密を含むバンドルにはAES-256-GCM暗号化を使用してください。"
+      },
+      "whitelist": {
+        "title": "キーのホワイトリスト検証",
+        "desc": "DefaultKeyParserは a-zA-Z0-9_-.:: のみを許可するため、デフォルトで安全です。"
+      }
+    }
   }
 }
