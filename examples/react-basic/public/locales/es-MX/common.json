@@ -1,14 +1,21 @@
 {
-  "capitalize_title": "capitalize_title",
-  "currency": "currency",
-  "description": "description",
-  "formatting_title": "formatting_title",
-  "interpolation": "interpolation",
-  "interpolation_title": "interpolation_title",
-  "percent": "percent",
-  "plural": "plural",
-  "plural_title": "plural_title",
-  "text_capitalize": "text_capitalize",
-  "text_upper": "text_upper",
-  "welcome": "welcome"
+  "app_name": "i18n-bakery",
+  "tagline": "Traducciones frescas, horneadas a la perfección",
+  "nav": {
+    "home": "Inicio",
+    "showcase": "Escaparate",
+    "docs": "Docs",
+    "roadmap": "Mapa de ruta",
+    "tray": "Tray"
+  },
+  "footer": {
+    "description": "i18n-bakery — Traducciones frescas, horneadas a la perfección",
+    "github": "GitHub",
+    "mit_license": "Licencia MIT",
+    "version": "v{{version}}"
+  },
+  "errors": {
+    "not_found": "Página no encontrada",
+    "go_home": "Volver al inicio"
+  }
 }

@@ -1,14 +1,21 @@
 {
-  "capitalize_title": "Conversione Maiuscole/Minuscole",
-  "currency": "Valuta",
-  "description": "Descrizione",
-  "formatting_title": "Formattazione Avanzata",
-  "interpolation": "Interpolazione",
-  "interpolation_title": "Interpolazione di Variabili",
-  "percent": "Percentuale",
-  "plural": "Plurale",
-  "plural_title": "Pluralizzazione e ICU",
-  "text_capitalize": "testo con maiuscole",
-  "text_upper": "TESTO IN MAIUSCOLO",
-  "welcome": "Benvenuto"
+  "app_name": "i18n-bakery",
+  "tagline": "Traduzioni fresche, sfornate alla perfezione",
+  "nav": {
+    "home": "Home",
+    "showcase": "Showcase",
+    "docs": "Documentazione",
+    "roadmap": "Roadmap",
+    "tray": "Tray"
+  },
+  "footer": {
+    "description": "i18n-bakery — Traduzioni fresche, sfornate alla perfezione",
+    "github": "GitHub",
+    "mit_license": "Licencia MIT",
+    "version": "v{{version}}"
+  },
+  "errors": {
+    "not_found": "Pagina non trovata",
+    "go_home": "Torna alla home"
+  }
 }
