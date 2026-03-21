@@ -1,6 +1,12 @@
 {
-  "page": {
-    "title": "ドキュメント",
-    "description": "翻訳を効果的に整理して使用する方法を学ぶ"
+  "title": "ドキュメント",
+  "description": "名前空間、Reactフック、CLIコマンドなどのリファレンスガイド。",
+  "sections": {
+    "quickstart": "クイックスタート",
+    "namespaces": "名前空間",
+    "structure": "ファイル構造",
+    "react": "React API",
+    "cli": "CLIリファレンス",
+    "best_practices": "ベストプラクティス"
   }
 }

@@ -1,0 +1,25 @@
+{
+  "title": "Tabella di Marcia",
+  "subtitle": "Ogni fase pianificata e tracciata.",
+  "progress": {
+    "title": "Progresso Generale",
+    "parity": "~70% parità con i18next",
+    "target": "v1.5.0 (obiettivo: 98%)"
+  },
+  "next_release": {
+    "title": "Prossimo: v1.1.0",
+    "desc": "— Supporto Context + Language Detection"
+  },
+  "filters": {
+    "all": "Tutti",
+    "released": "Rilasciati",
+    "planned": "Pianificati",
+    "future": "Futuro"
+  },
+  "status": {
+    "released": "Rilasciato",
+    "in_progress": "In Corso",
+    "planned": "Pianificato",
+    "future": "Futuro"
+  }
+}

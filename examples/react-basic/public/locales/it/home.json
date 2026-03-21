@@ -1,42 +1,60 @@
 {
   "hero": {
-    "title": "i18n-bakery 🥯",
-    "subtitle": "Traduzioni fresche, cotte alla perfezione",
-    "description": "Una libreria di internazionalizzazione leggera e type-safe per applicazioni React moderne"
+    "badge": "v1.0.8 — Rilascio Head Chef — Ora Stabile",
+    "title_bakery": "-bakery",
+    "subtitle": "Traduzioni fresche, sfornate alla perfezione",
+    "description": "Una libreria i18n leggera e type-safe per React. Alternativa diretta a i18next con un'architettura a plugin pulita, zero dipendenze runtime e una DX deliziosa.",
+    "cta": {
+      "showcase": "Showcase Artistico",
+      "github": "GitHub"
+    }
   },
-  "nav": {
+  "stats": {
+    "languages": "Lingue via CLDR",
+    "tests": "Test superati",
+    "runtime_deps": "Dip. runtime",
+    "coverage": "Copertura test"
+  },
+  "nav_cards": {
     "showcase": {
-      "title": "Dimostrazione",
-      "description": "Guarda i18n-bakery in azione con esempi dal vivo"
+      "title": "Vetrina in Tempo Reale",
+      "desc": "Scopri ogni funzione in azione con demo interattive"
     },
     "docs": {
       "title": "Documentazione",
-      "description": "Impara come usare i18n-bakery nei tuoi progetti"
+      "desc": "Impara i namespace, la struttura dei file e le migliori pratiche"
     },
-    "github": {
-      "title": "GitHub",
-      "description": "Visualizza il codice sorgente e contribuisci"
+    "roadmap": {
+      "title": "Tabella di Marcia",
+      "desc": "Funzionalità imminenti con previsioni di rilascio",
+      "badge": "Novità"
     }
   },
   "features": {
-    "title": "Caratteristiche Principali",
-    "items": {
-      "multilang": {
-        "title": "Supporto Multi-lingua",
-        "description": "Supporto per più lingue con fallback automatici"
-      },
-      "performance": {
-        "title": "Alte Prestazioni",
-        "description": "Ottimizzato per la velocità con dimensioni del bundle minime"
-      },
-      "plugins": {
-        "title": "Sistema di Plugin",
-        "description": "Estendi le funzionalità con plugin personalizzati"
-      },
-      "typesafe": {
-        "title": "Sicurezza dei Tipi",
-        "description": "Supporto completo TypeScript con traduzioni type-safe"
-      }
+    "section_title": "Cosa c'è nel Forno",
+    "multi_lang": {
+      "title": "Supporto Multi-lingua",
+      "desc": "Supporto multi-lingua integrato. Pluralizzazione CLDR per oltre 100 lingue."
+    },
+    "zero_deps": {
+      "title": "Zero Dipendenze",
+      "desc": "Il core usa solo Web API native. Dimensioni del bundle minuscole, velocità massima."
+    },
+    "plugin_system": {
+      "title": "Sistema a Plugin",
+      "desc": "Formato numeri, capitalize, backend personalizzati, detector e altro."
+    },
+    "type_safe": {
+      "title": "Type-Safe",
+      "desc": "Supporto TypeScript completo. Validazione chiavi rigorosa. Protezione pollution prototipi."
+    },
+    "toml_json": {
+      "title": "TOML + JSON",
+      "desc": "Scrivi traduzioni in JSON o TOML. Parser TOML zero-dep integrato."
+    },
+    "encryption": {
+      "title": "Criptazione AES-256",
+      "desc": "Cripta i pacchetti di traduzione al momento del build. Decripta on-the-fly lato client."
     }
   }
 }

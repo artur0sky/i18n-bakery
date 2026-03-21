@@ -1,6 +1,12 @@
 {
-  "page": {
-    "title": "Documentazione",
-    "description": "Impara come organizzare e usare le traduzioni in modo efficace"
+  "title": "Documentazione",
+  "description": "Guida di riferimento per namespace, hook di React e altro.",
+  "sections": {
+    "quickstart": "Inizio Rapido",
+    "namespaces": "Namespace",
+    "structure": "Struttura File",
+    "react": "API React",
+    "cli": "Riferimento CLI",
+    "best_practices": "Migliori Pratiche"
   }
 }

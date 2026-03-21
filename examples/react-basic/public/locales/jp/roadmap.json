@@ -1,0 +1,25 @@
+{
+  "title": "ロードマップ",
+  "subtitle": "すべてのフェーズが計画され、追跡されています。",
+  "progress": {
+    "title": "全体的な進捗",
+    "parity": "~70% i18next互換",
+    "target": "v1.5.0 (目標: 98%)"
+  },
+  "next_release": {
+    "title": "次期リリース: v1.1.0",
+    "desc": "— 構成サポート＋言語検出"
+  },
+  "filters": {
+    "all": "すべて",
+    "released": "リリース済み",
+    "planned": "計画中",
+    "future": "将来"
+  },
+  "status": {
+    "released": "リリース済み",
+    "in_progress": "進行中",
+    "planned": "計画中",
+    "future": "将来"
+  }
+}
