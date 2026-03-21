@@ -1,29 +1,37 @@
 import React from 'react';
 import { Route, Switch, Link, useLocation } from 'wouter';
 import { useTranslation, useI18n } from '@i18n-bakery/react';
+import {
+  IconHome,
+  IconBolt,
+  IconBook,
+  IconMap,
+  IconBrandGithub,
+  IconBread,
+} from '@tabler/icons-react';
 import { HomePage } from '../features/home/HomePage';
 import { ShowcasePage } from '../features/showcase/ShowcasePage';
 import { DocsPage } from '../features/docs/DocsPage';
 import { RoadmapPage } from '../features/roadmap/RoadmapPage';
 
 const LOCALES = [
-  { value: 'en-US', label: '🇺🇸 EN' },
-  { value: 'es-MX', label: '🇲🇽 ES' },
-  { value: 'it', label: '🇮🇹 IT' },
-  { value: 'jp', label: '🇯🇵 JP' },
+  { value: 'en-US', label: 'US EN' },
+  { value: 'es-MX', label: 'MX ES' },
+  { value: 'it', label: 'IT' },
+  { value: 'jp', label: 'JP' },
+];
+
+const navItems = [
+  { path: '/', label: 'Home', Icon: IconHome },
+  { path: '/showcase', label: 'Showcase', Icon: IconBolt },
+  { path: '/docs', label: 'Docs', Icon: IconBook },
+  { path: '/roadmap', label: 'Roadmap', Icon: IconMap },
 ];
 
 export const AppRouter: React.FC = () => {
   const { t } = useTranslation('common');
   const { setLocale, locale } = useI18n();
   const [location] = useLocation();
-
-  const navItems = [
-    { path: '/', label: 'Home', icon: '🏠' },
-    { path: '/showcase', label: 'Showcase', icon: '⚡' },
-    { path: '/docs', label: 'Docs', icon: '📖' },
-    { path: '/roadmap', label: 'Roadmap', icon: '🗺️' },
-  ];
 
   return (
     <div className="min-h-screen bg-surface-0 text-ink-50 font-sans">
@@ -37,7 +45,10 @@ export const AppRouter: React.FC = () => {
             {/* Logo */}
             <Link href="/">
               <div className="flex items-center gap-2.5 cursor-pointer group">
-                <span className="text-xl transition-transform duration-200 group-hover:scale-110 group-hover:rotate-6">🥯</span>
+                <IconBread
+                  size={22}
+                  className="text-amber-400 transition-transform duration-200 group-hover:scale-110 group-hover:rotate-6"
+                />
                 <span className="text-sm font-bold text-ink-50 tracking-tight">i18n-bakery</span>
                 <span className="hidden sm:inline-flex items-center text-[10px] font-bold uppercase tracking-widest bg-amber-500/10 text-amber-400 border border-amber-500/20 px-1.5 py-0.5 rounded-md">
                   v1.0.8
@@ -47,10 +58,10 @@ export const AppRouter: React.FC = () => {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-1">
-              {navItems.map((item) => {
-                const isActive = location === item.path;
+              {navItems.map(({ path, label, Icon }) => {
+                const isActive = location === path;
                 return (
-                  <Link key={item.path} href={item.path}>
+                  <Link key={path} href={path}>
                     <div
                       className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer ${
                         isActive
@@ -58,8 +69,8 @@ export const AppRouter: React.FC = () => {
                           : 'text-ink-400 hover:text-ink-100 hover:bg-white/5'
                       }`}
                     >
-                      <span>{item.icon}</span>
-                      <span>{item.label}</span>
+                      <Icon size={13} />
+                      <span>{label}</span>
                       {isActive && (
                         <span className="absolute bottom-0 inset-x-2 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
                       )}
@@ -91,14 +102,15 @@ export const AppRouter: React.FC = () => {
 
           {/* Mobile Nav */}
           <div className="md:hidden flex items-center gap-1 pb-2 overflow-x-auto">
-            {navItems.map((item) => {
-              const isActive = location === item.path;
+            {navItems.map(({ path, label, Icon }) => {
+              const isActive = location === path;
               return (
-                <Link key={item.path} href={item.path}>
-                  <div className={`whitespace-nowrap flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all ${
+                <Link key={path} href={path}>
+                  <div className={`whitespace-nowrap flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all ${
                     isActive ? 'text-amber-400 bg-amber-500/8' : 'text-ink-400 hover:text-ink-100'
                   }`}>
-                    {item.icon} {item.label}
+                    <Icon size={12} />
+                    {label}
                   </div>
                 </Link>
               );
@@ -116,7 +128,7 @@ export const AppRouter: React.FC = () => {
           <Route path="/roadmap" component={RoadmapPage} />
           <Route>
             <div className="flex flex-col items-center justify-center min-h-[40vh] text-center">
-              <div className="text-6xl mb-4">🥯</div>
+              <IconBread size={64} className="text-amber-500/30 mb-4" />
               <h1 className="text-3xl font-bold text-ink-50 mb-2">404</h1>
               <p className="text-ink-400 mb-6">{t('errors.not_found')}</p>
               <Link href="/" className="px-4 py-2 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-xl text-sm font-medium hover:bg-amber-500/20 transition-all">
@@ -132,7 +144,7 @@ export const AppRouter: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-xl">🥯</span>
+              <IconBread size={18} className="text-amber-400" />
               <span className="text-xs font-semibold text-ink-400">
                 i18n-bakery &mdash; Fresh translations, baked to perfection
               </span>
@@ -142,9 +154,9 @@ export const AppRouter: React.FC = () => {
                 href="https://github.com/artur0sky/i18n-bakery"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-amber-400 transition-colors"
+                className="flex items-center gap-1 hover:text-amber-400 transition-colors"
               >
-                GitHub ↗
+                <IconBrandGithub size={13} /> GitHub
               </a>
               <span>·</span>
               <span>v1.0.8</span>

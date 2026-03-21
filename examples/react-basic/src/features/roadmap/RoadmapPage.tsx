@@ -1,4 +1,28 @@
 import React, { useState } from 'react';
+import {
+  IconBuildingFactory2,
+  IconDeviceFloppy,
+  IconTerminal2,
+  IconBrandReact,
+  IconNumber123,
+  IconPuzzle,
+  IconChefHat,
+  IconMasksTheater,
+  IconScanEye,
+  IconRadar,
+  IconBusinessplan,
+  IconPackages,
+  IconLayoutGridAdd,
+  IconCalendarStats,
+  IconAlertTriangle,
+  IconCheck,
+  IconCircle,
+  IconCircleDot,
+  IconClockPlay,
+  IconMap,
+} from '@tabler/icons-react';
+
+type TablerIconFC = React.FC<{ size?: number; className?: string }>;
 
 interface RoadmapItem {
   phase: number;
@@ -8,45 +32,43 @@ interface RoadmapItem {
   status: 'done' | 'in-progress' | 'planned' | 'future';
   eta: string;
   features: string[];
-  icon: string;
-  iNext?: string;
+  Icon: TablerIconFC;
 }
 
 const roadmapData: RoadmapItem[] = [
-  // ---- DONE ----
   {
     phase: 1, version: 'v0.1.0', title: 'Runtime Core', subtitle: 'The Foundation', status: 'done',
-    eta: 'Dec 2024', icon: '🏗️',
+    eta: 'Dec 2024', Icon: IconBuildingFactory2,
     features: ['I18nService', 'MemoryStore', 'Mustache Interpolation', 'initI18n / t / setLocale'],
   },
   {
     phase: 2, version: 'v0.2.0', title: 'Auto-Save', subtitle: 'Self-Rising', status: 'done',
-    eta: 'Dec 2024', icon: '💾',
+    eta: 'Dec 2024', Icon: IconDeviceFloppy,
     features: ['JSONFileSaver', 'ConsoleSaver', 'saveMissing detection'],
   },
   {
     phase: 3, version: 'v0.3.0', title: 'CLI', subtitle: 'The Mixer', status: 'done',
-    eta: 'Dec 2024', icon: '⚙️',
+    eta: 'Dec 2024', Icon: IconTerminal2,
     features: ['batter — key extraction', 'bake — compile JSON', 'Babel AST parsing'],
   },
   {
     phase: 4, version: 'v0.4.0', title: 'React Bindings', subtitle: 'The Glaze', status: 'done',
-    eta: 'Dec 2024', icon: '⚛️',
+    eta: 'Dec 2024', Icon: IconBrandReact,
     features: ['I18nProvider', 'useTranslation()', 'useI18n()', 'Namespace prefixes'],
   },
   {
     phase: 9, version: 'v0.9.1–0.9.3', title: 'Advanced Pluralization', subtitle: 'The Counter', status: 'done',
-    eta: 'Dec 2024', icon: '🔢',
+    eta: 'Dec 2024', Icon: IconNumber123,
     features: ['Suffix pluralization (i18next-style)', 'CLDR via Intl.PluralRules (100+ langs)', 'ICU MessageFormat (plural/select/ordinal)'],
   },
   {
-    phase: 13, version: 'v1.0.0', title: 'Plugin System', subtitle: 'First Stable Release 🎉', status: 'done',
-    eta: 'Dec 2024', icon: '🔌',
+    phase: 13, version: 'v1.0.0', title: 'Plugin System', subtitle: 'First Stable Release', status: 'done',
+    eta: 'Dec 2024', Icon: IconPuzzle,
     features: ['Plugin lifecycle hooks', 'NumberFormatPlugin (currency/percent/compact)', 'CapitalizePlugin (upper/lower/title)', '190+ tests, 100% coverage'],
   },
   {
     phase: 14, version: 'v1.0.1–1.0.8', title: 'The Head Chef Era', subtitle: 'Security, Formats, Migration', status: 'done',
-    eta: 'Dec 2024', icon: '🧑‍🍳',
+    eta: 'Dec 2024', Icon: IconChefHat,
     features: [
       'Flat/Nested JSON structures',
       'Path traversal & injection prevention',
@@ -60,10 +82,9 @@ const roadmapData: RoadmapItem[] = [
       'defaultValue as string or options object',
     ],
   },
-  // ---- PLANNED ----
   {
     phase: 15, version: 'v1.1.0', title: 'Context Support', subtitle: 'The Context Baker',
-    status: 'planned', eta: 'Q2 2025', icon: '🎭',
+    status: 'planned', eta: 'Q2 2025', Icon: IconMasksTheater,
     features: [
       't("friend", { context: "male" }) → friend_male',
       't("friend", { context: "female" }) → friend_female',
@@ -73,7 +94,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 16, version: 'v1.1.0', title: 'Language Detection', subtitle: 'The Detector Baker',
-    status: 'planned', eta: 'Q2 2025', icon: '🔍',
+    status: 'planned', eta: 'Q2 2025', Icon: IconScanEye,
     features: [
       'Auto-detect from navigator.language',
       'Detection order: querystring → localStorage → cookie → navigator → htmlTag',
@@ -83,7 +104,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 17, version: 'v1.2.0', title: 'Event System', subtitle: 'The Observer Baker',
-    status: 'planned', eta: 'Q2 2025', icon: '📡',
+    status: 'planned', eta: 'Q2 2025', Icon: IconRadar,
     features: [
       'i18n.on("languageChanged", handler)',
       'i18n.on("loaded", handler)',
@@ -93,7 +114,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 18, version: 'v1.3.0', title: 'Nesting Translations', subtitle: 'The Nesting Baker',
-    status: 'planned', eta: 'Q3 2025', icon: '🪆',
+    status: 'planned', eta: 'Q3 2025', Icon: IconBusinessplan,
     features: [
       '$t(key) — reference other translations',
       '"greeting": "$t(hello) $t(user.name)!"',
@@ -103,7 +124,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 19, version: 'v1.3.0', title: 'Return Objects', subtitle: 'The Object Baker',
-    status: 'planned', eta: 'Q3 2025', icon: '📦',
+    status: 'planned', eta: 'Q3 2025', Icon: IconPackages,
     features: [
       't("menu", { returnObjects: true }) → { home, about, contact }',
       't("key", { returnDetails: true }) → { res, usedKey, usedLng, usedNS }',
@@ -112,7 +133,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 20, version: 'v1.4.0', title: 'Multiple Instances', subtitle: 'The Multi-Baker',
-    status: 'future', eta: 'Q4 2025', icon: '🏭',
+    status: 'future', eta: 'Q4 2025', Icon: IconLayoutGridAdd,
     features: [
       'createI18nInstance() factory',
       'Instance isolation (no globals)',
@@ -122,7 +143,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 21, version: 'v1.4.0', title: 'Advanced Formatting', subtitle: 'The Format Baker',
-    status: 'future', eta: 'Q4 2025', icon: '🗓️',
+    status: 'future', eta: 'Q4 2025', Icon: IconCalendarStats,
     features: [
       'DateTimeFormatPlugin via Intl.DateTimeFormat',
       'ListFormatPlugin via Intl.ListFormat',
@@ -131,7 +152,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 22, version: 'v1.5.0', title: 'Missing Key Handler', subtitle: 'The Handler Baker',
-    status: 'future', eta: 'Q1 2026', icon: '🚨',
+    status: 'future', eta: 'Q1 2026', Icon: IconAlertTriangle,
     features: [
       'missingKeyHandler callback in config',
       'Send missing keys to error tracking',
@@ -140,30 +161,34 @@ const roadmapData: RoadmapItem[] = [
   },
 ];
 
-const statusStyles: Record<string, { label: string; badge: string; dot: string; border: string }> = {
+const statusStyles: Record<string, { label: string; badge: string; dot: string; border: string; iconClass: string }> = {
   done: {
     label: 'Released',
     badge: 'bg-jade-500/10 text-jade-400 border-jade-500/20',
     dot: 'bg-jade-400',
     border: 'border-jade-500/20',
+    iconClass: 'text-jade-400',
   },
   'in-progress': {
     label: 'In Progress',
     badge: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
     dot: 'bg-amber-400 animate-pulse',
     border: 'border-amber-500/20',
+    iconClass: 'text-amber-400',
   },
   planned: {
     label: 'Planned',
     badge: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
     dot: 'bg-violet-400',
     border: 'border-violet-500/20',
+    iconClass: 'text-violet-400',
   },
   future: {
     label: 'Future',
     badge: 'bg-ink-600/40 text-ink-400 border-ink-600/20',
     dot: 'bg-ink-500',
     border: 'border-ink-600/30',
+    iconClass: 'text-ink-500',
   },
 };
 
@@ -179,9 +204,9 @@ const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, ind
         className="w-full text-left p-5 flex items-center gap-4 cursor-pointer group"
       >
         {/* Icon + timeline dot */}
-        <div className="flex flex-col items-center gap-1 flex-shrink-0">
-          <span className="text-xl">{item.icon}</span>
-          <div className={`w-2 h-2 rounded-full ${s.dot}`} />
+        <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
+          <item.Icon size={20} className={s.iconClass} />
+          <div className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
         </div>
 
         {/* Info */}
@@ -197,12 +222,20 @@ const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, ind
             <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${s.badge}`}>
               {s.label}
             </span>
-            <span className="text-[11px] text-ink-500">📅 {item.eta}</span>
+            <span className="text-[11px] text-ink-500 flex items-center gap-1">
+              <IconClockPlay size={10} /> {item.eta}
+            </span>
           </div>
         </div>
 
         {/* Chevron */}
-        <span className={`text-ink-500 transition-transform duration-200 text-xs ${open ? 'rotate-180' : ''}`}>▼</span>
+        <svg
+          className={`w-3 h-3 text-ink-500 transition-transform duration-200 flex-shrink-0 ${open ? 'rotate-180' : ''}`}
+          viewBox="0 0 12 12"
+          fill="none"
+        >
+          <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </button>
 
       {/* Features list */}
@@ -211,11 +244,10 @@ const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, ind
           <ul className="space-y-2">
             {item.features.map((f, i) => (
               <li key={i} className="flex items-start gap-2.5 text-xs text-ink-300">
-                <span className={`flex-shrink-0 mt-0.5 text-[8px] ${
-                  item.status === 'done' ? 'text-jade-400' : 'text-ink-500'
-                }`}>
-                  {item.status === 'done' ? '✓' : '○'}
-                </span>
+                {item.status === 'done'
+                  ? <IconCheck size={11} className="flex-shrink-0 mt-0.5 text-jade-400" />
+                  : <IconCircle size={11} className="flex-shrink-0 mt-0.5 text-ink-600" />
+                }
                 <span className="font-mono text-[11px] leading-relaxed">{f}</span>
               </li>
             ))}
@@ -226,15 +258,17 @@ const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, ind
   );
 };
 
-export const RoadmapPage: React.FC = () => {
-  const [filter, setFilter] = useState<'all' | 'done' | 'planned' | 'future'>('all');
+type FilterKey = 'all' | 'done' | 'planned' | 'future';
 
-  const filters: Array<{ key: 'all' | 'done' | 'planned' | 'future'; label: string }> = [
-    { key: 'all', label: 'All' },
-    { key: 'done', label: '✓ Released' },
-    { key: 'planned', label: '◉ Planned' },
-    { key: 'future', label: '○ Future' },
-  ];
+const filterConfig: Array<{ key: FilterKey; label: string; Icon: TablerIconFC }> = [
+  { key: 'all', label: 'All', Icon: IconMap },
+  { key: 'done', label: 'Released', Icon: IconCheck },
+  { key: 'planned', label: 'Planned', Icon: IconCircleDot },
+  { key: 'future', label: 'Future', Icon: IconCircle },
+];
+
+export const RoadmapPage: React.FC = () => {
+  const [filter, setFilter] = useState<FilterKey>('all');
 
   const filtered = filter === 'all' ? roadmapData : roadmapData.filter(r => {
     if (filter === 'done') return r.status === 'done';
@@ -247,14 +281,14 @@ export const RoadmapPage: React.FC = () => {
     <div className="max-w-4xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-black text-ink-50 mb-2">
+        <h1 className="text-2xl font-black text-ink-50 mb-2 flex items-center gap-3">
           <span style={{
             background: 'linear-gradient(135deg, #a78bfa, #818cf8)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
           }}>Roadmap</span>
-          {' '}🗺️
+          <IconMap size={24} className="text-violet-400" />
         </h1>
         <p className="text-sm text-ink-500 leading-relaxed">
           From v0.1.0 to seamless i18next parity — every phase planned and tracked.
@@ -292,16 +326,17 @@ export const RoadmapPage: React.FC = () => {
 
       {/* Filter tabs */}
       <div className="flex gap-1.5 mb-6 bg-surface-2 border border-white/7 p-1.5 rounded-xl w-fit">
-        {filters.map(f => (
+        {filterConfig.map(f => (
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-150 ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-150 ${
               filter === f.key
                 ? 'bg-amber-500 text-surface-0 shadow-md shadow-amber-500/20'
                 : 'text-ink-400 hover:text-ink-100 hover:bg-white/5'
             }`}
           >
+            <f.Icon size={11} />
             {f.label}
           </button>
         ))}
@@ -315,7 +350,7 @@ export const RoadmapPage: React.FC = () => {
       </div>
 
       {/* Legend */}
-      <div className="mt-8 flex flex-wrap gap-4 text-[11px] text-ink-500">
+      <div className="mt-8 flex flex-wrap gap-5 text-[11px] text-ink-500">
         {Object.entries(statusStyles).map(([key, val]) => (
           <div key={key} className="flex items-center gap-1.5">
             <div className={`w-2 h-2 rounded-full ${val.dot}`} />

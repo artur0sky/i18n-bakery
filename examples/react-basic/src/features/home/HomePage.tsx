@@ -1,44 +1,57 @@
 import React from 'react';
 import { Link } from 'wouter';
+import {
+  IconWorld,
+  IconBolt,
+  IconPuzzle,
+  IconShield,
+  IconPackage,
+  IconLock,
+  IconBrandGithub,
+  IconBread,
+  IconSparkles,
+  IconMap,
+  IconBook,
+} from '@tabler/icons-react';
 
 const features = [
   {
-    icon: '🌍',
+    Icon: IconWorld,
     color: 'text-sky-400',
     bg: 'bg-sky-500/8 border-sky-500/15',
     title: 'Multi-language Support',
     desc: '4 locales out of the box. CLDR pluralization for 100+ languages.',
   },
   {
-    icon: '⚡',
+    Icon: IconBolt,
     color: 'text-amber-400',
     bg: 'bg-amber-500/8 border-amber-500/15',
     title: 'Zero Dependencies',
     desc: 'Core uses only native Web APIs. Tiny bundle size, maximum speed.',
   },
   {
-    icon: '🔌',
+    Icon: IconPuzzle,
     color: 'text-violet-400',
     bg: 'bg-violet-500/8 border-violet-500/15',
     title: 'Plugin System',
     desc: 'NumberFormat, Capitalize, Custom backends, detectors & more.',
   },
   {
-    icon: '🛡️',
+    Icon: IconShield,
     color: 'text-jade-400',
     bg: 'bg-jade-500/8 border-jade-500/15',
     title: 'Type-Safe',
     desc: 'Full TypeScript support. Strict key validation. Prototype pollution guard.',
   },
   {
-    icon: '📦',
+    Icon: IconPackage,
     color: 'text-rose-400',
     bg: 'bg-rose-500/8 border-rose-500/15',
     title: 'TOML + JSON',
     desc: 'Write translations in JSON or TOML. Zero-dep TOML parser built-in.',
   },
   {
-    icon: '🔐',
+    Icon: IconLock,
     color: 'text-orange-400',
     bg: 'bg-orange-500/8 border-orange-500/15',
     title: 'AES-256 Encryption',
@@ -56,7 +69,8 @@ const stats = [
 const navCards = [
   {
     href: '/showcase',
-    emoji: '⚡',
+    Icon: IconBolt,
+    iconColor: 'text-amber-400',
     title: 'Live Showcase',
     desc: 'See every feature in action with interactive demos',
     accent: 'hover:border-amber-500/30 hover:bg-amber-500/4',
@@ -64,7 +78,8 @@ const navCards = [
   },
   {
     href: '/docs',
-    emoji: '📖',
+    Icon: IconBook,
+    iconColor: 'text-sky-400',
     title: 'Documentation',
     desc: 'Learn namespaces, file structure, and best practices',
     accent: 'hover:border-sky-500/30 hover:bg-sky-500/4',
@@ -72,7 +87,8 @@ const navCards = [
   },
   {
     href: '/roadmap',
-    emoji: '🗺️',
+    Icon: IconMap,
+    iconColor: 'text-violet-400',
     title: 'Roadmap',
     desc: 'Upcoming features with estimated release timelines',
     accent: 'hover:border-violet-500/30 hover:bg-violet-500/4',
@@ -92,7 +108,7 @@ export const HomePage: React.FC = () => {
         </div>
 
         {/* Title */}
-        <h1 className="text-5xl sm:text-6xl font-black tracking-tight mb-5 leading-none">
+        <h1 className="text-5xl sm:text-6xl font-black tracking-tight mb-5 leading-none flex items-center justify-center gap-4 flex-wrap">
           <span className="text-ink-50">i18n</span>
           <span style={{
             background: 'linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f97316 100%)',
@@ -100,8 +116,7 @@ export const HomePage: React.FC = () => {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
           }}>-bakery</span>
-          {' '}
-          <span className="text-4xl sm:text-5xl">🥯</span>
+          <IconBread size={52} className="text-amber-400" />
         </h1>
 
         <p className="text-lg sm:text-xl text-ink-300 font-medium mb-3">
@@ -116,7 +131,7 @@ export const HomePage: React.FC = () => {
         <div className="mt-8 flex items-center justify-center gap-3 flex-wrap">
           <Link href="/showcase">
             <button className="inline-flex items-center gap-2 bg-amber-500 text-surface-0 px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-amber-400 transition-all shadow-lg shadow-amber-500/20 active:scale-95 cursor-pointer">
-              <span>⚡</span> Live Showcase
+              <IconBolt size={15} /> Live Showcase
             </button>
           </Link>
           <a
@@ -125,7 +140,7 @@ export const HomePage: React.FC = () => {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-surface-2 border border-white/10 text-ink-200 px-5 py-2.5 rounded-xl font-semibold text-sm hover:border-white/20 hover:text-ink-50 transition-all active:scale-95"
           >
-            <span>⭐</span> GitHub
+            <IconBrandGithub size={15} /> GitHub
           </a>
         </div>
       </div>
@@ -150,7 +165,10 @@ export const HomePage: React.FC = () => {
                   {c.badge}
                 </span>
               )}
-              <div className="text-2xl mb-3 transition-transform duration-200 group-hover:scale-110">{c.emoji}</div>
+              <c.Icon
+                size={28}
+                className={`mb-3 transition-transform duration-200 group-hover:scale-110 ${c.iconColor}`}
+              />
               <h3 className="text-sm font-bold text-ink-50 mb-1.5">{c.title}</h3>
               <p className="text-xs text-ink-500 leading-relaxed">{c.desc}</p>
             </div>
@@ -161,7 +179,7 @@ export const HomePage: React.FC = () => {
       {/* Features Grid */}
       <div>
         <h2 className="text-lg font-bold text-ink-50 mb-5 flex items-center gap-2">
-          <span>✨</span> What's in the Oven
+          <IconSparkles size={18} className="text-amber-400" /> What's in the Oven
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {features.map((f) => (
@@ -169,7 +187,7 @@ export const HomePage: React.FC = () => {
               key={f.title}
               className={`flex items-start gap-3.5 p-4 rounded-xl border ${f.bg} transition-all duration-200 hover:scale-[1.02]`}
             >
-              <span className="text-xl flex-shrink-0">{f.icon}</span>
+              <f.Icon size={18} className={`flex-shrink-0 mt-0.5 ${f.color}`} />
               <div>
                 <h4 className={`text-sm font-semibold mb-0.5 ${f.color}`}>{f.title}</h4>
                 <p className="text-xs text-ink-500 leading-relaxed">{f.desc}</p>

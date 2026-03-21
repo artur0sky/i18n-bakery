@@ -1,19 +1,34 @@
 import React, { useState } from 'react';
+import {
+  IconRocket,
+  IconFolder,
+  IconFolders,
+  IconBrandReact,
+  IconTerminal2,
+  IconListCheck,
+  IconBolt,
+  IconPackage,
+  IconLock,
+  IconShield,
+  IconBook,
+} from '@tabler/icons-react';
 import { CodeSnippet } from '../../components/ui/CodeSnippet';
+
+type TablerIconFC = React.FC<{ size?: number; className?: string }>;
 
 interface DocSection {
   id: string;
-  icon: string;
+  Icon: TablerIconFC;
   title: string;
 }
 
 const sections: DocSection[] = [
-  { id: 'quickstart', icon: '🚀', title: 'Quick Start' },
-  { id: 'namespaces', icon: '📂', title: 'Namespaces' },
-  { id: 'structure', icon: '🗂️', title: 'File Structure' },
-  { id: 'react', icon: '⚛️', title: 'React API' },
-  { id: 'cli', icon: '⚙️', title: 'CLI Reference' },
-  { id: 'best-practices', icon: '✅', title: 'Best Practices' },
+  { id: 'quickstart', Icon: IconRocket, title: 'Quick Start' },
+  { id: 'namespaces', Icon: IconFolder, title: 'Namespaces' },
+  { id: 'structure', Icon: IconFolders, title: 'File Structure' },
+  { id: 'react', Icon: IconBrandReact, title: 'React API' },
+  { id: 'cli', Icon: IconTerminal2, title: 'CLI Reference' },
+  { id: 'best-practices', Icon: IconListCheck, title: 'Best Practices' },
 ];
 
 // ---- Quick Start ----
@@ -100,18 +115,18 @@ const StructureDoc: React.FC = () => (
     <div>
       <h3 className="text-sm font-bold text-ink-50 mb-1">Recommended Directory Layout</h3>
       <CodeSnippet lines={[
-        { text: '📁 project/', color: 'blue' },
-        { text: '  ├── 📁 locales/', color: 'blue' },
-        { text: '  │   ├── 📁 en-US/', color: 'blue' },
-        { text: '  │   │   ├── 📄 common.json', color: 'yellow' },
-        { text: '  │   │   ├── 📄 home.json', color: 'yellow' },
-        { text: '  │   │   ├── 📄 showcase.json', color: 'yellow' },
-        { text: '  │   │   └── 📁 auth/', color: 'blue' },
-        { text: '  │   │       └── 📄 login.json', color: 'yellow' },
-        { text: '  │   ├── 📁 es-MX/', color: 'blue' },
-        { text: '  │   └── 📁 jp/', color: 'blue' },
-        { text: '  ├── 📄 vite.config.ts', color: 'muted' },
-        { text: '  └── 📄 package.json', color: 'muted' },
+        { text: 'project/', color: 'blue' },
+        { text: '  locales/', color: 'blue' },
+        { text: '    en-US/', color: 'blue' },
+        { text: '      common.json', color: 'yellow' },
+        { text: '      home.json', color: 'yellow' },
+        { text: '      showcase.json', color: 'yellow' },
+        { text: '      auth/', color: 'blue' },
+        { text: '        login.json', color: 'yellow' },
+        { text: '    es-MX/', color: 'blue' },
+        { text: '    jp/', color: 'blue' },
+        { text: '  vite.config.ts', color: 'muted' },
+        { text: '  package.json', color: 'muted' },
       ]} />
     </div>
     <div>
@@ -216,48 +231,56 @@ const CLIDoc: React.FC = () => (
 );
 
 // ---- Best Practices ----
+const bestPractices = [
+  {
+    Icon: IconFolder,
+    iconColor: 'text-sky-400',
+    title: 'Organize by feature/page',
+    desc: 'One JSON/TOML file per page or feature. Avoids bloated single-file translation sets.',
+    code: 'home.json / dashboard.json / settings.json',
+  },
+  {
+    Icon: IconListCheck,
+    iconColor: 'text-violet-400',
+    title: 'Use semantic keys',
+    desc: 'Keys should describe the content, not the UI position. Easier for translators.',
+    code: "hero.cta_button — correct    button_1 — avoid",
+  },
+  {
+    Icon: IconPackage,
+    iconColor: 'text-amber-400',
+    title: 'Set defaultNamespace',
+    desc: 'Avoid repeating the namespace prefix for common translations.',
+    code: "initI18n({ defaultNamespace: 'common' })",
+  },
+  {
+    Icon: IconBolt,
+    iconColor: 'text-jade-400',
+    title: 'Use HttpBackend + --split',
+    desc: 'Lazy-load only the namespaces needed per page. Massive performance win for large apps.',
+    code: 'i18n-bakery bake locales --split --manifest',
+  },
+  {
+    Icon: IconLock,
+    iconColor: 'text-orange-400',
+    title: 'Encrypt sensitive bundles',
+    desc: 'Use AES-256-GCM encryption for bundles with sensitive copy (legal, internal tools).',
+    code: 'bake locales --encrypt --key $VITE_I18N_KEY',
+  },
+  {
+    Icon: IconShield,
+    iconColor: 'text-rose-400',
+    title: 'Key whitelist validation',
+    desc: "The DefaultKeyParser allows only a-zA-Z0-9_-.:: — safe by default.",
+    code: "allowed: 'common:nav.home'    rejected: '<script>alert(1)'",
+  },
+];
+
 const BestPracticesDoc: React.FC = () => (
   <div className="space-y-4">
-    {[
-      {
-        icon: '📁',
-        title: 'Organize by feature/page',
-        desc: 'One JSON/TOML file per page or feature. Avoids bloated single-file translation sets.',
-        code: 'home.json / dashboard.json / settings.json',
-      },
-      {
-        icon: '🏷️',
-        title: 'Use semantic keys',
-        desc: 'Keys should describe the content, not the UI position. Easier for translators.',
-        code: 'hero.cta_button — ✓    button_1 — ✗',
-      },
-      {
-        icon: '📦',
-        title: 'Set defaultNamespace',
-        desc: 'Avoid repeating the namespace prefix for common translations.',
-        code: "initI18n({ defaultNamespace: 'common' })",
-      },
-      {
-        icon: '⚡',
-        title: 'Use HttpBackend + --split',
-        desc: 'Lazy-load only the namespaces needed per page. Massive performance win for large apps.',
-        code: 'i18n-bakery bake locales --split --manifest',
-      },
-      {
-        icon: '🔐',
-        title: 'Encrypt sensitive bundles',
-        desc: 'Use AES-256-GCM encryption for bundles with sensitive copy (legal, internal tools).',
-        code: 'bake locales --encrypt --key $VITE_I18N_KEY',
-      },
-      {
-        icon: '🛡️',
-        title: 'Key whitelist validation',
-        desc: "The DefaultKeyParser allows only a-zA-Z0-9_-.:: — safe by default.",
-        code: "✓ 'common:nav.home'    ✗ '<script>alert(1)'",
-      },
-    ].map(bp => (
+    {bestPractices.map(bp => (
       <div key={bp.title} className="flex items-start gap-3.5 p-4 bg-surface-1 border border-white/5 rounded-xl">
-        <span className="text-xl flex-shrink-0">{bp.icon}</span>
+        <bp.Icon size={18} className={`flex-shrink-0 mt-0.5 ${bp.iconColor}`} />
         <div>
           <h4 className="text-sm font-semibold text-ink-100 mb-0.5">{bp.title}</h4>
           <p className="text-xs text-ink-500 leading-relaxed mb-2">{bp.desc}</p>
@@ -280,12 +303,13 @@ const CONTENT: Record<string, React.FC> = {
 export const DocsPage: React.FC = () => {
   const [active, setActive] = useState('quickstart');
   const Content = CONTENT[active] ?? QuickStartDoc;
+  const activeSection = sections.find(s => s.id === active);
 
   return (
     <div className="max-w-5xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-black text-ink-50 mb-2">
+        <h1 className="text-2xl font-black text-ink-50 mb-2 flex items-center gap-3">
           <span style={{
             background: 'linear-gradient(135deg, #38bdf8, #818cf8)',
             WebkitBackgroundClip: 'text',
@@ -294,7 +318,7 @@ export const DocsPage: React.FC = () => {
           }}>
             Documentation
           </span>
-          {' '}📖
+          <IconBook size={24} className="text-sky-400" />
         </h1>
         <p className="text-sm text-ink-500">
           Reference guide for namespaces, file layout, React hooks, CLI commands, and best practices.
@@ -315,7 +339,7 @@ export const DocsPage: React.FC = () => {
                     : 'text-ink-500 hover:text-ink-100 hover:bg-white/4'
                 }`}
               >
-                <span>{s.icon}</span>
+                <s.Icon size={13} />
                 <span className="whitespace-nowrap">{s.title}</span>
               </button>
             ))}
@@ -324,9 +348,9 @@ export const DocsPage: React.FC = () => {
 
         {/* Content */}
         <div className="flex-1 min-w-0 bg-surface-2 border border-white/7 rounded-2xl p-6">
-          <h2 className="text-base font-bold text-ink-50 mb-6 pb-3 border-b border-white/5">
-            {sections.find(s => s.id === active)?.icon}{' '}
-            {sections.find(s => s.id === active)?.title}
+          <h2 className="text-base font-bold text-ink-50 mb-6 pb-3 border-b border-white/5 flex items-center gap-2">
+            {activeSection && <activeSection.Icon size={16} className="text-sky-400" />}
+            {activeSection?.title}
           </h2>
           <Content />
         </div>
