@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from '@i18n-bakery/react';
 import {
   IconBuildingFactory2,
   IconDeviceFloppy,
@@ -27,8 +28,7 @@ type TablerIconFC = React.FC<{ size?: number; className?: string }>;
 interface RoadmapItem {
   phase: number;
   version: string;
-  title: string;
-  subtitle: string;
+  id: string;
   status: 'done' | 'in-progress' | 'planned' | 'future';
   eta: string;
   features: string[];
@@ -37,37 +37,37 @@ interface RoadmapItem {
 
 const roadmapData: RoadmapItem[] = [
   {
-    phase: 1, version: 'v0.1.0', title: 'Runtime Core', subtitle: 'The Foundation', status: 'done',
+    phase: 1, version: 'v0.1.0', id: 'phase1', status: 'done',
     eta: 'Dec 2024', Icon: IconBuildingFactory2,
     features: ['I18nService', 'MemoryStore', 'Mustache Interpolation', 'initI18n / t / setLocale'],
   },
   {
-    phase: 2, version: 'v0.2.0', title: 'Auto-Save', subtitle: 'Self-Rising', status: 'done',
+    phase: 2, version: 'v0.2.0', id: 'phase2', status: 'done',
     eta: 'Dec 2024', Icon: IconDeviceFloppy,
     features: ['JSONFileSaver', 'ConsoleSaver', 'saveMissing detection'],
   },
   {
-    phase: 3, version: 'v0.3.0', title: 'CLI', subtitle: 'The Mixer', status: 'done',
+    phase: 3, version: 'v0.3.0', id: 'phase3', status: 'done',
     eta: 'Dec 2024', Icon: IconTerminal2,
     features: ['batter — key extraction', 'bake — compile JSON', 'Babel AST parsing'],
   },
   {
-    phase: 4, version: 'v0.4.0', title: 'React Bindings', subtitle: 'The Glaze', status: 'done',
+    phase: 4, version: 'v0.4.0', id: 'phase4', status: 'done',
     eta: 'Dec 2024', Icon: IconBrandReact,
     features: ['I18nProvider', 'useTranslation()', 'useI18n()', 'Namespace prefixes'],
   },
   {
-    phase: 9, version: 'v0.9.1–0.9.3', title: 'Advanced Pluralization', subtitle: 'The Counter', status: 'done',
+    phase: 9, version: 'v0.9.1–0.9.3', id: 'phase9', status: 'done',
     eta: 'Dec 2024', Icon: IconNumber123,
     features: ['Suffix pluralization (i18next-style)', 'CLDR via Intl.PluralRules (100+ langs)', 'ICU MessageFormat (plural/select/ordinal)'],
   },
   {
-    phase: 13, version: 'v1.0.0', title: 'Plugin System', subtitle: 'First Stable Release', status: 'done',
+    phase: 13, version: 'v1.0.0', id: 'phase13', status: 'done',
     eta: 'Dec 2024', Icon: IconPuzzle,
     features: ['Plugin lifecycle hooks', 'NumberFormatPlugin (currency/percent/compact)', 'CapitalizePlugin (upper/lower/title)', '190+ tests, 100% coverage'],
   },
   {
-    phase: 14, version: 'v1.0.1–1.0.8', title: 'The Head Chef Era', subtitle: 'Security, Formats, Migration', status: 'done',
+    phase: 14, version: 'v1.0.1–1.0.8', id: 'phase14', status: 'done',
     eta: 'Dec 2024', Icon: IconChefHat,
     features: [
       'Flat/Nested JSON structures',
@@ -83,7 +83,7 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 15, version: 'v1.1.0', title: 'Context Support', subtitle: 'The Context Baker',
+    phase: 15, version: 'v1.1.0', id: 'phase15',
     status: 'planned', eta: 'Q2 2025', Icon: IconMasksTheater,
     features: [
       't("friend", { context: "male" }) → friend_male',
@@ -93,7 +93,7 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 16, version: 'v1.1.0', title: 'Language Detection', subtitle: 'The Detector Baker',
+    phase: 16, version: 'v1.1.0', id: 'phase16',
     status: 'planned', eta: 'Q2 2025', Icon: IconScanEye,
     features: [
       'Auto-detect from navigator.language',
@@ -103,7 +103,7 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 17, version: 'v1.2.0', title: 'Event System', subtitle: 'The Observer Baker',
+    phase: 17, version: 'v1.2.0', id: 'phase17',
     status: 'planned', eta: 'Q2 2025', Icon: IconRadar,
     features: [
       'i18n.on("languageChanged", handler)',
@@ -113,7 +113,7 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 18, version: 'v1.3.0', title: 'Nesting Translations', subtitle: 'The Nesting Baker',
+    phase: 18, version: 'v1.3.0', id: 'phase18',
     status: 'planned', eta: 'Q3 2025', Icon: IconBusinessplan,
     features: [
       '$t(key) — reference other translations',
@@ -123,7 +123,7 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 19, version: 'v1.3.0', title: 'Return Objects', subtitle: 'The Object Baker',
+    phase: 19, version: 'v1.3.0', id: 'phase19',
     status: 'planned', eta: 'Q3 2025', Icon: IconPackages,
     features: [
       't("menu", { returnObjects: true }) → { home, about, contact }',
@@ -132,7 +132,7 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 20, version: 'v1.4.0', title: 'Multiple Instances', subtitle: 'The Multi-Baker',
+    phase: 20, version: 'v1.4.0', id: 'phase20',
     status: 'future', eta: 'Q4 2025', Icon: IconLayoutGridAdd,
     features: [
       'createI18nInstance() factory',
@@ -142,7 +142,7 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 21, version: 'v1.4.0', title: 'Advanced Formatting', subtitle: 'The Format Baker',
+    phase: 21, version: 'v1.4.0', id: 'phase21',
     status: 'future', eta: 'Q4 2025', Icon: IconCalendarStats,
     features: [
       'DateTimeFormatPlugin via Intl.DateTimeFormat',
@@ -151,7 +151,7 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 22, version: 'v1.5.0', title: 'Missing Key Handler', subtitle: 'The Handler Baker',
+    phase: 22, version: 'v1.5.0', id: 'phase22',
     status: 'future', eta: 'Q1 2026', Icon: IconAlertTriangle,
     features: [
       'missingKeyHandler callback in config',
@@ -161,30 +161,30 @@ const roadmapData: RoadmapItem[] = [
   },
 ];
 
-const statusStyles: Record<string, { label: string; badge: string; dot: string; border: string; iconClass: string }> = {
+const statusConfig: Record<string, { id: string; badge: string; dot: string; border: string; iconClass: string }> = {
   done: {
-    label: 'Released',
+    id: 'released',
     badge: 'bg-jade-500/10 text-jade-400 border-jade-500/20',
     dot: 'bg-jade-400',
     border: 'border-jade-500/20',
     iconClass: 'text-jade-400',
   },
   'in-progress': {
-    label: 'In Progress',
+    id: 'in_progress',
     badge: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
     dot: 'bg-amber-400 animate-pulse',
     border: 'border-amber-500/20',
     iconClass: 'text-amber-400',
   },
   planned: {
-    label: 'Planned',
+    id: 'planned',
     badge: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
     dot: 'bg-violet-400',
     border: 'border-violet-500/20',
     iconClass: 'text-violet-400',
   },
   future: {
-    label: 'Future',
+    id: 'future',
     badge: 'bg-ink-600/40 text-ink-400 border-ink-600/20',
     dot: 'bg-ink-500',
     border: 'border-ink-600/30',
@@ -193,8 +193,9 @@ const statusStyles: Record<string, { label: string; badge: string; dot: string; 
 };
 
 const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, index }) => {
+  const { t } = useTranslation('roadmap');
   const [open, setOpen] = useState(item.status === 'done' && index < 2);
-  const s = statusStyles[item.status];
+  const s = statusConfig[item.status];
 
   return (
     <div className={`bg-surface-2 border ${s.border} rounded-2xl overflow-hidden transition-all duration-200 hover:border-white/12`}>
@@ -212,15 +213,15 @@ const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, ind
         {/* Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-0.5">
-            <span className="text-sm font-bold text-ink-50">{item.title}</span>
-            <span className="text-xs text-ink-500 font-medium">— {item.subtitle}</span>
+            <span className="text-sm font-bold text-ink-50">{t(`items.${item.id}.title`)}</span>
+            <span className="text-xs text-ink-500 font-medium">— {t(`items.${item.id}.subtitle`)}</span>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <code className="text-[11px] font-mono bg-surface-1 px-1.5 py-0.5 rounded text-amber-400 border border-white/5">
               {item.version}
             </code>
             <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${s.badge}`}>
-              {s.label}
+              {t(`status.${s.id}`)}
             </span>
             <span className="text-[11px] text-ink-500 flex items-center gap-1">
               <IconClockPlay size={10} /> {item.eta}
@@ -260,14 +261,15 @@ const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, ind
 
 type FilterKey = 'all' | 'done' | 'planned' | 'future';
 
-const filterConfig: Array<{ key: FilterKey; label: string; Icon: TablerIconFC }> = [
-  { key: 'all', label: 'All', Icon: IconMap },
-  { key: 'done', label: 'Released', Icon: IconCheck },
-  { key: 'planned', label: 'Planned', Icon: IconCircleDot },
-  { key: 'future', label: 'Future', Icon: IconCircle },
+const filterConfig: Array<{ key: FilterKey; id: string; Icon: TablerIconFC }> = [
+  { key: 'all', id: 'all', Icon: IconMap },
+  { key: 'done', id: 'released', Icon: IconCheck },
+  { key: 'planned', id: 'planned', Icon: IconCircleDot },
+  { key: 'future', id: 'future', Icon: IconCircle },
 ];
 
 export const RoadmapPage: React.FC = () => {
+  const { t } = useTranslation('roadmap');
   const [filter, setFilter] = useState<FilterKey>('all');
 
   const filtered = filter === 'all' ? roadmapData : roadmapData.filter(r => {
@@ -287,19 +289,18 @@ export const RoadmapPage: React.FC = () => {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-          }}>Roadmap</span>
+          }}>{t('title')}</span>
           <IconMap size={24} className="text-violet-400" />
         </h1>
         <p className="text-sm text-ink-500 leading-relaxed">
-          From v0.1.0 to seamless i18next parity — every phase planned and tracked.
-          Estimated dates are targets, not guarantees.
+          {t('subtitle')}
         </p>
 
         {/* Progress bar */}
         <div className="mt-4 bg-surface-2 border border-white/7 rounded-xl p-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-ink-300">Overall Progress</span>
-            <span className="text-xs font-bold text-amber-400">~70% i18next parity</span>
+            <span className="text-xs font-semibold text-ink-300">{t('progress.title')}</span>
+            <span className="text-xs font-bold text-amber-400">{t('progress.parity')}</span>
           </div>
           <div className="h-2 bg-surface-0 rounded-full overflow-hidden">
             <div
@@ -310,7 +311,7 @@ export const RoadmapPage: React.FC = () => {
           <div className="flex justify-between mt-2 text-[10px] text-ink-600">
             <span>v0.1.0</span>
             <span>v1.0.8 (current)</span>
-            <span>v1.5.0 (target: 98%)</span>
+            <span>{t('progress.target')}</span>
           </div>
         </div>
 
@@ -318,8 +319,8 @@ export const RoadmapPage: React.FC = () => {
         <div className="mt-3 flex items-center gap-3 bg-violet-500/5 border border-violet-500/15 rounded-xl px-4 py-3">
           <div className="w-2 h-2 rounded-full bg-violet-400 animate-pulse flex-shrink-0" />
           <div>
-            <span className="text-xs font-bold text-violet-300">Next: v1.1.0</span>
-            <span className="text-xs text-ink-500 ml-2">— Context Support + Language Detection — ETA Q2 2025</span>
+            <span className="text-xs font-bold text-violet-300">{t('next_release.title')}</span>
+            <span className="text-xs text-ink-500 ml-2">{t('next_release.desc')}</span>
           </div>
         </div>
       </div>
@@ -337,7 +338,7 @@ export const RoadmapPage: React.FC = () => {
             }`}
           >
             <f.Icon size={11} />
-            {f.label}
+            {t(`filters.${f.id}`)}
           </button>
         ))}
       </div>
@@ -351,10 +352,10 @@ export const RoadmapPage: React.FC = () => {
 
       {/* Legend */}
       <div className="mt-8 flex flex-wrap gap-5 text-[11px] text-ink-500">
-        {Object.entries(statusStyles).map(([key, val]) => (
+        {Object.entries(statusConfig).map(([key, val]) => (
           <div key={key} className="flex items-center gap-1.5">
             <div className={`w-2 h-2 rounded-full ${val.dot}`} />
-            <span>{val.label}</span>
+            <span>{t(`status.${val.id}`)}</span>
           </div>
         ))}
       </div>

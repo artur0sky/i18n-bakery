@@ -21,17 +21,17 @@ const LOCALES = [
   { value: 'jp', label: 'JP' },
 ];
 
-const navItems = [
-  { path: '/', label: 'Home', Icon: IconHome },
-  { path: '/showcase', label: 'Showcase', Icon: IconBolt },
-  { path: '/docs', label: 'Docs', Icon: IconBook },
-  { path: '/roadmap', label: 'Roadmap', Icon: IconMap },
-];
-
 export const AppRouter: React.FC = () => {
   const { t } = useTranslation('common');
   const { setLocale, locale } = useI18n();
   const [location] = useLocation();
+
+  const navItems = [
+    { path: '/', key: 'home', Icon: IconHome },
+    { path: '/showcase', key: 'showcase', Icon: IconBolt },
+    { path: '/docs', key: 'docs', Icon: IconBook },
+    { path: '/roadmap', key: 'roadmap', Icon: IconMap },
+  ];
 
   return (
     <div className="min-h-screen bg-surface-0 text-ink-50 font-sans">
@@ -49,7 +49,7 @@ export const AppRouter: React.FC = () => {
                   size={22}
                   className="text-amber-400 transition-transform duration-200 group-hover:scale-110 group-hover:rotate-6"
                 />
-                <span className="text-sm font-bold text-ink-50 tracking-tight">i18n-bakery</span>
+                <span className="text-sm font-bold text-ink-50 tracking-tight">{t('app_name')}</span>
                 <span className="hidden sm:inline-flex items-center text-[10px] font-bold uppercase tracking-widest bg-amber-500/10 text-amber-400 border border-amber-500/20 px-1.5 py-0.5 rounded-md">
                   v1.0.8
                 </span>
@@ -58,7 +58,7 @@ export const AppRouter: React.FC = () => {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-1">
-              {navItems.map(({ path, label, Icon }) => {
+              {navItems.map(({ path, key, Icon }) => {
                 const isActive = location === path;
                 return (
                   <Link key={path} href={path}>
@@ -70,7 +70,7 @@ export const AppRouter: React.FC = () => {
                       }`}
                     >
                       <Icon size={13} />
-                      <span>{label}</span>
+                      <span>{t(`nav.${key}`)}</span>
                       {isActive && (
                         <span className="absolute bottom-0 inset-x-2 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
                       )}
@@ -102,7 +102,7 @@ export const AppRouter: React.FC = () => {
 
           {/* Mobile Nav */}
           <div className="md:hidden flex items-center gap-1 pb-2 overflow-x-auto">
-            {navItems.map(({ path, label, Icon }) => {
+            {navItems.map(({ path, key, Icon }) => {
               const isActive = location === path;
               return (
                 <Link key={path} href={path}>
@@ -110,7 +110,7 @@ export const AppRouter: React.FC = () => {
                     isActive ? 'text-amber-400 bg-amber-500/8' : 'text-ink-400 hover:text-ink-100'
                   }`}>
                     <Icon size={12} />
-                    {label}
+                    {t(`nav.${key}`)}
                   </div>
                 </Link>
               );
@@ -146,7 +146,7 @@ export const AppRouter: React.FC = () => {
             <div className="flex items-center gap-2">
               <IconBread size={18} className="text-amber-400" />
               <span className="text-xs font-semibold text-ink-400">
-                i18n-bakery &mdash; Fresh translations, baked to perfection
+                {t('footer.description')}
               </span>
             </div>
             <div className="flex items-center gap-4 text-xs text-ink-600">
@@ -156,12 +156,12 @@ export const AppRouter: React.FC = () => {
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 hover:text-amber-400 transition-colors"
               >
-                <IconBrandGithub size={13} /> GitHub
+                <IconBrandGithub size={13} /> {t('footer.github')}
               </a>
               <span>·</span>
-              <span>v1.0.8</span>
+              <span>{t('footer.version', { version: '1.0.8' })}</span>
               <span>·</span>
-              <span>MIT License</span>
+              <span>{t('footer.mit_license')}</span>
             </div>
           </div>
         </div>

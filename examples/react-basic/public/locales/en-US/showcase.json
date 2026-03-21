@@ -3,6 +3,50 @@
     "title": "Showcase",
     "description": "Interactive examples demonstrating i18n-bakery features"
   },
+  "sections": {
+    "core": {
+      "title": "Core Translation",
+      "desc": "Basic t() API — the foundation of every i18n workflow."
+    },
+    "interpolation": {
+      "title": "Variable Interpolation",
+      "desc": "Inject dynamic values into translations using Mustache syntax."
+    },
+    "pluralization": {
+      "title": "Pluralization & ICU",
+      "desc": "Handle counts correctly with CLDR rules and ICU MessageFormat."
+    },
+    "formatting": {
+      "title": "Advanced Formatting",
+      "desc": "Format numbers, currency, and percentages using the built-in plugin system."
+    },
+    "react": {
+      "title": "React Integration",
+      "desc": "Seamless React hooks and components with automatic re-renders."
+    },
+    "security": {
+      "title": "Security Features",
+      "desc": "Path traversal prevention, prototype pollution guard, key sanitization."
+    }
+  },
+  "cards": {
+    "basic": "Basic Translation",
+    "fallback": "Fallback Locale",
+    "defaultValueString": "Default Value (string)",
+    "defaultValueOptions": "Default Value (options)",
+    "simpleVar": "Simple Variable",
+    "nestedVar": "Nested Variable",
+    "standardPlural": "Standard Pluralization",
+    "zeroPlural": "Zero-count override",
+    "ordinal": "Ordinal plurals (ICU)",
+    "currency": "Currency Formatting",
+    "percentage": "Percentage & Compact",
+    "hook": "useTranslation Hook",
+    "reactive": "Reactive Updates",
+    "prototype": "Prototype Pollution Guard",
+    "traversal": "Path Traversal Prevention",
+    "sanitization": "Key Sanitization"
+  },
   "tests": {
     "basic": {
       "title": "Basic Translation",
@@ -11,7 +55,8 @@
     "fallback": {
       "title": "Fallback Behavior",
       "hint": "This key only exists in en-US — other locales fall back to English",
-      "value": "This text will always fallback to English in other languages"
+      "value": "This text will always fallback to English in other languages",
+      "note": "(Missing in other locales)"
     },
     "defaultValue": {
       "title": "Default Value (v1.0.8)",

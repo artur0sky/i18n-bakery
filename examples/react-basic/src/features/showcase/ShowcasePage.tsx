@@ -5,10 +5,6 @@ import {
   IconArrowsShuffle,
   IconNumber123,
   IconCurrencyDollar,
-  IconFolder,
-  IconFileText,
-  IconTerminal2,
-  IconPuzzle,
   IconBrandReact,
   IconShieldCheck,
 } from '@tabler/icons-react';
@@ -41,9 +37,14 @@ const CoreSection: React.FC = () => {
 
   return (
     <div>
-      <SectionHeader Icon={IconLetterT} iconClass="text-amber-400" title="Core Translation" desc="Basic t() API — the foundation of every i18n workflow." />
+      <SectionHeader 
+        Icon={IconLetterT} 
+        iconClass="text-amber-400" 
+        title={t('sections.core.title')} 
+        desc={t('sections.core.desc')} 
+      />
       <div className="grid sm:grid-cols-2 gap-4">
-        <Card title="Basic Translation" accent="amber" badge="Core" badgeVariant="stable">
+        <Card title={t('cards.basic')} accent="amber" badge="Core" badgeVariant="stable">
           <TestItem label="t('basic.value')" value={t('tests.basic.value')} status="success" />
           <CodeSnippet lines={[
             { text: "t('showcase:tests.basic.value')", color: 'yellow' },
@@ -51,12 +52,12 @@ const CoreSection: React.FC = () => {
           ]} />
         </Card>
 
-        <Card title="Fallback Locale" accent="amber" badge="Core" badgeVariant="stable">
+        <Card title={t('cards.fallback')} accent="amber" badge="Core" badgeVariant="stable">
           <p className="text-xs text-ink-500 mb-3">{t('tests.fallback.hint')}</p>
-          <TestItem label="Falls back to en-US" value={t('tests.fallback.value')} status="warning" note="(Missing in other locales)" />
+          <TestItem label="Falls back to en-US" value={t('tests.fallback.value')} status="warning" note={t('tests.fallback.note')} />
         </Card>
 
-        <Card title="Default Value (string)" accent="amber" badge="v1.0.8" badgeVariant="stable">
+        <Card title={t('cards.defaultValueString')} accent="amber" badge="v1.0.8" badgeVariant="stable">
           <TestItem label="Missing key with default" value={t('tests.defaultValue.string', 'Freshly baked default!')} status="success" />
           <CodeSnippet lines={[
             { text: "t('missing.key', 'Freshly baked default!')", color: 'yellow' },
@@ -64,7 +65,7 @@ const CoreSection: React.FC = () => {
           ]} />
         </Card>
 
-        <Card title="Default Value (options)" accent="amber" badge="v1.0.8" badgeVariant="stable">
+        <Card title={t('cards.defaultValueOptions')} accent="amber" badge="v1.0.8" badgeVariant="stable">
           <TestItem label="Options object defaultValue" value={t('tests.defaultValue.object', { defaultValue: 'Default from options object' })} status="success" />
           <CodeSnippet lines={[
             { text: "t('missing', { defaultValue: 'Default...' })", color: 'yellow' },
@@ -82,13 +83,18 @@ const InterpolationSection: React.FC = () => {
 
   return (
     <div>
-      <SectionHeader Icon={IconArrowsShuffle} iconClass="text-sky-400" title="Variable Interpolation" desc="Inject dynamic values into translations using Mustache syntax." />
+      <SectionHeader 
+        Icon={IconArrowsShuffle} 
+        iconClass="text-sky-400" 
+        title={t('sections.interpolation.title')} 
+        desc={t('sections.interpolation.desc')} 
+      />
       <div className="grid sm:grid-cols-2 gap-4">
-        <Card title="Simple Variable" accent="sky">
+        <Card title={t('cards.simpleVar')} accent="sky">
           <TestItem label="t('interpolation.value', { name: 'Baker' })" value={t('tests.interpolation.value', { name: 'Baker' })} status="success" />
         </Card>
 
-        <Card title="Nested Variable" accent="sky">
+        <Card title={t('cards.nestedVar')} accent="sky">
           <TestItem
             label="Deep interpolation {{user.name}}"
             value={t('tests.interpolation.nested', { user: { name: 'Arturo' } }) || 'Hello, Arturo!'}
@@ -108,56 +114,45 @@ const InterpolationSection: React.FC = () => {
 // ---------- SECTION: Pluralization ----------
 const PluralSection: React.FC = () => {
   const { t } = useTranslation('showcase');
-  const { count, increment, decrement } = useCounter(1);
+  const { count, increment: inc, decrement: dec, setCount } = useCounter(0);
 
   return (
     <div>
-      <SectionHeader Icon={IconNumber123} iconClass="text-jade-400" title="Pluralization" desc="Suffix strategy (i18next-compatible) + CLDR for 100+ languages." />
+      <SectionHeader 
+        Icon={IconNumber123} 
+        iconClass="text-jade-400" 
+        title={t('sections.pluralization.title')} 
+        desc={t('sections.pluralization.desc')} 
+      />
       <div className="grid sm:grid-cols-2 gap-4">
-        <Card title="Suffix Strategy (i18next-style)" accent="jade" badge="Core">
-          <div className="flex items-center gap-2 mb-4 bg-surface-1 border border-white/5 rounded-xl p-3 w-fit">
-            <Button onClick={decrement} size="sm" className="w-7 h-7 p-0 flex items-center justify-center">−</Button>
-            <span className="text-lg font-bold text-amber-400 min-w-[2.5rem] text-center">{count}</span>
-            <Button onClick={increment} size="sm" className="w-7 h-7 p-0 flex items-center justify-center">+</Button>
+        <Card title={t('cards.standardPlural')} accent="jade">
+          <div className="flex items-center gap-3 mb-4">
+            <Button onClick={dec} variant="secondary" size="sm">-</Button>
+            <span className="text-xl font-black text-jade-400 w-8 text-center">{count}</span>
+            <Button onClick={inc} variant="secondary" size="sm">+</Button>
+            <Button onClick={(() => setCount(0))} variant="ghost" size="sm">Reset</Button>
           </div>
-          <TestItem label="Resolved form" value={t('tests.plural.value', { count })} status="success" />
+          <TestItem label="t('plural.value', { count })" value={t('tests.plural.value', { count })} status="success" />
           <CodeSnippet lines={[
-            { text: "// key      → 1 item", color: 'muted' },
-            { text: "// key_plural → N items", color: 'muted' },
-            { text: "t('plural.value', { count })", color: 'yellow' },
+            { text: "// CLDR Rules: 1 item, 2 items, 5 items", color: 'muted' },
+            { text: `t('key', { count: ${count} })`, color: 'yellow' },
           ]} />
         </Card>
 
-        <Card title="Exact Count Matches" accent="jade">
-          <TestItem label="count = 0" value={t('tests.plural.zero', { count: 0 }) || 'No items in your cart'} status="neutral" />
-          <TestItem label="count = 1" value={t('tests.plural.value', { count: 1 })} status="neutral" />
-          <TestItem label="count = 2" value={t('tests.plural.value', { count: 2 })} status="neutral" />
-          <TestItem label="count = 42" value={t('tests.plural.value', { count: 42 })} status="neutral" />
+        <Card title={t('cards.zeroPlural')} accent="jade" badge="New" badgeVariant="beta">
+          <TestItem label="t('plural.value_0') override" value={t('tests.plural', { count: 0 })} status="success" />
           <CodeSnippet lines={[
-            { text: "// key_0 → exact zero form", color: 'muted' },
-            { text: "// key_1 → exact one form", color: 'muted' },
-            { text: "// key_plural → default plural", color: 'muted' },
+            { text: "// i18next-style _0 suffix", color: 'muted' },
+            { text: "t('key', { count: 0 }) → 'No items...'", color: 'green' },
           ]} />
         </Card>
 
-        <Card title="CLDR Pluralization" accent="jade" badge="v0.9.2" badgeVariant="stable">
-          <p className="text-xs text-ink-500 mb-3">Industry standard via <code className="bg-surface-1 px-1 rounded text-amber-400">Intl.PluralRules</code></p>
-          <TestItem label="one (count=1)" value="1 manzana  (es)" status="success" />
-          <TestItem label="few (count=3)" value="3 manzanas (pl)" status="success" />
-          <TestItem label="many (count=11)" value="11 яблок  (ru)" status="success" />
+        <Card title={t('cards.ordinal')} accent="jade" badge="ICU" badgeVariant="stable">
+          <TestItem label="Ordinal (1st, 2nd, 3rd)" value={t('{n, ordinal, one{#st} two{#nd} few{#rd} other{#th}} place', { n: 1 })} status="success" />
+          <TestItem label="" value={t('{n, ordinal, one{#st} two{#nd} few{#rd} other{#th}} place', { n: 2 })} status="success" />
           <CodeSnippet lines={[
-            { text: "initI18n({ pluralizationStrategy: 'cldr' })", color: 'yellow' },
-            { text: "// CLDR categories: zero/one/two/few/many/other", color: 'muted' },
-          ]} />
-        </Card>
-
-        <Card title="ICU MessageFormat" accent="jade" badge="v0.9.3" badgeVariant="stable">
-          <p className="text-xs text-ink-500 mb-3">Inline plural, select & selectordinal in one string.</p>
-          <TestItem label="plural (ICU)" value="{count, plural, =0 {no items} one {# item} other {# items}}" code />
-          <TestItem label="select (ICU)" value="{g, select, male {He} female {She} other {They}} liked this" code />
-          <TestItem label="selectordinal" value="You finished {p, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}" code />
-          <CodeSnippet lines={[
-            { text: "initI18n({ messageFormat: 'icu' })", color: 'yellow' },
+            { text: "// Built-in ICU support via native Intl", color: 'muted' },
+            { text: "t('{n, ordinal, ...}', { n: 2 })", color: 'yellow' },
           ]} />
         </Card>
       </div>
@@ -165,262 +160,57 @@ const PluralSection: React.FC = () => {
   );
 };
 
-// ---------- SECTION: Number Formatting ----------
+// ---------- SECTION: Formatting ----------
 const FormattingSection: React.FC = () => {
   const { t } = useTranslation('showcase');
 
   return (
     <div>
-      <SectionHeader Icon={IconCurrencyDollar} iconClass="text-violet-400" title="Number & Text Formatting" desc="NumberFormatPlugin + CapitalizePlugin via native Intl APIs." />
+      <SectionHeader 
+        Icon={IconCurrencyDollar} 
+        iconClass="text-amber-400" 
+        title={t('sections.formatting.title')} 
+        desc={t('sections.formatting.desc')} 
+      />
       <div className="grid sm:grid-cols-2 gap-4">
-        <Card title="NumberFormatPlugin" accent="violet" badge="v1.0.0" badgeVariant="stable">
-          <TestItem label="Currency USD" value={t('tests.formatting.value', { price: 1234.56 })} status="success" />
-          <TestItem label="Percentage" value={t('tests.formatting.percent', { val: 12.5 })} status="success" />
-          <TestItem label="Compact" value={t('tests.formatting.compact', { views: 1500000 }) || '1.5M views'} status="success" />
+        <Card title={t('cards.currency')} accent="amber" badge="Plugin" badgeVariant="stable">
+          <TestItem label="Currency pipe: {{val|currency:USD}}" value={t('tests.formatting.value', { price: 42.5 })} status="success" />
           <CodeSnippet lines={[
-            { text: "// {amount|currency:USD}", color: 'yellow' },
-            { text: "// {count|compact}", color: 'yellow' },
-            { text: "// {ratio|percent}", color: 'yellow' },
+            { text: "// Plugins: NumberFormat + currency:USD", color: 'muted' },
+            { text: "t('key', { price: 42.5 })", color: 'yellow' },
+            { text: `// → "${t('tests.formatting.value', { price: 42.5 })}"`, color: 'green' },
           ]} />
         </Card>
 
-        <Card title="CapitalizePlugin" accent="violet" badge="v1.0.0" badgeVariant="stable">
-          <TestItem label="Original" value="hello world" status="neutral" />
-          <TestItem label="_upper suffix" value={t('tests.plugins.text_upper')} status="success" />
-          <TestItem label="_capitalize suffix" value={t('tests.plugins.text_capitalize')} status="success" />
-          <TestItem label="_title suffix" value={t('tests.plugins.text_title') || 'Hello World'} status="success" />
-          <CodeSnippet lines={[
-            { text: "t('greeting_upper')    // HELLO WORLD", color: 'yellow' },
-            { text: "t('greeting_title')    // Hello World", color: 'yellow' },
-          ]} />
+        <Card title={t('cards.percentage')} accent="amber" badge="Plugin">
+          <TestItem label="Percentage: {{val|percent}}" value={t('tests.formatting.percent', { val: 0.15 })} status="success" />
+          <TestItem label="Compact: {{val|compact}}" value={t('tests.formatting.compact', { views: 1250000 })} status="success" />
         </Card>
       </div>
     </div>
   );
 };
 
-// ---------- SECTION: Namespaces ----------
-const NamespaceSection: React.FC = () => {
-  return (
-    <div>
-      <SectionHeader Icon={IconFolder} iconClass="text-sky-400" title="Namespaces & Key Engine" desc="Colon separates namespace from key. Dot traverses nested objects." />
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card title="Colon Syntax" accent="sky">
-          <CodeSnippet lines={[
-            { text: "// NAMESPACE:key.property", color: 'muted' },
-            { text: "t('home:hero.title')", color: 'yellow' },
-            { text: "t('showcase:tests.basic')", color: 'yellow' },
-            { text: "t('common:nav.home')", color: 'yellow' },
-          ]} />
-        </Card>
-
-        <Card title="Hierarchical Namespaces" accent="sky" badge="v1.0.6">
-          <CodeSnippet lines={[
-            { text: "// Subdirectory namespaces", color: 'muted' },
-            { text: "t('home:hero.title')", color: 'yellow' },
-            { text: "// → locales/en/home.json", color: 'green' },
-            { text: '', color: 'white' },
-            { text: "t('orders:meal.title')", color: 'yellow' },
-            { text: "// → locales/en/orders/meal.json", color: 'green' },
-          ]} />
-        </Card>
-
-        <Card title="Nested Key Access" accent="sky">
-          <CodeSnippet lines={[
-            { text: "// Deep dot notation", color: 'muted' },
-            { text: "t('common:errors.not_found')", color: 'yellow' },
-            { text: '', color: 'white' },
-            { text: "// JSON:", color: 'muted' },
-            { text: '{ "errors": {', color: 'white' },
-            { text: '    "not_found": "Page not found"', color: 'green' },
-            { text: '  }', color: 'white' },
-            { text: '}', color: 'white' },
-          ]} />
-        </Card>
-      </div>
-    </div>
-  );
-};
-
-// ---------- SECTION: File Formats ----------
-const FileFormatsSection: React.FC = () => {
-  return (
-    <div>
-      <SectionHeader Icon={IconFileText} iconClass="text-amber-400" title="File Formats" desc="JSON (default) and TOML — zero-dependency parser built-in." />
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card title="JSON Format" accent="amber">
-          <CodeSnippet lines={[
-            { text: "// locales/en/common.json", color: 'muted' },
-            { text: '{', color: 'white' },
-            { text: '  "welcome": "Welcome!",', color: 'green' },
-            { text: '  "errors": {', color: 'white' },
-            { text: '    "not_found": "Page not found"', color: 'green' },
-            { text: '  }', color: 'white' },
-            { text: '}', color: 'white' },
-          ]} />
-        </Card>
-
-        <Card title="TOML Format" accent="amber" badge="v1.0.6" badgeVariant="stable">
-          <CodeSnippet lines={[
-            { text: "# locales/en/common.toml", color: 'muted' },
-            { text: 'welcome = "Welcome!"', color: 'green' },
-            { text: '', color: 'white' },
-            { text: '[errors]', color: 'blue' },
-            { text: 'not_found = "Page not found"', color: 'green' },
-          ]} />
-        </Card>
-
-        <Card title="Flat vs Nested JSON" accent="amber" badge="v1.0.1" badgeVariant="stable">
-          <CodeSnippet lines={[
-            { text: "// Nested (default)", color: 'muted' },
-            { text: '{ "home": { "title": "..." } }', color: 'green' },
-            { text: '', color: 'white' },
-            { text: "// Flat", color: 'muted' },
-            { text: '{ "home.title": "..." }', color: 'yellow' },
-            { text: '', color: 'white' },
-            { text: "new JSONFileSaver('./l', 'flat')", color: 'blue' },
-          ]} />
-        </Card>
-      </div>
-    </div>
-  );
-};
-
-// ---------- SECTION: CLI & Build ----------
-const CLISection: React.FC = () => {
-  return (
-    <div>
-      <SectionHeader Icon={IconTerminal2} iconClass="text-rose-400" title="CLI — Sous-Chef Tools" desc="batter extracts keys from code. bake compiles and optimizes bundles." />
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card title="Key Extraction" accent="rose" badge="CLI">
-          <CodeSnippet lines={[
-            { text: "# Extract from source", color: 'muted' },
-            { text: "i18n-bakery batter src \\", color: 'yellow' },
-            { text: "  --locale en-US,es-MX,it,jp \\", color: 'yellow' },
-            { text: "  --out locales", color: 'yellow' },
-          ]} />
-        </Card>
-
-        <Card title="Build & Optimize" accent="rose" badge="CLI">
-          <CodeSnippet lines={[
-            { text: "# Compile + split + hash", color: 'muted' },
-            { text: "i18n-bakery bake locales \\", color: 'yellow' },
-            { text: "  --split          # per-namespace", color: 'yellow' },
-            { text: "  --hash           # cache busting", color: 'yellow' },
-            { text: "  --manifest       # manifest.json", color: 'yellow' },
-            { text: "  --minify         # strip whitespace", color: 'yellow' },
-          ]} />
-        </Card>
-
-        <Card title="Encryption" accent="rose" badge="v1.0.4" badgeVariant="stable">
-          <CodeSnippet lines={[
-            { text: "# Encrypt bundles AES-256-GCM", color: 'muted' },
-            { text: "i18n-bakery bake locales \\", color: 'yellow' },
-            { text: "  --encrypt \\", color: 'yellow' },
-            { text: "  --key $SECRET_KEY", color: 'yellow' },
-            { text: '', color: 'white' },
-            { text: "// Runtime decrypt", color: 'muted' },
-            { text: "new HttpBackend({ cipher, secret })", color: 'blue' },
-          ]} />
-        </Card>
-
-        <Card title="TOML Extraction" accent="rose" badge="v1.0.6">
-          <CodeSnippet lines={[
-            { text: "# Extract to TOML format", color: 'muted' },
-            { text: "i18n-bakery batter src \\", color: 'yellow' },
-            { text: "  --locale en \\", color: 'yellow' },
-            { text: "  --out locales \\", color: 'yellow' },
-            { text: "  --format toml", color: 'yellow' },
-          ]} />
-        </Card>
-
-        <Card title="HTTP Backend" accent="rose" badge="v1.0.3" badgeVariant="stable">
-          <CodeSnippet lines={[
-            { text: "// Load from CDN / server", color: 'muted' },
-            { text: "const httpBackend = new HttpBackend();", color: 'yellow' },
-            { text: "initI18n({", color: 'white' },
-            { text: "  loader: httpBackend,", color: 'green' },
-            { text: "  plugins: [httpBackend],", color: 'green' },
-            { text: "});", color: 'white' },
-          ]} />
-        </Card>
-
-        <Card title="Poacher Migration" accent="rose" badge="v1.0.8" badgeVariant="stable">
-          <CodeSnippet lines={[
-            { text: "# Migrate from i18next", color: 'muted' },
-            { text: "i18n-bakery-poacher scout src", color: 'yellow' },
-            { text: "i18n-bakery-poacher convert \\", color: 'yellow' },
-            { text: "  --from ./old --to ./locales", color: 'yellow' },
-            { text: '', color: 'white' },
-            { text: "# Backs up originals first", color: 'green' },
-          ]} />
-        </Card>
-      </div>
-    </div>
-  );
-};
-
-// ---------- SECTION: Plugin API ----------
-const PluginSection: React.FC = () => {
-  return (
-    <div>
-      <SectionHeader Icon={IconPuzzle} iconClass="text-violet-400" title="Plugin System" desc="Lifecycle hooks: init, beforeTranslate, afterTranslate, onMissing, onLoad, onLocaleChange, destroy." />
-      <div className="grid sm:grid-cols-2 gap-4">
-        <Card title="Built-in Plugin Registration" accent="violet" badge="v1.0.0" badgeVariant="stable">
-          <CodeSnippet lines={[
-            { text: "import {", color: 'white' },
-            { text: "  NumberFormatPlugin,", color: 'green' },
-            { text: "  CapitalizePlugin,", color: 'green' },
-            { text: "  HttpBackend,", color: 'green' },
-            { text: "} from '@i18n-bakery/core';", color: 'white' },
-            { text: '', color: 'white' },
-            { text: "initI18n({", color: 'yellow' },
-            { text: "  plugins: [httpBackend, numberFmt, capitalize],", color: 'green' },
-            { text: "});", color: 'yellow' },
-          ]} />
-        </Card>
-
-        <Card title="Custom Plugin" accent="violet">
-          <CodeSnippet lines={[
-            { text: "class MyPlugin implements Plugin {", color: 'yellow' },
-            { text: "  metadata = {", color: 'white' },
-            { text: "    name: 'my-plugin',", color: 'green' },
-            { text: "    type: 'processor',", color: 'green' },
-            { text: "    version: '1.0.0'", color: 'green' },
-            { text: "  };", color: 'white' },
-            { text: "  afterTranslate(ctx) {", color: 'white' },
-            { text: "    return ctx.result + ' [processed]';", color: 'green' },
-            { text: "  }", color: 'white' },
-            { text: "}", color: 'yellow' },
-          ]} />
-        </Card>
-      </div>
-    </div>
-  );
-};
-
-// ---------- SECTION: React Hooks ----------
+// ---------- SECTION: React Integration ----------
 const ReactSection: React.FC = () => {
+  const { t } = useTranslation('showcase');
   const { locale, setLocale } = useI18n();
-  const { t } = useTranslation('common');
 
   return (
     <div>
-      <SectionHeader Icon={IconBrandReact} iconClass="text-sky-400" title="React Bindings" desc="useTranslation() and useI18n() hooks with reactive updates." />
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card title="useTranslation()" accent="sky" badge="React">
-          <TestItem label="t('welcome')" value={t('welcome')} status="success" />
-          <TestItem label="t('nav.home')" value={t('nav.home')} status="success" />
+      <SectionHeader 
+        Icon={IconBrandReact} 
+        iconClass="text-sky-400" 
+        title={t('sections.react.title')} 
+        desc={t('sections.react.desc')} 
+      />
+      <div className="grid sm:grid-cols-2 gap-4">
+        <Card title={t('cards.hook')} accent="sky">
           <CodeSnippet lines={[
-            { text: "const { t } = useTranslation('common');", color: 'yellow' },
-            { text: "// or", color: 'muted' },
-            { text: "const [t] = useTranslation();", color: 'yellow' },
+            { text: "const { t } = useTranslation('showcase');", color: 'yellow' },
+            { text: "return <h1>{t('title')}</h1>;", color: 'white' },
           ]} />
-        </Card>
-
-        <Card title="useI18n()" accent="sky" badge="React">
-          <TestItem label="Current locale" value={locale} status="info" />
-          <div className="mt-3 flex gap-2 flex-wrap">
+          <div className="flex flex-wrap gap-2 mt-4">
             {['en-US', 'es-MX', 'it', 'jp'].map(l => (
               <button
                 key={l}
@@ -437,7 +227,7 @@ const ReactSection: React.FC = () => {
           </div>
         </Card>
 
-        <Card title="Reactive Updates" accent="sky">
+        <Card title={t('cards.reactive')} accent="sky">
           <TestItem label="Auto re-renders on locale change" value="Subscribed" status="success" />
           <TestItem label="Works with async loading" value="HttpBackend" status="success" />
           <CodeSnippet lines={[
@@ -452,11 +242,18 @@ const ReactSection: React.FC = () => {
 
 // ---------- SECTION: Security ----------
 const SecuritySection: React.FC = () => {
+  const { t } = useTranslation('showcase');
+
   return (
     <div>
-      <SectionHeader Icon={IconShieldCheck} iconClass="text-rose-400" title="Security Features" desc="Path traversal prevention, prototype pollution guard, key sanitization." />
+      <SectionHeader 
+        Icon={IconShieldCheck} 
+        iconClass="text-rose-400" 
+        title={t('sections.security.title')} 
+        desc={t('sections.security.desc')} 
+      />
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card title="Prototype Pollution Guard" accent="rose" badge="v1.0.8" badgeVariant="stable">
+        <Card title={t('cards.prototype')} accent="rose" badge="v1.0.8" badgeVariant="stable">
           <TestItem label="TOML __proto__ blocking" value="Rejected" status="success" />
           <TestItem label="constructor key blocking" value="Rejected" status="success" />
           <CodeSnippet lines={[
@@ -467,18 +264,18 @@ const SecuritySection: React.FC = () => {
           ]} />
         </Card>
 
-        <Card title="Path Traversal Prevention" accent="rose" badge="v1.0.2" badgeVariant="stable">
+        <Card title={t('cards.traversal')} accent="rose" badge="v1.0.2" badgeVariant="stable">
           <TestItem label="../ traversal attempts" value="Blocked" status="success" />
           <TestItem label="Null byte injection" value="Blocked" status="success" />
           <CodeSnippet lines={[
             { text: "// FileSystemPathResolver validates:", color: 'muted' },
             { text: "// ✗  ../../etc/passwd", color: 'orange' },
-            { text: "// ✗  key\\x00.json", color: 'orange' },
+            { text: "// ✗  key\x00.json", color: 'orange' },
             { text: "// ✓  locales/en/common.json", color: 'green' },
           ]} />
         </Card>
 
-        <Card title="Key Sanitization" accent="rose" badge="v1.0.2">
+        <Card title={t('cards.sanitization')} accent="rose" badge="v1.0.2">
           <TestItem label="Injection attempts via keys" value="Rejected" status="success" />
           <CodeSnippet lines={[
             { text: "// Allowed: a-zA-Z0-9_-.:", color: 'muted' },
@@ -495,69 +292,66 @@ const SecuritySection: React.FC = () => {
 interface SectionTab {
   id: string;
   Icon: React.FC<{ size?: number; className?: string }>;
-  label: string;
-  component: React.FC;
+  key: string;
 }
 
-const sectionTabs: SectionTab[] = [
-  { id: 'core', Icon: IconLetterT, label: 'Core', component: CoreSection },
-  { id: 'interpolation', Icon: IconArrowsShuffle, label: 'Interpolation', component: InterpolationSection },
-  { id: 'plural', Icon: IconNumber123, label: 'Pluralization', component: PluralSection },
-  { id: 'format', Icon: IconCurrencyDollar, label: 'Formatting', component: FormattingSection },
-  { id: 'namespaces', Icon: IconFolder, label: 'Namespaces', component: NamespaceSection },
-  { id: 'formats', Icon: IconFileText, label: 'File Formats', component: FileFormatsSection },
-  { id: 'cli', Icon: IconTerminal2, label: 'CLI & Build', component: CLISection },
-  { id: 'plugins', Icon: IconPuzzle, label: 'Plugins', component: PluginSection },
-  { id: 'react', Icon: IconBrandReact, label: 'React', component: ReactSection },
-  { id: 'security', Icon: IconShieldCheck, label: 'Security', component: SecuritySection },
+const SECTION_TABS: SectionTab[] = [
+  { id: 'core', Icon: IconLetterT, key: 'sections.core.title' },
+  { id: 'interpolation', Icon: IconArrowsShuffle, key: 'sections.interpolation.title' },
+  { id: 'plural', Icon: IconNumber123, key: 'sections.pluralization.title' },
+  { id: 'formatting', Icon: IconCurrencyDollar, key: 'sections.formatting.title' },
+  { id: 'react', Icon: IconBrandReact, key: 'sections.react.title' },
+  { id: 'security', Icon: IconShieldCheck, key: 'sections.security.title' },
 ];
 
-// ---------- Main Showcase Page ----------
 export const ShowcasePage: React.FC = () => {
-  const [active, setActive] = useState('core');
-  const ActiveTab = sectionTabs.find(s => s.id === active) ?? sectionTabs[0];
-  const ActiveComponent = ActiveTab.component;
+  const { t } = useTranslation('showcase');
+  const [activeTab, setActiveTab] = useState('core');
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-black text-ink-50 mb-2">
-          Feature{' '}
           <span style={{
             background: 'linear-gradient(135deg, #f59e0b, #fbbf24)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-          }}>
-            Showcase
-          </span>
+          }}>{t('page.title')}</span>
         </h1>
-        <p className="text-sm text-ink-500">
-          Every feature of i18n-bakery — interactive and live. Switch locale from the nav bar above.
+        <p className="text-sm text-ink-500 max-w-2xl">
+          {t('page.description')}
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap gap-1.5 mb-8 bg-surface-2 border border-white/7 p-1.5 rounded-2xl">
-        {sectionTabs.map(s => (
+      <div className="flex items-center gap-1.5 mb-8 p-1.5 bg-surface-2 border border-white/7 rounded-2xl w-fit overflow-x-auto max-w-full no-scrollbar">
+        {SECTION_TABS.map(tab => (
           <button
-            key={s.id}
-            onClick={() => setActive(s.id)}
-            className={`flex items-center gap-1.5 flex-1 min-w-fit px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-150 whitespace-nowrap ${
-              active === s.id
-                ? 'bg-amber-500 text-surface-0 shadow-md shadow-amber-500/20'
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${
+              activeTab === tab.id
+                ? 'bg-amber-500 text-surface-0 shadow-lg shadow-amber-500/20'
                 : 'text-ink-400 hover:text-ink-100 hover:bg-white/5'
             }`}
           >
-            <s.Icon size={13} />
-            {s.label}
+            <tab.Icon size={14} />
+            {t(tab.key)}
           </button>
         ))}
       </div>
 
-      {/* Active Section */}
-      <ActiveComponent />
+      {/* Sections */}
+      <div className="bg-surface-0 rounded-2xl">
+        {activeTab === 'core' && <CoreSection />}
+        {activeTab === 'interpolation' && <InterpolationSection />}
+        {activeTab === 'plural' && <PluralSection />}
+        {activeTab === 'formatting' && <FormattingSection />}
+        {activeTab === 'react' && <ReactSection />}
+        {activeTab === 'security' && <SecuritySection />}
+      </div>
     </div>
   );
 };

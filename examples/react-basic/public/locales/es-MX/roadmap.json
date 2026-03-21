@@ -1,0 +1,42 @@
+{
+  "title": "Hoja de Ruta",
+  "subtitle": "De v0.1.0 a la paridad total con i18next — cada fase planificada y rastreada. Las fechas estimadas son objetivos, no garantías.",
+  "progress": {
+    "title": "Progreso General",
+    "parity": "~70% paridad con i18next",
+    "target": "v1.5.0 (objetivo: 98%)"
+  },
+  "next_release": {
+    "title": "Próximo: v1.1.0",
+    "desc": "— Soporte de Contexto + Detección de Idioma — ETA Q2 2025"
+  },
+  "filters": {
+    "all": "Todos",
+    "released": "Lanzados",
+    "planned": "Planeados",
+    "future": "Futuro"
+  },
+  "status": {
+    "released": "Lanzado",
+    "in_progress": "En Progreso",
+    "planned": "Planeado",
+    "future": "Futuro"
+  },
+  "items": {
+    "phase1": { "title": "Núcleo en Tiempo de Ejecución", "subtitle": "La Fundación" },
+    "phase2": { "title": "Guardado Automático", "subtitle": "Auto-Levantado" },
+    "phase3": { "title": "CLI", "subtitle": "La Mezcladora" },
+    "phase4": { "title": "Enlaces React", "subtitle": "El Glaseado" },
+    "phase9": { "title": "Pluralización Avanzada", "subtitle": "El Contador" },
+    "phase13": { "title": "Sistema de Plugins", "subtitle": "Primer Lanzamiento Estable" },
+    "phase14": { "title": "La Era del Chef Principal", "subtitle": "Seguridad, Formatos, Migración" },
+    "phase15": { "title": "Soporte de Contexto", "subtitle": "El Panadero de Contexto" },
+    "phase16": { "title": "Detección de Idioma", "subtitle": "El Panadero Detector" },
+    "phase17": { "title": "Sistema de Eventos", "subtitle": "El Panadero Observador" },
+    "phase18": { "title": "Anidamiento de Traducciones", "subtitle": "El Panadero de Nidos" },
+    "phase19": { "title": "Objetos de Retorno", "subtitle": "El Panadero de Objetos" },
+    "phase20": { "title": "Múltiples Instancias", "subtitle": "El Multi-Panadero" },
+    "phase21": { "title": "Formateo Avanzado", "subtitle": "El Panadero de Formatos" },
+    "phase22": { "title": "Manejador de Claves Faltantes", "subtitle": "El Panadero Manejador" }
+  }
+}
