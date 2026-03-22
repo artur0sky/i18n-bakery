@@ -15,7 +15,7 @@
 
 import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { PantryUseCase } from '../use-cases/PantryUseCase';
+import { PantryUseCase } from '@i18n-bakery/baker';
 
 const useCase = new PantryUseCase();
 

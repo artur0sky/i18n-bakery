@@ -13,13 +13,24 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import type { RecipeInput, RecipeResult } from '../domain/types';
-import { validatePathSegment, setDeepKey, getDeepKey } from '../shared/utils';
+import { JSONFileSaver } from '../adapters/JSONFileSaver';
 
-/**
- * Writes a translation key to the appropriate locale file.
- * Handles create-or-update logic with deep key merging.
- */
+export interface RecipeInput {
+  localesDir: string;
+  locale: string;
+  namespace: string;
+  key: string;
+  value: string;
+  cwd: string;
+}
+
+export interface RecipeResult {
+  filePath: string;
+  key: string;
+  value: string;
+  isNew: boolean;
+}
+
 export class RecipeUseCase {
   async execute(input: RecipeInput): Promise<RecipeResult> {
     const { locale, namespace, key, value, cwd } = input;
@@ -27,40 +38,36 @@ export class RecipeUseCase {
       ? input.localesDir
       : path.join(cwd, input.localesDir);
 
-    // Security: validate all user-provided path segments
-    validatePathSegment(locale, 'locale');
-    validatePathSegment(namespace, 'namespace');
+    this.validatePathSegment(locale, 'locale');
+    this.validatePathSegment(namespace, 'namespace');
     this.validateKey(key);
 
     const filePath = path.join(localesDir, locale, `${namespace}.json`);
-    await fs.ensureDir(path.dirname(filePath));
-
-    let content: Record<string, any> = {};
+    
     let isNew = true;
-
     if (await fs.pathExists(filePath)) {
       try {
-        content = await fs.readJson(filePath);
-        const existing = getDeepKey(content, key);
+        const content = await fs.readJson(filePath);
+        const existing = this.getDeepKey(content, key);
         isNew = existing === undefined;
       } catch {
         // File exists but is malformed — start fresh
       }
     }
 
-    setDeepKey(content, key, value);
-
-    // Sort the top-level keys alphabetically for consistency with the bakery
-    const sorted = this.sortTopLevelKeys(content);
-
-    await fs.writeJson(filePath, sorted, { spaces: 2 });
+    const saver = new JSONFileSaver(localesDir, 'nested');
+    await saver.save(locale, namespace, key, value);
 
     return { filePath, key, value, isNew };
   }
 
-  /**
-   * Validates a dot-notation key for path traversal and banned characters.
-   */
+  private validatePathSegment(segment: string, name: string): void {
+    if (!segment) throw new Error(`${name} is required`);
+    if (segment.includes('..') || segment.includes('\\') || segment.includes('/') || path.isAbsolute(segment)) {
+      throw new Error(`Invalid ${name} path segment`);
+    }
+  }
+
   private validateKey(key: string): void {
     if (!key || key.trim().length === 0) {
       throw new Error('Key cannot be empty');
@@ -76,15 +83,7 @@ export class RecipeUseCase {
     }
   }
 
-  /**
-   * Sorts the top-level keys of an object alphabetically.
-   * Nested keys are left as-is to preserve author intent.
-   */
-  private sortTopLevelKeys(obj: Record<string, any>): Record<string, any> {
-    const sorted: Record<string, any> = {};
-    Object.keys(obj)
-      .sort()
-      .forEach((k) => (sorted[k] = obj[k]));
-    return sorted;
+  private getDeepKey(obj: any, pathStr: string): any {
+    return pathStr.split('.').reduce((o, k) => (o && o[k] !== 'undefined' ? o[k] : undefined), obj);
   }
 }
