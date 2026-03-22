@@ -3,9 +3,10 @@
   "tagline": "Traducciones frescas, horneadas a la perfección",
   "nav": {
     "home": "Inicio",
-    "showcase": "Demostración",
-    "docs": "Documentación",
-    "roadmap": "Hoja de Ruta"
+    "showcase": "Escaparate",
+    "docs": "Docs",
+    "roadmap": "Mapa de ruta",
+    "tray": "Tray"
   },
   "footer": {
     "description": "i18n-bakery — Traducciones frescas, horneadas a la perfección",

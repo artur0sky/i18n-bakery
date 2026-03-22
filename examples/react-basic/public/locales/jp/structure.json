@@ -1,0 +1,13 @@
+{
+  "description": "description",
+  "explorer_title": "explorer_title",
+  "files": {
+    "actions": "files.actions",
+    "common": "files.common",
+    "docs": "files.docs",
+    "features": "files.features",
+    "home": "files.home",
+    "showcase": "files.showcase"
+  },
+  "title": "title"
+}

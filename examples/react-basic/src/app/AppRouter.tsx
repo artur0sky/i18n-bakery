@@ -10,12 +10,13 @@ import {
   IconBrandGithub,
   IconBread,
   IconChevronDown,
-  IconLanguage,
+  IconRobot,
 } from '@tabler/icons-react';
 import { HomePage } from '../features/home/HomePage';
 import { ShowcasePage } from '../features/showcase/ShowcasePage';
 import { DocsPage } from '../features/docs/DocsPage';
 import { RoadmapPage } from '../features/roadmap/RoadmapPage';
+import { TrayPage } from '../features/tray/TrayPage';
 
 const LOCALES = [
   { value: 'en-US', label: 'English (US)', flag: 'US', soon: false },
@@ -55,6 +56,7 @@ export const AppRouter: React.FC = () => {
     { path: '/showcase', key: 'showcase', Icon: IconBolt },
     { path: '/docs', key: 'docs', Icon: IconBook },
     { path: '/roadmap', key: 'roadmap', Icon: IconMap },
+    { path: '/tray', key: 'tray', Icon: IconRobot },
   ];
 
   return (
@@ -192,6 +194,7 @@ export const AppRouter: React.FC = () => {
           <Route path="/showcase" component={ShowcasePage} />
           <Route path="/docs" component={DocsPage} />
           <Route path="/roadmap" component={RoadmapPage} />
+          <Route path="/tray" component={TrayPage} />
           <Route>
             <div className="flex flex-col items-center justify-center min-h-[40vh] text-center">
               <IconBread size={64} className="text-amber-500/30 mb-4" />

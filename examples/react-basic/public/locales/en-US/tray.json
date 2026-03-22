@@ -1,0 +1,63 @@
+{
+  "title": "Tray — MCP Server",
+  "description": "Delivers i18n-bakery capabilities directly to AI agents via the Model Context Protocol. Let Claude, Cursor, or any MCP-compatible agent manage your translations automatically.",
+  "tabs": {
+    "overview": "Overview",
+    "tools": "Tools",
+    "security": "Security"
+  },
+  "overview": {
+    "body": "Instead of running CLI commands manually, an AI agent connected via MCP can detect missing translations, extract new keys from source code, write translated strings, and compile production bundles — all in one automated workflow. Tray is the silver platter that makes all of that possible."
+  },
+  "workflow": {
+    "title": "AI Agent Workflow",
+    "step1": "check_pantry — detect what's missing",
+    "step2": "LLM generates translations",
+    "step3": "update_recipe — persist each key",
+    "step4": "bake_bundle — compile for production"
+  },
+  "setup": {
+    "claude_title": "Claude Desktop Configuration",
+    "this_project": "Start the MCP Server (this project)"
+  },
+  "tools": {
+    "check_pantry": {
+      "title": "check_pantry",
+      "desc": "Scans all locale directories and returns a status report: keys present, missing, and completion percentage per locale vs. the reference locale. This is the AI's first call in any translation workflow."
+    },
+    "fry_batter": {
+      "title": "fry_batter",
+      "desc": "Scans TypeScript/JavaScript source files for t() calls and writes the extracted keys to locale files. New keys get placeholder values; existing keys are never overwritten."
+    },
+    "update_recipe": {
+      "title": "update_recipe",
+      "desc": "Writes or updates a single translation key in a locale file. This is the atomic write primitive — the AI calls this one time per key to persist each translated string."
+    },
+    "bake_bundle": {
+      "title": "bake_bundle",
+      "desc": "Compiles locale source files into optimized production bundles. Supports minification, content hash filenames (cache busting), per-namespace splitting for lazy loading, and AES-256-GCM encryption."
+    }
+  },
+  "security": {
+    "traversal": {
+      "title": "Path Traversal Prevention",
+      "desc": "All user-provided locale, namespace, and key segments are validated to prevent directory traversal attacks (e.g., ../etc/passwd)."
+    },
+    "prototype": {
+      "title": "Prototype Pollution Guard",
+      "desc": "Every object merge operation checks for __proto__, constructor, and prototype keys to prevent prototype pollution attacks."
+    },
+    "encryption": {
+      "title": "Encryption Key Enforcement",
+      "desc": "The bake_bundle tool validates that an encryptionKey is provided at the tool level before delegating to the BakingManager, preventing silent no-ops."
+    },
+    "validation": {
+      "title": "Dot-Notation Key Validation",
+      "desc": "Translation keys are validated to reject forbidden characters (/ \\ ..) and prototype pollution vectors before any file write occurs."
+    }
+  },
+  "cta": {
+    "title": "Ready to connect your AI agent?",
+    "subtitle": "Run the MCP server and connect Claude Desktop or any MCP-compatible client."
+  }
+}

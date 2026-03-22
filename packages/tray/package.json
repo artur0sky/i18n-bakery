@@ -1,0 +1,69 @@
+{
+  "name": "@i18n-bakery/tray",
+  "version": "1.0.8",
+  "type": "module",
+  "description": "The Silver Tray. Delivers i18n-bakery capabilities directly to AI agents via the Model Context Protocol (MCP), making translation workflows effortlessly accessible.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "i18n-bakery-tray": "./bin/tray.js"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "vitest run",
+    "start": "node bin/tray.js"
+  },
+  "keywords": [
+    "i18n",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "agent",
+    "bakery",
+    "translation",
+    "automation",
+    "typescript"
+  ],
+  "author": "Arturo Sáenz",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artur0sky/i18n-bakery.git"
+  },
+  "bugs": {
+    "url": "https://github.com/artur0sky/i18n-bakery/issues"
+  },
+  "homepage": "https://github.com/artur0sky/i18n-bakery#readme",
+  "packageManager": "pnpm@10.20.0",
+  "dependencies": {
+    "@i18n-bakery/baker": "workspace:*",
+    "@i18n-bakery/core": "workspace:*",
+    "@modelcontextprotocol/sdk": "1.27.1",
+    "fs-extra": "11.3.2",
+    "glob": "11.0.3",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "11.0.4",
+    "@types/node": "24.10.1",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3",
+    "vitest": "4.0.15"
+  }
+}
