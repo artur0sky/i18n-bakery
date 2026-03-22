@@ -57,7 +57,10 @@ export class JSONFileSaver implements TranslationSaver {
       }
       current = current[part];
     }
-    current[parts[parts.length - 1]] = value;
+    const finalKey = parts[parts.length - 1];
+    if (current[finalKey] === undefined) {
+      current[finalKey] = value;
+    }
   }
 
   private sortObject(obj: any): any {

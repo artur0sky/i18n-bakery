@@ -16,13 +16,18 @@ export class ExtractionUseCase {
     const cwd = options.cwd ?? process.cwd();
     const outDir = path.isAbsolute(options.out) ? options.out : path.join(cwd, options.out);
     
+    for (const locale of options.locales) {
+      if (locale.includes('..') || locale.includes('/') || locale.includes('\\')) {
+        throw new Error(`Invalid locale name: ${locale}`);
+      }
+    }
+    
     const scanner = new ProjectScanner();
     const { keys, filesScanned } = await scanner.scan({ source: options.source, cwd });
 
     const format = options.format || 'json';
     
-    let totalNewKeys = 0;
-    const keysByNamespace: Record<string, typeof keys> = {};
+    const keysByNamespace: Record<string, any[]> = {};
 
     for (const k of keys) {
       if (!keysByNamespace[k.namespace]) keysByNamespace[k.namespace] = [];
