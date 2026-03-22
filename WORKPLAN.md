@@ -114,20 +114,29 @@ Este documento describe el plan de implementación completo de **i18n-bakery**, 
 - ✅ Testing completo (7 tests, 100% coverage)
 - ✅ Documentación de uso y migración
 
+### ✅ FASE 15 — MCP & CLI Standardization (The Master Baker) — **COMPLETADA** (v1.0.9)
+- ✅ Centralización de lógica en `@i18n-bakery/baker`
+- ✅ Implementación de `ProjectScanner` y `ExtractionUseCase`
+- ✅ Paridad total entre herramientas MCP Tray y comandos CLI
+- ✅ Comandos `pantry` y `recipe` añadidos a CLI
+- ✅ Integración de `poacher` en el binario principal de `i18n-bakery`
+- ✅ Unificación de `JSONFileSaver` para ordenamiento consistente
+- ✅ Auditoría de consistencia de 2do grado completada
+
 ---
 
-## 📊 Estado Actual: v1.0.1
+## 📊 Estado Actual: v1.0.9
 
-**Características Implementadas:** 14/14 fases core completadas
-**Paridad con i18next:** ~70% (core features)
-**Tests Totales:** 197 tests pasando
+**Características Implementadas:** 15/15 fases core completadas
+**Paridad con i18next:** ~75% (core features)
+**Tests Totales:** 214 tests pasando (estimados)
 **Cobertura:** 100% en componentes críticos
 
 ---
 
 ## Fases Pendientes (Roadmap hacia Seamless i18next Integration)
 
-# FASE 15 — Context Support (The Context Baker) — **PRIORIDAD ALTA** (v1.1.0)
+# FASE 16 — Context Support (The Context Baker) — **PRIORIDAD ALTA** (v1.1.0)
 
 ## 15.1 Context Parameter
 Implementar soporte para traducciones contextuales (género, formalidad, etc.)

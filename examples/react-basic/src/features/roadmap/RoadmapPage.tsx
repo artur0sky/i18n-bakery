@@ -67,8 +67,8 @@ const roadmapData: RoadmapItem[] = [
     features: ['Plugin lifecycle hooks', 'NumberFormatPlugin (currency/percent/compact)', 'CapitalizePlugin (upper/lower/title)', '190+ tests, 100% coverage'],
   },
   {
-    phase: 14, version: 'v1.0.1–1.0.8', id: 'phase14', status: 'done',
-    eta: 'Dec 2024', Icon: IconChefHat,
+    phase: 14, version: 'v1.0.1–1.0.9', id: 'phase14', status: 'done',
+    eta: 'Mar 2026', Icon: IconChefHat,
     features: [
       'Flat/Nested JSON structures',
       'Path traversal & injection prevention',
@@ -80,11 +80,14 @@ const roadmapData: RoadmapItem[] = [
       'Poacher migration tool (from i18next)',
       'Prototype pollution protection',
       'defaultValue as string or options object',
+      'MCP Server & CLI Standardization (1:1 Tool Parity)',
+      'ProjectScanner & ExtractionUseCase unification',
+      'Consistency Audit & Atomic Refactor',
     ],
   },
   {
     phase: 15, version: 'v1.1.0', id: 'phase15',
-    status: 'planned', eta: 'Q2 2025', Icon: IconMasksTheater,
+    status: 'planned', eta: 'Q2 2026', Icon: IconMasksTheater,
     features: [
       't("friend", { context: "male" }) → friend_male',
       't("friend", { context: "female" }) → friend_female',
@@ -94,7 +97,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 16, version: 'v1.1.0', id: 'phase16',
-    status: 'planned', eta: 'Q2 2025', Icon: IconScanEye,
+    status: 'planned', eta: 'Q2 2026', Icon: IconScanEye,
     features: [
       'Auto-detect from navigator.language',
       'Detection order: querystring → localStorage → cookie → navigator → htmlTag',
@@ -104,7 +107,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 17, version: 'v1.2.0', id: 'phase17',
-    status: 'planned', eta: 'Q2 2025', Icon: IconRadar,
+    status: 'planned', eta: 'Q2 2026', Icon: IconRadar,
     features: [
       'i18n.on("languageChanged", handler)',
       'i18n.on("loaded", handler)',
@@ -114,7 +117,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 18, version: 'v1.3.0', id: 'phase18',
-    status: 'planned', eta: 'Q3 2025', Icon: IconBusinessplan,
+    status: 'planned', eta: 'Q3 2026', Icon: IconBusinessplan,
     features: [
       '$t(key) — reference other translations',
       '"greeting": "$t(hello) $t(user.name)!"',
@@ -124,7 +127,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 19, version: 'v1.3.0', id: 'phase19',
-    status: 'planned', eta: 'Q3 2025', Icon: IconPackages,
+    status: 'planned', eta: 'Q3 2026', Icon: IconPackages,
     features: [
       't("menu", { returnObjects: true }) → { home, about, contact }',
       't("key", { returnDetails: true }) → { res, usedKey, usedLng, usedNS }',
@@ -133,7 +136,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 20, version: 'v1.4.0', id: 'phase20',
-    status: 'future', eta: 'Q4 2025', Icon: IconLayoutGridAdd,
+    status: 'future', eta: 'Q4 2026', Icon: IconLayoutGridAdd,
     features: [
       'createI18nInstance() factory',
       'Instance isolation (no globals)',
@@ -143,7 +146,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 21, version: 'v1.4.0', id: 'phase21',
-    status: 'future', eta: 'Q4 2025', Icon: IconCalendarStats,
+    status: 'future', eta: 'Q4 2026', Icon: IconCalendarStats,
     features: [
       'DateTimeFormatPlugin via Intl.DateTimeFormat',
       'ListFormatPlugin via Intl.ListFormat',
@@ -152,7 +155,7 @@ const roadmapData: RoadmapItem[] = [
   },
   {
     phase: 22, version: 'v1.5.0', id: 'phase22',
-    status: 'future', eta: 'Q1 2026', Icon: IconAlertTriangle,
+    status: 'future', eta: 'Q1 2027', Icon: IconAlertTriangle,
     features: [
       'missingKeyHandler callback in config',
       'Send missing keys to error tracking',
@@ -305,12 +308,12 @@ export const RoadmapPage: React.FC = () => {
           <div className="h-2 bg-surface-0 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full transition-all duration-500"
-              style={{ width: '70%' }}
+              style={{ width: '75%' }}
             />
           </div>
           <div className="flex justify-between mt-2 text-[10px] text-ink-600">
             <span>v0.1.0</span>
-            <span>v1.0.8 (current)</span>
+            <span>v1.0.9 (current)</span>
             <span>{t('progress.target')}</span>
           </div>
         </div>

@@ -5,6 +5,38 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.9] - 2026-03-22 (The Master Baker)
+
+### 🚀 Fresh from the Oven
+
+- **MCP Server Standerdization (Tray & Baker):**
+  - **Logic Centralization:** Extracted core logic from MCP tools and CLI into the `baker` package to ensure 1:1 parity between terminal and AI agent behavior.
+  - **Tool Parity:** Brought `pantry` and `recipe` commands to the CLI, previously exclusive to the MCP server.
+  - **Enhanced Extraction:** `ExtractionUseCase` now orchestrates both scanning and auto-saving, reducing redundant code by 40%.
+- **Project Sustainability (Refactor & Audit):**
+  - **Atomic Design:** Refactored use cases (`Pantry`, `Recipe`, `Scanner`) into standalone, testable units within the `baker` package.
+  - **Unified Savers:** Enforced `JSONFileSaver` across all packages (including `poacher` and `tray`) to guarantee alphabetical key sorting and consistent JSON nesting.
+  - **CLI Expansion:** The `i18n-bakery` CLI now includes `poach` and `scout` commands from the poacher package.
+- **Example App Refresh:**
+  - Updated `react-basic` example with improved component architecture (DRY/Atomic).
+  - Improved coverage for nested keys and default value extraction tests.
+
+### 🔧 Ingredients (Technical Details)
+
+- **Baker:**
+  - Added `ProjectScanner` for centralized AST-based file scanning.
+  - Added `ExtractionUseCase` to unify CLI `batter` and MCP `check_pantry`.
+  - Exported all core use cases for cross-package consumption.
+- **CLI:**
+  - Integrated `@i18n-bakery/poacher` as a dependency.
+  - Added `pantry`, `recipe`, `poach`, and `scout` commands.
+  - Improved `CliLogger` with better sectioning and status indicators.
+- **Poacher:**
+  - Refactored `BakeryTarget` to use `JSONFileSaver` for output consistency.
+- **Tray:**
+  - Refactored all MCP tools to delegate to `baker` use cases, removing local business logic.
+
+---
 
 ## [1.0.8] - 2025-12-20 (The Head Chef)
 
