@@ -105,13 +105,21 @@ export class PantryUseCase {
     const missingInReference: string[] = [];
     for (const sk of sourceKeys) {
         let finalKey = sk.key;
-        const slashRegex = new RegExp('/', 'g');
-        const dotPrefix = `${sk.namespace.replace(slashRegex, '.')}.`;
-        const colonPrefix = `${sk.namespace.replace(slashRegex, ':')}.`;
-        if (finalKey.startsWith(dotPrefix)) {
-          finalKey = finalKey.slice(dotPrefix.length);
-        } else if (finalKey.startsWith(colonPrefix)) {
-          finalKey = finalKey.slice(colonPrefix.length);
+        
+        // Match stripping logic in ExtractionUseCase for consistency
+        const colonIndex = sk.key.indexOf(':');
+        const dotIndex = sk.key.indexOf('.');
+        
+        if (colonIndex !== -1) {
+          const nsPart = sk.key.substring(0, colonIndex);
+          if (nsPart.replace(/:/g, '/') === sk.namespace) {
+            finalKey = sk.key.substring(colonIndex + 1);
+          }
+        } else if (dotIndex !== -1) {
+          const nsPart = sk.key.substring(0, dotIndex);
+          if (nsPart === sk.namespace) {
+            finalKey = sk.key.substring(dotIndex + 1);
+          }
         }
 
         const fullKey = `${sk.namespace}.${finalKey}`;
