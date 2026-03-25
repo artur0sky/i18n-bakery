@@ -47,7 +47,7 @@ describe('CLI Integration Tests', () => {
 
     expect(commonData['greeting']).toBe('Hello World');
     expect(authData['login']).toBe('Sign In');
-    expect(authData['logout']).toBe('logout'); // Default fallback
+    expect(authData['logout']).toBe(''); // Fallback is now empty string per user request
 
     // 4. Run BAKE
     await bake(LOCALES_DIR, { out: DIST_DIR });

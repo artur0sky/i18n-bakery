@@ -62,7 +62,7 @@ export class ExtractionUseCase {
             }
           }
 
-          const value = k.defaultValue || finalKey;
+          const value = k.defaultValue || '';
           await saver.save(locale, namespace, finalKey, value);
         }
       }
