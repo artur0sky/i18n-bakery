@@ -31,6 +31,6 @@ export async function batter(source: string, options: BatterOptions) {
     logger.section(`✅ Baking complete! Translations ready in ${options.out} for [${locales.join(', ')}]`);
   } catch (error: any) {
     logger.error(`Failed to extract keys: ${error.message}`);
-    process.exit(1);
+    throw error;
   }
 }

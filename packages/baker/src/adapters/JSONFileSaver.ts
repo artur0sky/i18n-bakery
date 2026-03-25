@@ -11,7 +11,7 @@ export class JSONFileSaver implements TranslationSaver {
     this.fileStructure = fileStructure;
   }
 
-  async save(locale: Locale, namespace: Namespace, key: Key, value: string): Promise<void> {
+  async save(locale: Locale, namespace: Namespace, key: Key, value: string, overwrite: boolean = false): Promise<void> {
     const filePath = path.join(this.localesPath, locale, `${namespace}.json`);
     
     let content: Record<string, any> = {};
@@ -33,11 +33,13 @@ export class JSONFileSaver implements TranslationSaver {
     // Update content based on file structure
     if (this.fileStructure === 'flat') {
       // Flat structure: key as-is (e.g., "home.title": "...")
-      content[key] = value;
+      if (overwrite || content[key] === undefined) {
+        content[key] = value;
+      }
     } else {
       // Nested structure: split key by dots and create nested objects
       // (e.g., "home.title" -> { "home": { "title": "..." } })
-      this.setDeep(content, key, value);
+      this.setDeep(content, key, value, overwrite);
     }
 
     // Sort keys alphabetically (optional but nice for bakery)
@@ -47,7 +49,7 @@ export class JSONFileSaver implements TranslationSaver {
     await fs.writeFile(filePath, JSON.stringify(sortedContent, null, 2) + '\n', 'utf-8');
   }
 
-  private setDeep(obj: any, path: string, value: string) {
+  private setDeep(obj: any, path: string, value: string, overwrite: boolean = false) {
     const parts = path.split('.');
     let current = obj;
     for (let i = 0; i < parts.length - 1; i++) {
@@ -58,7 +60,7 @@ export class JSONFileSaver implements TranslationSaver {
       current = current[part];
     }
     const finalKey = parts[parts.length - 1];
-    if (current[finalKey] === undefined) {
+    if (overwrite || current[finalKey] === undefined) {
       current[finalKey] = value;
     }
   }

@@ -56,7 +56,7 @@ export class RecipeUseCase {
     }
 
     const saver = new JSONFileSaver(localesDir, 'nested');
-    await saver.save(locale, namespace, key, value);
+    await saver.save(locale, namespace, key, value, true);
 
     return { filePath, key, value, isNew };
   }

@@ -18,7 +18,7 @@ export class ExtractionUseCase {
     
     for (const locale of options.locales) {
       if (locale.includes('..') || locale.includes('/') || locale.includes('\\')) {
-        throw new Error(`Invalid locale name: ${locale}`);
+        throw new Error(`Invalid locale: ${locale}`);
       }
     }
     
@@ -42,14 +42,24 @@ export class ExtractionUseCase {
       for (const [namespace, namespaceKeys] of Object.entries(keysByNamespace)) {
         for (const k of namespaceKeys) {
           let finalKey = k.key;
-          const slashRegex = new RegExp('/', 'g');
-          const dotPrefix = `${namespace.replace(slashRegex, '.')}.`;
-          const colonPrefix = `${namespace.replace(slashRegex, ':')}.`;
           
-          if (finalKey.startsWith(dotPrefix)) {
-            finalKey = finalKey.slice(dotPrefix.length);
-          } else if (finalKey.startsWith(colonPrefix)) {
-            finalKey = finalKey.slice(colonPrefix.length);
+          // If the key explicitly contains the namespace (either as 'ns:key' or 'ns.key'), 
+          // strip the prefix to get the clean key inside the file.
+          const colonIndex = k.key.indexOf(':');
+          const dotIndex = k.key.indexOf('.');
+          
+          if (colonIndex !== -1) {
+            // Priority 1: Colon separator (e.g. "auth:login.title" -> "login.title" in auth.json)
+            const nsPart = k.key.substring(0, colonIndex);
+            if (nsPart.replace(/:/g, '/') === namespace) {
+              finalKey = k.key.substring(colonIndex + 1);
+            }
+          } else if (dotIndex !== -1) {
+            // Priority 2: Dot separator (e.g. "common.welcome" -> "welcome" in common.json)
+            const nsPart = k.key.substring(0, dotIndex);
+            if (nsPart === namespace) {
+              finalKey = k.key.substring(dotIndex + 1);
+            }
           }
 
           const value = k.defaultValue || finalKey;
