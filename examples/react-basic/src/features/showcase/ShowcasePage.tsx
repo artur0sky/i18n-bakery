@@ -140,7 +140,7 @@ const PluralSection: React.FC = () => {
         </Card>
 
         <Card title={t('cards.zeroPlural')} accent="jade" badge="New" badgeVariant="beta">
-          <TestItem label="t('plural.value_0') override" value={t('tests.plural', { count: 0 })} status="success" />
+          <TestItem label="t('plural.value_0') override" value={t('tests.plural_cases', { count: 0 })} status="success" />
           <CodeSnippet lines={[
             { text: "// i18next-style _0 suffix", color: 'muted' },
             { text: "t('key', { count: 0 }) → 'No items...'", color: 'green' },
