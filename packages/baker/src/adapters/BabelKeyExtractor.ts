@@ -68,9 +68,6 @@ export class BabelKeyExtractor implements KeyExtractor {
                 const namespacePart = key.substring(0, lastColonIndex);
                 // Convert colons to slashes for directory structure
                 namespace = namespacePart.replace(/:/g, '/');
-              } else if (key.includes('.')) {
-                const parts = key.split('.');
-                namespace = parts[0];
               }
 
               keys.push({
