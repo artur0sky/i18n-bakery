@@ -30,7 +30,7 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "i18n:extract": "i18n-bakery batter src --locale en-US,es-MX,it,jp --out public/locales",
+        "i18n:extract": "i18n-bakery batter src --locale en-US,es-MX,it,jp --out public/locales --purge",
         "i18n:bake": "i18n-bakery bake public/locales --split --manifest manifest.json",
         "i18n:tray": "i18n-bakery-tray"
     }

@@ -10,6 +10,8 @@ cli
   .option('--locale <locale>', 'Target locale (e.g. es-mx)', { default: 'en' })
   .option('--out <dir>', 'Output directory for locales', { default: 'public/locales' })
   .option('--format <format>', 'Output format: json or toml', { default: 'json' })
+  .option('--clean', 'Clean output directory before extraction')
+  .option('--purge', 'Remove orphaned translation files not found in source')
   .option('--verbose', 'Enable verbose logging')
   .action(async (source, options) => {
     await batter(source || 'src', options);

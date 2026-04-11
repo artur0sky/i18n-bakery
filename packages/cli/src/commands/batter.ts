@@ -53,6 +53,8 @@ interface BatterOptions {
   locale: string;
   out: string;
   format?: 'json' | 'toml';
+  clean?: boolean;
+  purge?: boolean;
   verbose?: boolean;
 }
 
@@ -100,6 +102,12 @@ export async function batter(source: string, options: BatterOptions) {
 
   // Merge and Save for each locale
   const outDir = path.isAbsolute(options.out) ? options.out : path.join(process.cwd(), options.out);
+  
+  if (options.clean && await fs.pathExists(outDir)) {
+    logger.warn(`Cleaning output directory: ${outDir}`);
+    await fs.emptyDir(outDir);
+  }
+
   const format = options.format || 'json';
   const fileExtension = format === 'toml' ? '.toml' : '.json';
 
@@ -107,6 +115,20 @@ export async function batter(source: string, options: BatterOptions) {
     logger.section(`Processing locale: ${locale}...`);
     const localeDir = path.join(outDir, locale);
     await fs.ensureDir(localeDir);
+
+    // If purging, track existing files to see which ones are now orphaned
+    if (options.purge) {
+      const existingFiles = await glob(`**/*${fileExtension}`, { cwd: localeDir });
+      const activeNamespaces = new Set(Object.keys(keysByNamespace).map(ns => `${ns}${fileExtension}`));
+      
+      for (const file of existingFiles) {
+        const normalizedFile = file.replace(/\\/g, '/');
+        if (!activeNamespaces.has(normalizedFile)) {
+          logger.warn(`  🗑️ Purging orphaned file: ${normalizedFile}`);
+          await fs.remove(path.join(localeDir, file));
+        }
+      }
+    }
 
     for (const [namespace, keys] of Object.entries(keysByNamespace)) {
       // Support hierarchical namespaces: 'home/hero' → locales/en-US/home/hero.json
