@@ -16,8 +16,15 @@
 
 ## Phase 3: Verify the bakery
 
-- [ ] Update the vulnerable `yaml` transitive dependency, run dependency audit,
-  focused tests and workspace build/tests, and document remaining limitations.
+- [x] Remove the vulnerable optional `yaml` resolution, constrain future
+  resolutions to a patched version, and run dependency audit and workspace
+  build/tests.
+
+The locked dependency graph no longer installs `yaml`; the workspace override
+requires version 2.8.3 or later within major version 2 if it is resolved again.
+On Windows without symlink privileges, the manifest symlink regression is
+skipped and must be exercised on a runner that can create symlinks. The React
+example has no browser E2E runner.
 
 Complete and verify each task before checking it off and making its focused
 Conventional Commit. Keep unrelated worktree changes out of these commits.

@@ -3,3 +3,6 @@ packages:
   - examples/*
 
 saveExact: true
+
+overrides:
+  yaml: ^2.8.3
