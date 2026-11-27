@@ -193,7 +193,7 @@ export class ExtractionUseCase {
           validateKey(finalKey);
           if (hasTranslation(existing, finalKey)) continue;
 
-          const value = `[TODO] ${key.defaultValue || finalKey}`;
+          const value = key.defaultValue ?? '';
           await saver.save(locale, namespace, finalKey, value);
           setTranslation(existing, finalKey, value);
           newKeyCount++;

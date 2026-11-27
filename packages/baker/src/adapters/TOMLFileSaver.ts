@@ -43,7 +43,7 @@ export class TOMLFileSaver implements TranslationSaver {
    * @param key - Translation key
    * @param value - Translation value
    */
-  async save(locale: Locale, namespace: Namespace, key: Key, value: string): Promise<void> {
+  async save(locale: Locale, namespace: Namespace, key: Key, value: string, overwrite: boolean = false): Promise<void> {
     const filePath = path.join(this.localesPath, locale, `${namespace}.toml`);
     
     let content: Record<string, any> = {};
@@ -65,10 +65,12 @@ export class TOMLFileSaver implements TranslationSaver {
     // Update content based on file structure
     if (this.fileStructure === 'flat') {
       // Flat structure: key as-is (e.g., "home.title" = "...")
-      content[key] = value;
+      if (overwrite || content[key] === undefined) {
+        content[key] = value;
+      }
     } else {
       // Nested structure: split key by dots and create nested objects
-      this.setDeep(content, key, value);
+      this.setDeep(content, key, value, overwrite);
     }
 
     // Sort keys alphabetically
@@ -86,7 +88,7 @@ export class TOMLFileSaver implements TranslationSaver {
    * @param path - Dot-separated path
    * @param value - Value to set
    */
-  private setDeep(obj: any, path: string, value: string): void {
+  private setDeep(obj: any, path: string, value: string, overwrite: boolean = false): void {
     const parts = path.split('.');
     let current = obj;
     
@@ -98,7 +100,10 @@ export class TOMLFileSaver implements TranslationSaver {
       current = current[part];
     }
     
-    current[parts[parts.length - 1]] = value;
+    const finalKey = parts[parts.length - 1];
+    if (overwrite || current[finalKey] === undefined) {
+      current[finalKey] = value;
+    }
   }
 
   /**

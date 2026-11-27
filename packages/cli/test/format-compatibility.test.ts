@@ -84,7 +84,7 @@ function App() {
       const commonContent = await fs.readJson(commonFile);
       expect(commonContent).toHaveProperty('welcome');
       expect(commonContent).toHaveProperty('description');
-      expect(commonContent.actions).toEqual({ cancel: '[TODO] actions.cancel', save: '[TODO] actions.save' });
+      expect(commonContent.actions).toEqual({ cancel: '', save: '' });
     });
 
     it('should extract translations to TOML format', async () => {
@@ -103,8 +103,8 @@ function App() {
       expect(commonContent).toContain('welcome');
       expect(commonContent).toContain('description');
       expect(commonContent).toContain('[actions]');
-      expect(commonContent).toContain('save = "[TODO] actions.save"');
-      expect(commonContent).toContain('cancel = "[TODO] actions.cancel"');
+      expect(commonContent).toContain('save = ""');
+      expect(commonContent).toContain('cancel = ""');
     });
 
     it('should extract to multiple locales in JSON', async () => {

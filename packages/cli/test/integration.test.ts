@@ -45,9 +45,9 @@ describe('CLI Integration Tests', () => {
     const commonData = await fs.readJson(commonJsonPath);
     const authData = await fs.readJson(authJsonPath);
 
-    expect(commonData['greeting']).toBe('[TODO] Hello World');
-    expect(authData['login']).toBe('[TODO] Sign In');
-    expect(authData['logout']).toBe('[TODO] logout'); // Default fallback
+    expect(commonData['greeting']).toBe('Hello World');
+    expect(authData['login']).toBe('Sign In');
+    expect(authData['logout']).toBe(''); // Fallback is now empty string per user request
 
     // 4. Run BAKE
     await bake(LOCALES_DIR, { out: DIST_DIR });
@@ -57,8 +57,9 @@ describe('CLI Integration Tests', () => {
     expect(await fs.pathExists(bundlePath)).toBe(true);
 
     const bundle = await fs.readJson(bundlePath);
-    expect(bundle.common['greeting']).toBe('[TODO] Hello World');
-    expect(bundle.auth['login']).toBe('[TODO] Sign In');
+    expect(bundle.common['greeting']).toBe('Hello World');
+    expect(bundle.auth['login']).toBe('Sign In');
+    expect(bundle.auth['logout']).toBe('');
   });
 
   it('should merge with existing translations', async () => {
@@ -86,6 +87,6 @@ describe('CLI Integration Tests', () => {
     // So existing keys are preserved.
     expect(authData['login']).toBe('Log In Existing'); 
     expect(authData['old']).toBe('Old Key'); // Preserved
-    expect(authData['new']).toBe('[TODO] New Key'); // Added
+    expect(authData['new']).toBe('New Key'); // Added
   });
 });

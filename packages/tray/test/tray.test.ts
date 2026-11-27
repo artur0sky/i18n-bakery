@@ -95,6 +95,7 @@ describe('PantryUseCase', () => {
 
     await fs.writeJson(path.join(esDir, 'common.json'), {
       home: { title: 'Inicio' },
+      buttons: { save: '' },
       // Missing: home.subtitle, buttons.save, buttons.cancel
     });
   });
@@ -112,6 +113,7 @@ describe('PantryUseCase', () => {
     expect(esStatus.missingKeys).toBe(3);
     expect(esStatus.completionPercent).toBeLessThan(100);
     expect(esStatus.missingKeyList).toContain('common.home.subtitle');
+    expect(esStatus.missingKeyList).toContain('common.buttons.save');
   });
 
   it('reference locale has 100% completion', async () => {

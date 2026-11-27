@@ -22,7 +22,7 @@ describe('ExtractionUseCase', () => {
     return temporaryDirectory;
   }
 
-  it('marks only new keys as TODO and preserves existing translations', async () => {
+  it('uses defaults for new keys and preserves existing translations', async () => {
     const cwd = await createProject("t('common.existing', 'Fallback'); t('common.new', 'New value');");
     const localeDirectory = path.join(cwd, 'locales', 'en');
     await fs.ensureDir(localeDirectory);
@@ -41,7 +41,7 @@ describe('ExtractionUseCase', () => {
     expect(await fs.readJson(path.join(localeDirectory, 'common.json'))).toEqual({
       existing: 'Translated value',
       legacy: 'Keep this',
-      new: '[TODO] New value',
+      new: 'New value',
     });
     expect(result.newKeysPerLocale.en).toBe(1);
   });
@@ -62,7 +62,7 @@ describe('ExtractionUseCase', () => {
 
     expect(await fs.pathExists(path.join(localeDirectory, 'orphan.json'))).toBe(false);
     expect(await fs.readJson(path.join(localeDirectory, 'common.json'))).toEqual({
-      current: '[TODO] Current value',
+      current: 'Current value',
     });
   });
 
@@ -82,17 +82,17 @@ describe('ExtractionUseCase', () => {
     expect(await fs.pathExists(path.join(cwd, 'src', 'app.ts'))).toBe(true);
   });
 
-  it('rejects namespaces that could escape the locale directory', async () => {
+  it('skips namespaces that could escape the locale directory', async () => {
     const cwd = await createProject("t('../outside:polluted', 'Value');");
 
-    await expect(
-      new ExtractionUseCase().execute({
-        source: 'src',
-        out: 'locales',
-        locales: ['en'],
-        cwd,
-      })
-    ).rejects.toThrow('Invalid namespace');
+    const result = await new ExtractionUseCase().execute({
+      source: 'src',
+      out: 'locales',
+      locales: ['en'],
+      cwd,
+    });
+
+    expect(result.totalKeys).toBe(0);
     expect(await fs.pathExists(path.join(cwd, 'outside.json'))).toBe(false);
   });
 });
