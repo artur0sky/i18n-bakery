@@ -1,60 +1,60 @@
 {
+  "features": {
+    "encryption": {
+      "desc": "ビルド時に暗号化を行い、クライアント側で即座に復号します。",
+      "title": "AES-256 暗号化"
+    },
+    "multi_lang": {
+      "desc": "最初から多言語をサポート。100以上の言語のCLDR複数形に対応。",
+      "title": "多言語サポート"
+    },
+    "plugin_system": {
+      "desc": "数値形式、大文字小文字変換、各種検出などの拡張機能。",
+      "title": "プラグイン・システム"
+    },
+    "section_title": "焼き上がりの新機能",
+    "toml_json": {
+      "desc": "JSONまたはTOML形式で翻訳を記述。自己完結型のTOMLパーサー内蔵。",
+      "title": "TOML＋JSON"
+    },
+    "type_safe": {
+      "desc": "TypeScript完全サポート。厳格なキー検証とプロトタイプ汚染ガード。",
+      "title": "タイプセーフ"
+    },
+    "zero_deps": {
+      "desc": "コアはネイティブWeb APIのみを使用。極小サイズ、最高速度。",
+      "title": "依存関係ゼロ"
+    }
+  },
   "hero": {
     "badge": "v1.0.8 — ヘッドシェフ・リリース — 現在安定版",
-    "title_bakery": "-bakery",
-    "subtitle": "新鮮な翻訳、完璧に焼き上げました",
-    "description": "React用の軽量でタイプセーフなi18nライブラリ。クリーンなプラグイン・アーキテクチャ、依存関係ゼロ、そして最高のDXを提供し、i18nextからの移行も簡単です。",
     "cta": {
-      "showcase": "ライブ・ショーケース",
-      "github": "GitHub"
+      "github": "GitHub",
+      "showcase": "ライブ・ショーケース"
+    },
+    "description": "React用の軽量でタイプセーフなi18nライブラリ。クリーンなプラグイン・アーキテクチャ、依存関係ゼロ、そして最高のDXを提供し、i18nextからの移行も簡単です。",
+    "subtitle": "新鮮な翻訳、完璧に焼き上げました",
+    "title_bakery": "-bakery"
+  },
+  "nav_cards": {
+    "docs": {
+      "desc": "名前空間、ファイル構造、ベストプラクティスを学ぶ",
+      "title": "ドキュメント"
+    },
+    "roadmap": {
+      "badge": "新規",
+      "desc": "リリース予定の最新機能とスケジュール",
+      "title": "ロードマップ"
+    },
+    "showcase": {
+      "desc": "インタラクティブなデモですべての機能を体感",
+      "title": "ライブ・ショーケース"
     }
   },
   "stats": {
+    "coverage": "テストカバレッジ",
     "languages": "CLDRによる多言語対応",
-    "tests": "合格テスト数",
     "runtime_deps": "依存関係ゼロ",
-    "coverage": "テストカバレッジ"
-  },
-  "nav_cards": {
-    "showcase": {
-      "title": "ライブ・ショーケース",
-      "desc": "インタラクティブなデモですべての機能を体感"
-    },
-    "docs": {
-      "title": "ドキュメント",
-      "desc": "名前空間、ファイル構造、ベストプラクティスを学ぶ"
-    },
-    "roadmap": {
-      "title": "ロードマップ",
-      "desc": "リリース予定の最新機能とスケジュール",
-      "badge": "新規"
-    }
-  },
-  "features": {
-    "section_title": "焼き上がりの新機能",
-    "multi_lang": {
-      "title": "多言語サポート",
-      "desc": "最初から多言語をサポート。100以上の言語のCLDR複数形に対応。"
-    },
-    "zero_deps": {
-      "title": "依存関係ゼロ",
-      "desc": "コアはネイティブWeb APIのみを使用。極小サイズ、最高速度。"
-    },
-    "plugin_system": {
-      "title": "プラグイン・システム",
-      "desc": "数値形式、大文字小文字変換、各種検出などの拡張機能。"
-    },
-    "type_safe": {
-      "title": "タイプセーフ",
-      "desc": "TypeScript完全サポート。厳格なキー検証とプロトタイプ汚染ガード。"
-    },
-    "toml_json": {
-      "title": "TOML＋JSON",
-      "desc": "JSONまたはTOML形式で翻訳を記述。自己完結型のTOMLパーサー内蔵。"
-    },
-    "encryption": {
-      "title": "AES-256 暗号化",
-      "desc": "ビルド時に暗号化を行い、クライアント側で即座に復号します。"
-    }
+    "tests": "合格テスト数"
   }
 }

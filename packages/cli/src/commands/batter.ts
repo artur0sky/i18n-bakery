@@ -179,7 +179,8 @@ export async function batter(source: string, options: BatterOptions) {
         }
 
         if (!currentTranslations[finalKey]) {
-          currentTranslations[finalKey] = k.defaultValue || finalKey;
+          const defaultVal = k.defaultValue || finalKey;
+          currentTranslations[finalKey] = `[TODO] ${defaultVal}`;
           newKeysCount++;
         }
       }

@@ -98,7 +98,8 @@ export class BatterUseCase {
         for (const k of keys) {
           const finalKey = this.stripNamespacePrefix(k.key, namespace);
           if (!currentTranslations[finalKey]) {
-            currentTranslations[finalKey] = k.defaultValue ?? finalKey;
+            const defaultVal = k.defaultValue ?? finalKey;
+            currentTranslations[finalKey] = `[TODO] ${defaultVal}`;
             localeNewKeys++;
           }
         }

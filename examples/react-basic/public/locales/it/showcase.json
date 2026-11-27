@@ -1,79 +1,88 @@
 {
+  "cards": {
+    "basic": "Traduzione Base",
+    "currency": "Formattazione Valuta",
+    "defaultValueOptions": "Valore Predefinito (opzioni)",
+    "defaultValueString": "Valore Predefinito (stringa)",
+    "fallback": "Locale di Fallback",
+    "hook": "Hook useTranslation",
+    "nestedVar": "Variabile Annidata",
+    "ordinal": "Plurali ordinali (ICU)",
+    "percentage": "Percentuale e Compatto",
+    "reactive": "Aggiornamenti Reattivi",
+    "sanitization": "Sanitizzazione Chiavi",
+    "simpleVar": "Variabile Semplice",
+    "standardPlural": "Pluralizzazione Standard",
+    "traversal": "Prevenzione Path Traversal",
+    "zeroPlural": "Override conteggio zero"
+  },
   "page": {
-    "title": "Dimostrazione",
-    "description": "Esempi interattivi che dimostrano le caratteristiche di i18n-bakery"
+    "description": "Esempi interattivi che dimostrano le caratteristiche di i18n-bakery",
+    "title": "Dimostrazione"
   },
   "sections": {
     "core": {
-      "title": "Traduzione Core",
-      "desc": "API t() di base — la fondazione di ogni workflow i18n."
-    },
-    "interpolation": {
-      "title": "Interpolazione Variabili",
-      "desc": "Inserisci valori dinamici nelle traduzioni usando la sintassi Mustache."
-    },
-    "pluralization": {
-      "title": "Pluralizzazione e ICU",
-      "desc": "Gestisci i conteggi correttamente con le regole CLDR e ICU MessageFormat."
+      "desc": "API t() di base — la fondazione di ogni workflow i18n.",
+      "title": "Traduzione Core"
     },
     "formatting": {
-      "title": "Formattazione Avanzata",
-      "desc": "Formatta numeri, valuta e percentuali usando il sistema a plugin integrato."
+      "desc": "Formatta numeri, valuta e percentuali usando il sistema a plugin integrato.",
+      "title": "Formattazione Avanzata"
+    },
+    "interpolation": {
+      "desc": "Inserisci valori dinamici nelle traduzioni usando la sintassi Mustache.",
+      "title": "Interpolazione Variabili"
+    },
+    "pluralization": {
+      "desc": "Gestisci i conteggi correttamente con le regole CLDR e ICU MessageFormat.",
+      "title": "Pluralizzazione e ICU"
     },
     "react": {
-      "title": "Integrazione con React",
-      "desc": "Hook e componenti React con re-render automatici."
+      "desc": "Hook e componenti React con re-render automatici.",
+      "title": "Integrazione con React"
     },
     "security": {
-      "title": "Funzioni di Sicurezza",
-      "desc": "Prevenzione path traversal, protezione prototipi e sanitizzazione chiavi."
+      "desc": "Prevenzione path traversal, protezione prototipi e sanitizzazione chiavi.",
+      "title": "Funzioni di Sicurezza"
     }
-  },
-  "cards": {
-    "basic": "Traduzione Base",
-    "fallback": "Locale di Fallback",
-    "defaultValueString": "Valore Predefinito (stringa)",
-    "defaultValueOptions": "Valore Predefinito (opzioni)",
-    "simpleVar": "Variabile Semplice",
-    "nestedVar": "Variabile Annidata",
-    "standardPlural": "Pluralizzazione Standard",
-    "zeroPlural": "Override conteggio zero",
-    "ordinal": "Plurali ordinali (ICU)",
-    "currency": "Formattazione Valuta",
-    "percentage": "Percentuale e Compatto",
-    "hook": "Hook useTranslation",
-    "reactive": "Aggiornamenti Reattivi",
-    "prototype": "Protezione Prototipi",
-    "traversal": "Prevenzione Path Traversal",
-    "sanitization": "Sanitizzazione Chiavi"
   },
   "tests": {
     "basic": {
       "title": "Traduzione Base",
       "value": "Ciao, Mondo!"
     },
+    "defaultValue": {
+      "object": "[TODO] Default from options object",
+      "string": "[TODO] Freshly baked default!"
+    },
     "fallback": {
+      "hint": "Questa chiave esiste solo in en-US per dimostrare il fallback",
+      "note": "[TODO] tests.fallback.note",
       "title": "Comportamento di Fallback",
-      "hint": "Questa chiave esiste solo in en-US per dimostrare il fallback"
+      "value": "[TODO] tests.fallback.value"
+    },
+    "formatting": {
+      "compact": "[TODO] tests.formatting.compact",
+      "percent": "Sconto: {{val, percent}}",
+      "title": "Formattazione Numeri",
+      "value": "Prezzo: {{price, currency}}"
     },
     "interpolation": {
+      "nested": "[TODO] tests.interpolation.nested",
       "title": "Interpolazione di Variabili",
       "value": "Ciao, {{name}}!"
+    },
+    "plugins": {
+      "text_capitalize": "ciao mondo | capitalize",
+      "text_upper": "ciao mondo | upper",
+      "title": "Trasformazioni Plugin"
     },
     "plural": {
       "title": "Pluralizzazione",
       "value": "Hai {{count}} elemento",
       "value_plural": "Hai {{count}} elementi"
     },
-    "formatting": {
-      "title": "Formattazione Numeri",
-      "value": "Prezzo: {{price, currency}}",
-      "percent": "Sconto: {{val, percent}}"
-    },
-    "plugins": {
-      "title": "Trasformazioni Plugin",
-      "text_upper": "ciao mondo | upper",
-      "text_capitalize": "ciao mondo | capitalize"
-    }
-  }
+    "plural_cases": "[TODO] tests.plural_cases"
+  },
+  "{n, ordinal, one{#st} two{#nd} few{#rd} other{#th}} place": "[TODO] {n, ordinal, one{#st} two{#nd} few{#rd} other{#th}} place"
 }

@@ -1,66 +1,66 @@
 {
-  "title": "Documentazione",
-  "description": "Guida di riferimento per namespace, hook di React e altro.",
-  "sections": {
-    "quickstart": "Inizio Rapido",
-    "namespaces": "Namespace",
-    "structure": "Struttura File",
-    "react": "API React",
-    "cli": "Riferimento CLI",
-    "best_practices": "Migliori Pratiche"
-  },
-  "quickstart": {
-    "installation": "Installazione",
-    "initialize": "Inizializzazione",
-    "react_provider": "React Provider"
-  },
-  "namespaces": {
-    "colon_syntax": "Sintassi con due punti — Separatore dei namespace",
-    "colon_desc": "I due punti : separano il nome del file (namespace) dal percorso della chiave.",
-    "hierarchical": "Namespace gerarchici (Sottocartelle)",
-    "hierarchical_desc": "I due punti multipli creano percorsi di sottocartelle all'interno della cartella dei locale.",
-    "dot_notation": "Notazione con il punto — Accesso agli oggetti annidati"
-  },
-  "structure": {
-    "recommended": "Struttura delle cartelle consigliata",
-    "nested_vs_flat": "JSON annidato vs semplice"
-  },
-  "react_api": {
-    "useTranslation": "useTranslation(namespace?)",
-    "useI18n": "useI18n()",
-    "t_signature": "Firma del comando t()"
-  },
-  "cli": {
-    "batter": "batter — Estrazione delle chiavi",
-    "bake": "bake — Compilazione e ottimizzazione",
-    "poacher": "poacher — Migrazione da i18next"
-  },
   "best_practices": {
     "items": {
-      "organize": {
-        "title": "Organizza per funzione/pagina",
-        "desc": "Un file JSON/TOML per pagina o funzionalità. Evita set monumentali in un unico file."
-      },
-      "semantic": {
-        "title": "Usa chiavi semantiche",
-        "desc": "Le chiavi devono descrivere il contenuto, non la posizione nell'interfaccia."
-      },
       "default_ns": {
-        "title": "Imposta defaultNamespace",
-        "desc": "Evita di ripetere il prefisso del namespace per le traduzioni comuni."
-      },
-      "lazy_load": {
-        "title": "Usa HttpBackend + --split",
-        "desc": "Carica solo i namespace necessari per pagina. Notevole miglioramento per app di grandi dimensioni."
+        "desc": "Evita di ripetere il prefisso del namespace per le traduzioni comuni.",
+        "title": "Imposta defaultNamespace"
       },
       "encrypt": {
-        "title": "Cripta i pacchetti sensibili",
-        "desc": "Usa criptazione AES-256-GCM per traduzioni con contenuti riservati."
+        "desc": "Usa criptazione AES-256-GCM per traduzioni con contenuti riservati.",
+        "title": "Cripta i pacchetti sensibili"
+      },
+      "lazy_load": {
+        "desc": "Carica solo i namespace necessari per pagina. Notevole miglioramento per app di grandi dimensioni.",
+        "title": "Usa HttpBackend + --split"
+      },
+      "organize": {
+        "desc": "Un file JSON/TOML per pagina o funzionalità. Evita set monumentali in un unico file.",
+        "title": "Organizza per funzione/pagina"
+      },
+      "semantic": {
+        "desc": "Le chiavi devono descrivere il contenuto, non la posizione nell'interfaccia.",
+        "title": "Usa chiavi semantiche"
       },
       "whitelist": {
-        "title": "Convalida tramite whitelist",
-        "desc": "Il DefaultKeyParser accetta solo a-zA-Z0-9_-.:: — sicuro per impostazione predefinita."
+        "desc": "Il DefaultKeyParser accetta solo a-zA-Z0-9_-.:: — sicuro per impostazione predefinita.",
+        "title": "Convalida tramite whitelist"
       }
     }
-  }
+  },
+  "cli": {
+    "bake": "bake — Compilazione e ottimizzazione",
+    "batter": "batter — Estrazione delle chiavi",
+    "poacher": "poacher — Migrazione da i18next"
+  },
+  "description": "Guida di riferimento per namespace, hook di React e altro.",
+  "namespaces": {
+    "colon_desc": "I due punti : separano il nome del file (namespace) dal percorso della chiave.",
+    "colon_syntax": "Sintassi con due punti — Separatore dei namespace",
+    "dot_notation": "Notazione con il punto — Accesso agli oggetti annidati",
+    "hierarchical": "Namespace gerarchici (Sottocartelle)",
+    "hierarchical_desc": "I due punti multipli creano percorsi di sottocartelle all'interno della cartella dei locale."
+  },
+  "quickstart": {
+    "initialize": "Inizializzazione",
+    "installation": "Installazione",
+    "react_provider": "React Provider"
+  },
+  "react_api": {
+    "t_signature": "Firma del comando t()",
+    "useI18n": "useI18n()",
+    "useTranslation": "useTranslation(namespace?)"
+  },
+  "sections": {
+    "best_practices": "Migliori Pratiche",
+    "cli": "Riferimento CLI",
+    "namespaces": "Namespace",
+    "quickstart": "Inizio Rapido",
+    "react": "API React",
+    "structure": "Struttura File"
+  },
+  "structure": {
+    "nested_vs_flat": "JSON annidato vs semplice",
+    "recommended": "Struttura delle cartelle consigliata"
+  },
+  "title": "Documentazione"
 }

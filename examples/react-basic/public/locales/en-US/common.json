@@ -1,12 +1,9 @@
 {
   "app_name": "i18n-bakery",
-  "tagline": "Fresh translations, baked to perfection",
-  "nav": {
-    "home": "Home",
-    "showcase": "Showcase",
-    "docs": "Docs",
-    "roadmap": "Roadmap",
-    "tray": "Tray"
+  "description": "The modern i18n solution designed for Agentic AI workflows.",
+  "errors": {
+    "go_home": "Go back home",
+    "not_found": "Page not found"
   },
   "footer": {
     "description": "i18n-bakery — Fresh translations, baked to perfection",
@@ -14,8 +11,13 @@
     "mit_license": "MIT License",
     "version": "v{{version}}"
   },
-  "errors": {
-    "not_found": "Page not found",
-    "go_home": "Go back home"
-  }
+  "nav": {
+    "docs": "Docs",
+    "home": "Home",
+    "roadmap": "Roadmap",
+    "showcase": "Showcase",
+    "tray": "Tray"
+  },
+  "tagline": "Fresh translations, baked to perfection",
+  "welcome": "Welcome to i18n-bakery"
 }

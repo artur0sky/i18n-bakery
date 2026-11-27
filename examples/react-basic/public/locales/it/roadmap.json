@@ -1,42 +1,87 @@
 {
-  "title": "Tabella di Marcia",
-  "subtitle": "Ogni fase pianificata e tracciata.",
-  "progress": {
-    "title": "Progresso Generale",
-    "parity": "~70% parità con i18next",
-    "target": "v1.5.0 (obiettivo: 98%)"
-  },
-  "next_release": {
-    "title": "Prossimo: v1.1.0",
-    "desc": "— Supporto Context + Language Detection"
-  },
   "filters": {
     "all": "Tutti",
-    "released": "Rilasciati",
+    "future": "Futuro",
     "planned": "Pianificati",
-    "future": "Futuro"
-  },
-  "status": {
-    "released": "Rilasciato",
-    "in_progress": "In Corso",
-    "planned": "Pianificato",
-    "future": "Futuro"
+    "released": "Rilasciati"
   },
   "items": {
-    "phase1": { "title": "Nucleo Runtime", "subtitle": "La Fondazione" },
-    "phase2": { "title": "Salvataggio Automatico", "subtitle": "Auto-Lievitazione" },
-    "phase3": { "title": "CLI", "subtitle": "Il Mixer" },
-    "phase4": { "title": "Binding per React", "subtitle": "La Glassatura" },
-    "phase9": { "title": "Pluralizzazione Avanzata", "subtitle": "Il Bancone" },
-    "phase13": { "title": "Sistema a Plugin", "subtitle": "Primo Rilascio Stabile" },
-    "phase14": { "title": "L'era dell'Head Chef", "subtitle": "Sicurezza, Formati, Migrazione" },
-    "phase15": { "title": "Supporto per i Contesti", "subtitle": "Il Fornaio dei Contesti" },
-    "phase16": { "title": "Rilevamento della Lingua", "subtitle": "Il Fornaio del Rilevamento" },
-    "phase17": { "title": "Sistema di Eventi", "subtitle": "Il Fornaio Osservatore" },
-    "phase18": { "title": "Traduzioni Annidate", "subtitle": "Il Fornaio dei Nidi" },
-    "phase19": { "title": "Ritorno di Oggetti", "subtitle": "Il Fornaio degli Oggetti" },
-    "phase20": { "title": "Istanze Multiple", "subtitle": "Il Multi-Fornaio" },
-    "phase21": { "title": "Formattazione Avanzata", "subtitle": "Il Fornaio del Formato" },
-    "phase22": { "title": "Gestione Chiavi Mancanti", "subtitle": "Il Fornaio Gestore" }
-  }
+    "phase1": {
+      "subtitle": "La Fondazione",
+      "title": "Nucleo Runtime"
+    },
+    "phase13": {
+      "subtitle": "Primo Rilascio Stabile",
+      "title": "Sistema a Plugin"
+    },
+    "phase14": {
+      "subtitle": "Sicurezza, Formati, Migrazione",
+      "title": "L'era dell'Head Chef"
+    },
+    "phase15": {
+      "subtitle": "Il Fornaio dei Contesti",
+      "title": "Supporto per i Contesti"
+    },
+    "phase16": {
+      "subtitle": "Il Fornaio del Rilevamento",
+      "title": "Rilevamento della Lingua"
+    },
+    "phase17": {
+      "subtitle": "Il Fornaio Osservatore",
+      "title": "Sistema di Eventi"
+    },
+    "phase18": {
+      "subtitle": "Il Fornaio dei Nidi",
+      "title": "Traduzioni Annidate"
+    },
+    "phase19": {
+      "subtitle": "Il Fornaio degli Oggetti",
+      "title": "Ritorno di Oggetti"
+    },
+    "phase2": {
+      "subtitle": "Auto-Lievitazione",
+      "title": "Salvataggio Automatico"
+    },
+    "phase20": {
+      "subtitle": "Il Multi-Fornaio",
+      "title": "Istanze Multiple"
+    },
+    "phase21": {
+      "subtitle": "Il Fornaio del Formato",
+      "title": "Formattazione Avanzata"
+    },
+    "phase22": {
+      "subtitle": "Il Fornaio Gestore",
+      "title": "Gestione Chiavi Mancanti"
+    },
+    "phase3": {
+      "subtitle": "Il Mixer",
+      "title": "CLI"
+    },
+    "phase4": {
+      "subtitle": "La Glassatura",
+      "title": "Binding per React"
+    },
+    "phase9": {
+      "subtitle": "Il Bancone",
+      "title": "Pluralizzazione Avanzata"
+    }
+  },
+  "next_release": {
+    "desc": "— Supporto Context + Language Detection",
+    "title": "Prossimo: v1.1.0"
+  },
+  "progress": {
+    "parity": "~70% parità con i18next",
+    "target": "v1.5.0 (obiettivo: 98%)",
+    "title": "Progresso Generale"
+  },
+  "status": {
+    "future": "Futuro",
+    "in_progress": "In Corso",
+    "planned": "Pianificato",
+    "released": "Rilasciato"
+  },
+  "subtitle": "Ogni fase pianificata e tracciata.",
+  "title": "Tabella di Marcia"
 }

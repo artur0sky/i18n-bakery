@@ -1,42 +1,87 @@
 {
-  "title": "Hoja de Ruta",
-  "subtitle": "De v0.1.0 a la paridad total con i18next — cada fase planificada y rastreada. Las fechas estimadas son objetivos, no garantías.",
-  "progress": {
-    "title": "Progreso General",
-    "parity": "~70% paridad con i18next",
-    "target": "v1.5.0 (objetivo: 98%)"
-  },
-  "next_release": {
-    "title": "Próximo: v1.1.0",
-    "desc": "— Soporte de Contexto + Detección de Idioma — ETA Q2 2025"
-  },
   "filters": {
     "all": "Todos",
-    "released": "Lanzados",
+    "future": "Futuro",
     "planned": "Planeados",
-    "future": "Futuro"
-  },
-  "status": {
-    "released": "Lanzado",
-    "in_progress": "En Progreso",
-    "planned": "Planeado",
-    "future": "Futuro"
+    "released": "Lanzados"
   },
   "items": {
-    "phase1": { "title": "Núcleo en Tiempo de Ejecución", "subtitle": "La Fundación" },
-    "phase2": { "title": "Guardado Automático", "subtitle": "Auto-Levantado" },
-    "phase3": { "title": "CLI", "subtitle": "La Mezcladora" },
-    "phase4": { "title": "Enlaces React", "subtitle": "El Glaseado" },
-    "phase9": { "title": "Pluralización Avanzada", "subtitle": "El Contador" },
-    "phase13": { "title": "Sistema de Plugins", "subtitle": "Primer Lanzamiento Estable" },
-    "phase14": { "title": "La Era del Chef Principal", "subtitle": "Seguridad, Formatos, Migración" },
-    "phase15": { "title": "Soporte de Contexto", "subtitle": "El Panadero de Contexto" },
-    "phase16": { "title": "Detección de Idioma", "subtitle": "El Panadero Detector" },
-    "phase17": { "title": "Sistema de Eventos", "subtitle": "El Panadero Observador" },
-    "phase18": { "title": "Anidamiento de Traducciones", "subtitle": "El Panadero de Nidos" },
-    "phase19": { "title": "Objetos de Retorno", "subtitle": "El Panadero de Objetos" },
-    "phase20": { "title": "Múltiples Instancias", "subtitle": "El Multi-Panadero" },
-    "phase21": { "title": "Formateo Avanzado", "subtitle": "El Panadero de Formatos" },
-    "phase22": { "title": "Manejador de Claves Faltantes", "subtitle": "El Panadero Manejador" }
-  }
+    "phase1": {
+      "subtitle": "La Fundación",
+      "title": "Núcleo en Tiempo de Ejecución"
+    },
+    "phase13": {
+      "subtitle": "Primer Lanzamiento Estable",
+      "title": "Sistema de Plugins"
+    },
+    "phase14": {
+      "subtitle": "Seguridad, Formatos, Migración",
+      "title": "La Era del Chef Principal"
+    },
+    "phase15": {
+      "subtitle": "El Panadero de Contexto",
+      "title": "Soporte de Contexto"
+    },
+    "phase16": {
+      "subtitle": "El Panadero Detector",
+      "title": "Detección de Idioma"
+    },
+    "phase17": {
+      "subtitle": "El Panadero Observador",
+      "title": "Sistema de Eventos"
+    },
+    "phase18": {
+      "subtitle": "El Panadero de Nidos",
+      "title": "Anidamiento de Traducciones"
+    },
+    "phase19": {
+      "subtitle": "El Panadero de Objetos",
+      "title": "Objetos de Retorno"
+    },
+    "phase2": {
+      "subtitle": "Auto-Levantado",
+      "title": "Guardado Automático"
+    },
+    "phase20": {
+      "subtitle": "El Multi-Panadero",
+      "title": "Múltiples Instancias"
+    },
+    "phase21": {
+      "subtitle": "El Panadero de Formatos",
+      "title": "Formateo Avanzado"
+    },
+    "phase22": {
+      "subtitle": "El Panadero Manejador",
+      "title": "Manejador de Claves Faltantes"
+    },
+    "phase3": {
+      "subtitle": "La Mezcladora",
+      "title": "CLI"
+    },
+    "phase4": {
+      "subtitle": "El Glaseado",
+      "title": "Enlaces React"
+    },
+    "phase9": {
+      "subtitle": "El Contador",
+      "title": "Pluralización Avanzada"
+    }
+  },
+  "next_release": {
+    "desc": "— Soporte de Contexto + Detección de Idioma — ETA Q2 2025",
+    "title": "Próximo: v1.1.0"
+  },
+  "progress": {
+    "parity": "~70% paridad con i18next",
+    "target": "v1.5.0 (objetivo: 98%)",
+    "title": "Progreso General"
+  },
+  "status": {
+    "future": "Futuro",
+    "in_progress": "En Progreso",
+    "planned": "Planeado",
+    "released": "Lanzado"
+  },
+  "subtitle": "De v0.1.0 a la paridad total con i18next — cada fase planificada y rastreada. Las fechas estimadas son objetivos, no garantías.",
+  "title": "Hoja de Ruta"
 }

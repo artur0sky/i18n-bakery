@@ -190,6 +190,9 @@ export class PantryUseCase {
       const relativePath = path.relative(baseDir, filePath);
       const namespace = relativePath.replace(/\\/g, '/').replace(/\.json$/, '');
       for (const key of Object.keys(flatData)) {
+        if (typeof flatData[key] === 'string' && flatData[key].startsWith('[TODO] ')) {
+          continue;
+        }
         keys.push(`${namespace}.${key}`);
       }
     } catch {}

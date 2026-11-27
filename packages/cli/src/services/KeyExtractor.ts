@@ -23,8 +23,17 @@ export class KeyExtractor {
               const key = args[0].value;
               let defaultValue: string | undefined;
 
-              if (args.length > 1 && t.isStringLiteral(args[1])) {
-                defaultValue = args[1].value;
+              if (args.length > 1) {
+                if (t.isStringLiteral(args[1])) {
+                  defaultValue = args[1].value;
+                } else if (t.isObjectExpression(args[1])) {
+                  const defaultProp = args[1].properties.find(
+                    p => t.isObjectProperty(p) && t.isIdentifier(p.key) && p.key.name === 'defaultValue'
+                  );
+                  if (defaultProp && t.isObjectProperty(defaultProp) && t.isStringLiteral(defaultProp.value)) {
+                    defaultValue = defaultProp.value.value;
+                  }
+                }
               }
 
               // Infer namespace from key (e.g., "common.hello" -> "common", "auth:login" -> "auth", "home:hero:title" -> "home/hero")

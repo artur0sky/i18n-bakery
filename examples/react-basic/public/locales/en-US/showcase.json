@@ -1,92 +1,93 @@
 {
+  "cards": {
+    "basic": "Basic Translation",
+    "currency": "Currency Formatting",
+    "defaultValueOptions": "Default Value (options)",
+    "defaultValueString": "Default Value (string)",
+    "fallback": "Fallback Locale",
+    "hook": "useTranslation Hook",
+    "nestedVar": "Nested Variable",
+    "ordinal": "Ordinal plurals (ICU)",
+    "percentage": "Percentage & Compact",
+    "reactive": "Reactive Updates",
+    "sanitization": "Key Sanitization",
+    "simpleVar": "Simple Variable",
+    "standardPlural": "Standard Pluralization",
+    "traversal": "Path Traversal Prevention",
+    "zeroPlural": "Zero-count override"
+  },
   "page": {
-    "title": "Showcase",
-    "description": "Interactive examples demonstrating i18n-bakery features"
+    "description": "Interactive examples demonstrating i18n-bakery features",
+    "title": "Showcase"
   },
   "sections": {
     "core": {
-      "title": "Core Translation",
-      "desc": "Basic t() API — the foundation of every i18n workflow."
-    },
-    "interpolation": {
-      "title": "Variable Interpolation",
-      "desc": "Inject dynamic values into translations using Mustache syntax."
-    },
-    "pluralization": {
-      "title": "Pluralization & ICU",
-      "desc": "Handle counts correctly with CLDR rules and ICU MessageFormat."
+      "desc": "Basic t() API — the foundation of every i18n workflow.",
+      "title": "Core Translation"
     },
     "formatting": {
-      "title": "Advanced Formatting",
-      "desc": "Format numbers, currency, and percentages using the built-in plugin system."
+      "desc": "Format numbers, currency, and percentages using the built-in plugin system.",
+      "title": "Advanced Formatting"
+    },
+    "interpolation": {
+      "desc": "Inject dynamic values into translations using Mustache syntax.",
+      "title": "Variable Interpolation"
+    },
+    "pluralization": {
+      "desc": "Handle counts correctly with CLDR rules and ICU MessageFormat.",
+      "title": "Pluralization & ICU"
     },
     "react": {
-      "title": "React Integration",
-      "desc": "Seamless React hooks and components with automatic re-renders."
+      "desc": "Seamless React hooks and components with automatic re-renders.",
+      "title": "React Integration"
     },
     "security": {
-      "title": "Security Features",
-      "desc": "Path traversal prevention, prototype pollution guard, key sanitization."
+      "desc": "Path traversal prevention, prototype pollution guard, key sanitization.",
+      "title": "Security Features"
     }
-  },
-  "cards": {
-    "basic": "Basic Translation",
-    "fallback": "Fallback Locale",
-    "defaultValueString": "Default Value (string)",
-    "defaultValueOptions": "Default Value (options)",
-    "simpleVar": "Simple Variable",
-    "nestedVar": "Nested Variable",
-    "standardPlural": "Standard Pluralization",
-    "zeroPlural": "Zero-count override",
-    "ordinal": "Ordinal plurals (ICU)",
-    "currency": "Currency Formatting",
-    "percentage": "Percentage & Compact",
-    "hook": "useTranslation Hook",
-    "reactive": "Reactive Updates",
-    "prototype": "Prototype Pollution Guard",
-    "traversal": "Path Traversal Prevention",
-    "sanitization": "Key Sanitization"
   },
   "tests": {
     "basic": {
       "title": "Basic Translation",
       "value": "Hello, World! 🥯"
     },
-    "fallback": {
-      "title": "Fallback Behavior",
-      "hint": "This key only exists in en-US — other locales fall back to English",
-      "value": "This text will always fallback to English in other languages",
-      "note": "(Missing in other locales)"
-    },
     "defaultValue": {
-      "title": "Default Value (v1.0.8)",
+      "object": "Default from options object",
       "string": "Freshly baked default! 🥯",
-      "object": "Default from options object"
+      "title": "Default Value (v1.0.8)"
+    },
+    "fallback": {
+      "hint": "This key only exists in en-US — other locales fall back to English",
+      "note": "(Missing in other locales)",
+      "title": "Fallback Behavior",
+      "value": "This text will always fallback to English in other languages"
+    },
+    "formatting": {
+      "compact": "{{views|compact}} views",
+      "percent": "Discount: {{val|percent}}",
+      "title": "Number Formatting",
+      "value": "Price: {{price|currency:USD}}"
     },
     "interpolation": {
+      "nested": "Hello, {{user.name}}!",
       "title": "Variable Interpolation",
-      "value": "Hello, {{name}}!",
-      "nested": "Hello, {{user.name}}!"
+      "value": "Hello, {{name}}!"
+    },
+    "plugins": {
+      "text": "hello world",
+      "text_capitalize": "hello world",
+      "text_title": "hello world",
+      "text_upper": "hello world",
+      "title": "Plugin Transformations"
     },
     "plural": {
       "title": "Pluralization",
       "value": "You have {{count}} item",
-      "value_plural": "You have {{count}} items",
       "value_0": "No items in your cart",
+      "value_plural": "You have {{count}} items",
       "zero": "No items in your cart"
     },
-    "formatting": {
-      "title": "Number Formatting",
-      "value": "Price: {{price|currency:USD}}",
-      "percent": "Discount: {{val|percent}}",
-      "compact": "{{views|compact}} views"
-    },
-    "plugins": {
-      "title": "Plugin Transformations",
-      "text": "hello world",
-      "text_upper": "hello world",
-      "text_capitalize": "hello world",
-      "text_title": "hello world"
-    }
-  }
+    "plural_cases": "[TODO] tests.plural_cases"
+  },
+  "{n, ordinal, one{#st} two{#nd} few{#rd} other{#th}} place": "[TODO] {n, ordinal, one{#st} two{#nd} few{#rd} other{#th}} place"
 }

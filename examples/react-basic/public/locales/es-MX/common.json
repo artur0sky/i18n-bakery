@@ -1,12 +1,9 @@
 {
   "app_name": "i18n-bakery",
-  "tagline": "Traducciones frescas, horneadas a la perfección",
-  "nav": {
-    "home": "Inicio",
-    "showcase": "Escaparate",
-    "docs": "Docs",
-    "roadmap": "Mapa de ruta",
-    "tray": "Tray"
+  "description": "La solución moderna de i18n diseñada para flujos de trabajo de IA agéntica.",
+  "errors": {
+    "go_home": "Volver al inicio",
+    "not_found": "Página no encontrada"
   },
   "footer": {
     "description": "i18n-bakery — Traducciones frescas, horneadas a la perfección",
@@ -14,8 +11,13 @@
     "mit_license": "Licencia MIT",
     "version": "v{{version}}"
   },
-  "errors": {
-    "not_found": "Página no encontrada",
-    "go_home": "Volver al inicio"
-  }
+  "nav": {
+    "docs": "Docs",
+    "home": "Inicio",
+    "roadmap": "Mapa de ruta",
+    "showcase": "Escaparate",
+    "tray": "Tray"
+  },
+  "tagline": "Traducciones frescas, horneadas a la perfección",
+  "welcome": "Bienvenido a i18n-bakery"
 }

@@ -1,60 +1,60 @@
 {
+  "features": {
+    "encryption": {
+      "desc": "Cripta i pacchetti di traduzione al momento del build. Decripta on-the-fly lato client.",
+      "title": "Criptazione AES-256"
+    },
+    "multi_lang": {
+      "desc": "Supporto multi-lingua integrato. Pluralizzazione CLDR per oltre 100 lingue.",
+      "title": "Supporto Multi-lingua"
+    },
+    "plugin_system": {
+      "desc": "Formato numeri, capitalize, backend personalizzati, detector e altro.",
+      "title": "Sistema a Plugin"
+    },
+    "section_title": "Cosa c'è nel Forno",
+    "toml_json": {
+      "desc": "Scrivi traduzioni in JSON o TOML. Parser TOML zero-dep integrato.",
+      "title": "TOML + JSON"
+    },
+    "type_safe": {
+      "desc": "Supporto TypeScript completo. Validazione chiavi rigorosa. Protezione pollution prototipi.",
+      "title": "Type-Safe"
+    },
+    "zero_deps": {
+      "desc": "Il core usa solo Web API native. Dimensioni del bundle minuscole, velocità massima.",
+      "title": "Zero Dipendenze"
+    }
+  },
   "hero": {
     "badge": "v1.0.8 — Rilascio Head Chef — Ora Stabile",
-    "title_bakery": "-bakery",
-    "subtitle": "Traduzioni fresche, sfornate alla perfezione",
-    "description": "Una libreria i18n leggera e type-safe per React. Alternativa diretta a i18next con un'architettura a plugin pulita, zero dipendenze runtime e una DX deliziosa.",
     "cta": {
-      "showcase": "Showcase Artistico",
-      "github": "GitHub"
+      "github": "GitHub",
+      "showcase": "Showcase Artistico"
+    },
+    "description": "Una libreria i18n leggera e type-safe per React. Alternativa diretta a i18next con un'architettura a plugin pulita, zero dipendenze runtime e una DX deliziosa.",
+    "subtitle": "Traduzioni fresche, sfornate alla perfezione",
+    "title_bakery": "-bakery"
+  },
+  "nav_cards": {
+    "docs": {
+      "desc": "Impara i namespace, la struttura dei file e le migliori pratiche",
+      "title": "Documentazione"
+    },
+    "roadmap": {
+      "badge": "Novità",
+      "desc": "Funzionalità imminenti con previsioni di rilascio",
+      "title": "Tabella di Marcia"
+    },
+    "showcase": {
+      "desc": "Scopri ogni funzione in azione con demo interattive",
+      "title": "Vetrina in Tempo Reale"
     }
   },
   "stats": {
+    "coverage": "Copertura test",
     "languages": "Lingue via CLDR",
-    "tests": "Test superati",
     "runtime_deps": "Dip. runtime",
-    "coverage": "Copertura test"
-  },
-  "nav_cards": {
-    "showcase": {
-      "title": "Vetrina in Tempo Reale",
-      "desc": "Scopri ogni funzione in azione con demo interattive"
-    },
-    "docs": {
-      "title": "Documentazione",
-      "desc": "Impara i namespace, la struttura dei file e le migliori pratiche"
-    },
-    "roadmap": {
-      "title": "Tabella di Marcia",
-      "desc": "Funzionalità imminenti con previsioni di rilascio",
-      "badge": "Novità"
-    }
-  },
-  "features": {
-    "section_title": "Cosa c'è nel Forno",
-    "multi_lang": {
-      "title": "Supporto Multi-lingua",
-      "desc": "Supporto multi-lingua integrato. Pluralizzazione CLDR per oltre 100 lingue."
-    },
-    "zero_deps": {
-      "title": "Zero Dipendenze",
-      "desc": "Il core usa solo Web API native. Dimensioni del bundle minuscole, velocità massima."
-    },
-    "plugin_system": {
-      "title": "Sistema a Plugin",
-      "desc": "Formato numeri, capitalize, backend personalizzati, detector e altro."
-    },
-    "type_safe": {
-      "title": "Type-Safe",
-      "desc": "Supporto TypeScript completo. Validazione chiavi rigorosa. Protezione pollution prototipi."
-    },
-    "toml_json": {
-      "title": "TOML + JSON",
-      "desc": "Scrivi traduzioni in JSON o TOML. Parser TOML zero-dep integrato."
-    },
-    "encryption": {
-      "title": "Criptazione AES-256",
-      "desc": "Cripta i pacchetti di traduzione al momento del build. Decripta on-the-fly lato client."
-    }
+    "tests": "Test superati"
   }
 }

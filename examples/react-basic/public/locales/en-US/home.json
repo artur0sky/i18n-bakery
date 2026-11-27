@@ -1,60 +1,60 @@
 {
+  "features": {
+    "encryption": {
+      "desc": "Encrypt translation bundles at build time. Decrypt on-the-fly client-side.",
+      "title": "AES-256 Encryption"
+    },
+    "multi_lang": {
+      "desc": "4 locales out of the box. CLDR pluralization for 100+ languages.",
+      "title": "Multi-language Support"
+    },
+    "plugin_system": {
+      "desc": "NumberFormat, Capitalize, Custom backends, detectors & more.",
+      "title": "Plugin System"
+    },
+    "section_title": "What's in the Oven",
+    "toml_json": {
+      "desc": "Write translations in JSON or TOML. Zero-dep TOML parser built-in.",
+      "title": "TOML + JSON"
+    },
+    "type_safe": {
+      "desc": "Full TypeScript support. Strict key validation. Prototype pollution guard.",
+      "title": "Type-Safe"
+    },
+    "zero_deps": {
+      "desc": "Core uses only native Web APIs. Tiny bundle size, maximum speed.",
+      "title": "Zero Dependencies"
+    }
+  },
   "hero": {
     "badge": "v1.0.8 — The Head Chef Release &mdash; Now Stable",
-    "title_bakery": "-bakery",
-    "subtitle": "Fresh translations, baked to perfection",
-    "description": "A lightweight, type-safe i18n library for React. Drop-in alternative to i18next with a clean plugin architecture, zero runtime dependencies, and delicious DX.",
     "cta": {
-      "showcase": "Live Showcase",
-      "github": "GitHub"
+      "github": "GitHub",
+      "showcase": "Live Showcase"
+    },
+    "description": "A lightweight, type-safe i18n library for React. Drop-in alternative to i18next with a clean plugin architecture, zero runtime dependencies, and delicious DX.",
+    "subtitle": "Fresh translations, baked to perfection",
+    "title_bakery": "-bakery"
+  },
+  "nav_cards": {
+    "docs": {
+      "desc": "Learn namespaces, file structure, and best practices",
+      "title": "Documentation"
+    },
+    "roadmap": {
+      "badge": "New",
+      "desc": "Upcoming features with estimated release timelines",
+      "title": "Roadmap"
+    },
+    "showcase": {
+      "desc": "See every feature in action with interactive demos",
+      "title": "Live Showcase"
     }
   },
   "stats": {
+    "coverage": "Test coverage",
     "languages": "Languages via CLDR",
-    "tests": "Tests passing",
     "runtime_deps": "Runtime deps",
-    "coverage": "Test coverage"
-  },
-  "nav_cards": {
-    "showcase": {
-      "title": "Live Showcase",
-      "desc": "See every feature in action with interactive demos"
-    },
-    "docs": {
-      "title": "Documentation",
-      "desc": "Learn namespaces, file structure, and best practices"
-    },
-    "roadmap": {
-      "title": "Roadmap",
-      "desc": "Upcoming features with estimated release timelines",
-      "badge": "New"
-    }
-  },
-  "features": {
-    "section_title": "What's in the Oven",
-    "multi_lang": {
-      "title": "Multi-language Support",
-      "desc": "4 locales out of the box. CLDR pluralization for 100+ languages."
-    },
-    "zero_deps": {
-      "title": "Zero Dependencies",
-      "desc": "Core uses only native Web APIs. Tiny bundle size, maximum speed."
-    },
-    "plugin_system": {
-      "title": "Plugin System",
-      "desc": "NumberFormat, Capitalize, Custom backends, detectors & more."
-    },
-    "type_safe": {
-      "title": "Type-Safe",
-      "desc": "Full TypeScript support. Strict key validation. Prototype pollution guard."
-    },
-    "toml_json": {
-      "title": "TOML + JSON",
-      "desc": "Write translations in JSON or TOML. Zero-dep TOML parser built-in."
-    },
-    "encryption": {
-      "title": "AES-256 Encryption",
-      "desc": "Encrypt translation bundles at build time. Decrypt on-the-fly client-side."
-    }
+    "tests": "Tests passing"
   }
 }

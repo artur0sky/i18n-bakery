@@ -30,6 +30,25 @@ export class BabelKeyExtractor implements KeyExtractor {
         plugins: ['typescript', 'jsx', 'decorators-legacy', 'classProperties'],
       });
 
+      let defaultNamespace = 'common';
+      let hasExplicitNamespace = false;
+
+      traverse(ast, {
+        CallExpression(path) {
+          if (t.isIdentifier(path.node.callee) && path.node.callee.name === 'useTranslation') {
+            const args = path.node.arguments;
+            if (args.length > 0 && t.isStringLiteral(args[0])) {
+              defaultNamespace = args[0].value;
+              hasExplicitNamespace = true;
+            } else if (args.length === 0) {
+              // explicit call without args implies default 'common' but we shouldn't split it
+              // Wait, if it's called without args, it relies on default namespace configured globally
+              hasExplicitNamespace = true;
+            }
+          }
+        }
+      });
+
       traverse(ast, {
         CallExpression(path) {
           if (t.isIdentifier(path.node.callee) && path.node.callee.name === 't') {
@@ -42,10 +61,8 @@ export class BabelKeyExtractor implements KeyExtractor {
                 const secondArg = args[1];
 
                 if (t.isStringLiteral(secondArg)) {
-                  // Case: t('key', 'Default Value')
                   defaultValue = secondArg.value;
                 } else if (t.isObjectExpression(secondArg)) {
-                  // Case: t('key', { defaultValue: 'Default Value' })
                   const properties = secondArg.properties;
                   for (const prop of properties) {
                     if (
@@ -61,17 +78,23 @@ export class BabelKeyExtractor implements KeyExtractor {
                 }
               }
 
-              // Infer namespace from key (e.g., "common.hello" -> "common", "auth:login" -> "auth", "home:hero:title" -> "home/hero")
-              let namespace = 'common';
+              let namespace = defaultNamespace;
+              let actualKey = key;
+
               if (key.includes(':')) {
                 const lastColonIndex = key.lastIndexOf(':');
                 const namespacePart = key.substring(0, lastColonIndex);
-                // Convert colons to slashes for directory structure
                 namespace = namespacePart.replace(/:/g, '/');
+                actualKey = key.substring(lastColonIndex + 1);
+              } else if (key.includes('.') && !hasExplicitNamespace) {
+                // Only infer from dot if no explicit useTranslation was found in the file
+                const firstDotIndex = key.indexOf('.');
+                namespace = key.substring(0, firstDotIndex);
+                actualKey = key.substring(firstDotIndex + 1);
               }
 
               keys.push({
-                key,
+                key: actualKey,
                 defaultValue,
                 file: filePath,
                 line: path.node.loc?.start.line || 0,

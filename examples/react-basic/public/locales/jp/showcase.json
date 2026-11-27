@@ -1,78 +1,87 @@
 {
+  "cards": {
+    "basic": "基本的な翻訳",
+    "currency": "通貨のフォーマット",
+    "defaultValueOptions": "デフォルト値 (オプション)",
+    "defaultValueString": "デフォルト値 (文字列)",
+    "fallback": "フォールバック・ロケール",
+    "hook": "useTranslation フック",
+    "nestedVar": "入れ子構造の変数",
+    "ordinal": "序数 (ICU)",
+    "percentage": "パーセントとコンパクト表示",
+    "reactive": "リアクティブな更新",
+    "sanitization": "キーのサニタイズ",
+    "simpleVar": "単純な変数",
+    "standardPlural": "標準的な複数形",
+    "traversal": "パス・トラバーサル防止",
+    "zeroPlural": "カウント 0 の上書き"
+  },
   "page": {
-    "title": "デモ",
-    "description": "i18n-bakeryの機能を示すインタラクティブな例"
+    "description": "i18n-bakeryの機能を示すインタラクティブな例",
+    "title": "デモ"
   },
   "sections": {
     "core": {
-      "title": "コア翻訳",
-      "desc": "基本的な t() API — すべての i18n ワークフローの基盤です。"
-    },
-    "interpolation": {
-      "title": "変数の補間",
-      "desc": "Mustache 構文を使用して、動的な値を翻訳に注入します。"
-    },
-    "pluralization": {
-      "title": "複数形と ICU",
-      "desc": "CLDR ルールと ICU MessageFormat を使用して、カウントを正しく処理します。"
+      "desc": "基本的な t() API — すべての i18n ワークフローの基盤です。",
+      "title": "コア翻訳"
     },
     "formatting": {
-      "title": "高度なフォーマット",
-      "desc": "組み込みのプラグインシステムを使用して、数値、通貨、パーセンテージをフォーマットします。"
+      "desc": "組み込みのプラグインシステムを使用して、数値、通貨、パーセンテージをフォーマットします。",
+      "title": "高度なフォーマット"
+    },
+    "interpolation": {
+      "desc": "Mustache 構文を使用して、動的な値を翻訳に注入します。",
+      "title": "変数の補間"
+    },
+    "pluralization": {
+      "desc": "CLDR ルールと ICU MessageFormat を使用して、カウントを正しく処理します。",
+      "title": "複数形と ICU"
     },
     "react": {
-      "title": "React 統合",
-      "desc": "シームレスな React フックとコンポーネントによる自動再レンダリング。"
+      "desc": "シームレスな React フックとコンポーネントによる自動再レンダリング。",
+      "title": "React 統合"
     },
     "security": {
-      "title": "セキュリティ機能",
-      "desc": "パス・トラバーサル防止、プロトタイプ汚染ガード、キーのサニタイズ。"
+      "desc": "パス・トラバーサル防止、プロトタイプ汚染ガード、キーのサニタイズ。",
+      "title": "セキュリティ機能"
     }
-  },
-  "cards": {
-    "basic": "基本的な翻訳",
-    "fallback": "フォールバック・ロケール",
-    "defaultValueString": "デフォルト値 (文字列)",
-    "defaultValueOptions": "デフォルト値 (オプション)",
-    "simpleVar": "単純な変数",
-    "nestedVar": "入れ子構造の変数",
-    "standardPlural": "標準的な複数形",
-    "zeroPlural": "カウント 0 の上書き",
-    "ordinal": "序数 (ICU)",
-    "currency": "通貨のフォーマット",
-    "percentage": "パーセントとコンパクト表示",
-    "hook": "useTranslation フック",
-    "reactive": "リアクティブな更新",
-    "prototype": "プロトタイプ汚染ガード",
-    "traversal": "パス・トラバーサル防止",
-    "sanitization": "キーのサニタイズ"
   },
   "tests": {
     "basic": {
       "title": "基本的な翻訳",
       "value": "こんにちは、世界！"
     },
+    "defaultValue": {
+      "object": "[TODO] Default from options object",
+      "string": "[TODO] Freshly baked default!"
+    },
     "fallback": {
+      "hint": "このキーはen-USにのみ存在し、フォールバックを示します",
+      "note": "[TODO] tests.fallback.note",
       "title": "フォールバック動作",
-      "hint": "このキーはen-USにのみ存在し、フォールバックを示します"
+      "value": "[TODO] tests.fallback.value"
+    },
+    "formatting": {
+      "compact": "[TODO] tests.formatting.compact",
+      "percent": "割引：{{val, percent}}",
+      "title": "数値のフォーマット",
+      "value": "価格：{{price, currency}}"
     },
     "interpolation": {
+      "nested": "[TODO] tests.interpolation.nested",
       "title": "変数の補間",
       "value": "こんにちは、{{name}}さん！"
+    },
+    "plugins": {
+      "text_capitalize": "こんにちは世界 | capitalize",
+      "text_upper": "こんにちは世界 | upper",
+      "title": "プラグイン変換"
     },
     "plural": {
       "title": "複数形",
       "value": "{{count}}個のアイテムがあります"
     },
-    "formatting": {
-      "title": "数値のフォーマット",
-      "value": "価格：{{price, currency}}",
-      "percent": "割引：{{val, percent}}"
-    },
-    "plugins": {
-      "title": "プラグイン変換",
-      "text_upper": "こんにちは世界 | upper",
-      "text_capitalize": "こんにちは世界 | capitalize"
-    }
-  }
+    "plural_cases": "[TODO] tests.plural_cases"
+  },
+  "{n, ordinal, one{#st} two{#nd} few{#rd} other{#th}} place": "[TODO] {n, ordinal, one{#st} two{#nd} few{#rd} other{#th}} place"
 }
