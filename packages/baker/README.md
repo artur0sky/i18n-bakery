@@ -63,10 +63,16 @@ await new BakingManager().bake('public/locales', {
 - **Splitting:** Writes one file per namespace instead of one bundle per locale.
 - **Encryption:** AES-256-GCM encryption; `encrypt: true` requires `key`.
 - **Manifest:** Writes a JSON map of locale or namespace paths to output files.
+  The manifest must be a single filename in the output directory, not a path
+  or symbolic link.
 
 ### 3. File Management (`TranslationFileManager`)
 
 `JSONFileSaver` and `TOMLFileSaver` write individual translations and preserve existing values by default. `RecipeUseCase` updates one key in a JSON locale file. `PantryUseCase` compares JSON locale files and can include keys found in an optional source scan.
+
+The JSON and TOML savers reject `__proto__`, `constructor`, and `prototype`
+as nested key segments (or as the complete key in flat mode). TOML parsing
+also rejects these table and property names.
 
 `TranslationFileManager` manages file entries and variable-signature variants using configured parsers, path resolvers, variable detectors, and writers.
 

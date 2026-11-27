@@ -1,12 +1,78 @@
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import fs from 'fs-extra';
+import path from 'path';
+import os from 'os';
 import { FileSystemPathResolver } from '../src/adapters/FileSystemPathResolver';
 import { DefaultKeyParser } from '../src/adapters/DefaultKeyParser';
 import { ParsedKey } from '../src/domain/KeyParser';
 import { JSONFileWriter } from '../src/adapters/JSONFileWriter';
 import { MustacheFormatter } from '@i18n-bakery/core';
+import { JSONFileSaver } from '../src/adapters/JSONFileSaver';
+import { TOMLFileSaver } from '../src/adapters/TOMLFileSaver';
+import { BakingManager } from '../src/use-cases/BakingManager';
 
 describe('Security Tests', () => {
+  describe('translation file boundaries', () => {
+    let dir: string;
+
+    beforeEach(async () => {
+      dir = await fs.mkdtemp(path.join(os.tmpdir(), 'bakery-security-'));
+    });
+
+    afterEach(async () => {
+      await fs.remove(dir);
+    });
+
+    it.each([['JSON', JSONFileSaver], ['TOML', TOMLFileSaver]] as const)('rejects prototype paths in %s', async (_, Saver) => {
+      const saver = new Saver(dir);
+      for (const key of ['__proto__.bakery_probe', 'constructor.prototype.bakery_probe', 'safe.__proto__']) {
+        await expect(saver.save('en', 'common', key, 'bad')).rejects.toThrow(/prototype-related/);
+      }
+      await saver.save('en', 'common', 'toString.label', 'safe');
+      expect(({} as Record<string, unknown>).bakery_probe).toBeUndefined();
+    });
+
+    it('rejects malicious TOML table and property names', () => {
+      const saver = new TOMLFileSaver(dir);
+      for (const content of ['[__proto__]\nbakery_probe = "bad"', '[constructor.prototype]\nbakery_probe = "bad"', '"__proto__" = "bad"']) {
+        expect(() => saver.parseTOML(content)).toThrow(/prototype-related/);
+      }
+      expect(({} as Record<string, unknown>).bakery_probe).toBeUndefined();
+      expect(saver.parseTOML('[toString]\nlabel = "safe"')).toEqual({ toString: { label: 'safe' } });
+    });
+
+    it('rejects manifest paths before writing output', async () => {
+      const source = path.join(dir, 'source');
+      const out = path.join(dir, 'out');
+      await fs.ensureDir(source);
+      const manager = new BakingManager();
+      for (const manifest of ['../escape.json', '..\\escape.json', 'nested/manifest.json', 'C:\\escape.json', 'file:stream']) {
+        await expect(manager.bake(source, { out, manifest })).rejects.toThrow(/Invalid manifest/);
+      }
+      expect(await fs.pathExists(out)).toBe(false);
+    });
+
+    it('does not follow a manifest symlink outside the output directory', async (context) => {
+      const source = path.join(dir, 'source');
+      const out = path.join(dir, 'out');
+      const outside = path.join(dir, 'outside.json');
+      await fs.ensureDir(source);
+      await fs.ensureDir(out);
+      await fs.writeFile(outside, 'untouched');
+      try {
+        await fs.symlink(outside, path.join(out, 'manifest.json'), 'file');
+      } catch (error) {
+        if (process.platform === 'win32' && (error as NodeJS.ErrnoException).code === 'EPERM') {
+          context.skip();
+        }
+        throw error;
+      }
+      await expect(new BakingManager().bake(source, { out, manifest: 'manifest.json' })).rejects.toThrow(/symbolic links/);
+      expect(await fs.readFile(outside, 'utf8')).toBe('untouched');
+    });
+  });
+
   describe('FileSystemPathResolver - Path Traversal Prevention', () => {
     const resolver = new FileSystemPathResolver({ baseDir: './locales' });
 

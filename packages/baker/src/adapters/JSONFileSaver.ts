@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { TranslationSaver, Locale, Namespace, Key } from '@i18n-bakery/core';
+import { assertSafeTranslationKey } from './safeTranslationKey';
 
 export class JSONFileSaver implements TranslationSaver {
   private localesPath: string;
@@ -12,6 +13,7 @@ export class JSONFileSaver implements TranslationSaver {
   }
 
   async save(locale: Locale, namespace: Namespace, key: Key, value: string, overwrite: boolean = false): Promise<void> {
+    assertSafeTranslationKey(this.fileStructure === 'nested' ? key.split('.') : [key]);
     const filePath = path.join(this.localesPath, locale, `${namespace}.json`);
     
     let content: Record<string, any> = {};
@@ -33,7 +35,7 @@ export class JSONFileSaver implements TranslationSaver {
     // Update content based on file structure
     if (this.fileStructure === 'flat') {
       // Flat structure: key as-is (e.g., "home.title": "...")
-      if (overwrite || content[key] === undefined) {
+      if (overwrite || !Object.prototype.hasOwnProperty.call(content, key) || content[key] === undefined) {
         content[key] = value;
       }
     } else {
@@ -54,13 +56,13 @@ export class JSONFileSaver implements TranslationSaver {
     let current = obj;
     for (let i = 0; i < parts.length - 1; i++) {
       const part = parts[i];
-      if (!current[part] || typeof current[part] !== 'object') {
+      if (!Object.prototype.hasOwnProperty.call(current, part) || !current[part] || typeof current[part] !== 'object') {
         current[part] = {};
       }
       current = current[part];
     }
     const finalKey = parts[parts.length - 1];
-    if (overwrite || current[finalKey] === undefined) {
+    if (overwrite || !Object.prototype.hasOwnProperty.call(current, finalKey) || current[finalKey] === undefined) {
       current[finalKey] = value;
     }
   }
@@ -74,6 +76,6 @@ export class JSONFileSaver implements TranslationSaver {
       .reduce((result: any, key) => {
         result[key] = this.sortObject(obj[key]);
         return result;
-      }, {});
+      }, Object.create(null));
   }
 }

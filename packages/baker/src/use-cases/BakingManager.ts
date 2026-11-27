@@ -38,6 +38,13 @@ export class BakingManager {
   }
 
   async bake(source: string, options: BakeOptions): Promise<void> {
+    if (options.manifest && (
+      options.manifest === '.' || options.manifest === '..' ||
+      /[\/\\:*?"<>|\x00-\x1f]/.test(options.manifest) ||
+      /[. ]$/.test(options.manifest) || path.win32.isAbsolute(options.manifest)
+    )) {
+      throw new Error('Invalid manifest: use a filename within the output directory');
+    }
     if (options.verbose) {
       // Assuming ConsoleLogger has setVerbose or similar, or we just log more
       // The core Logger interface might not have setVerbose.
@@ -190,7 +197,21 @@ export class BakingManager {
     
     if (options.manifest) {
       const manifestPath = path.join(outDir, options.manifest);
-      await fs.writeJson(manifestPath, manifest, { spaces: options.minify ? 0 : 2 });
+      try {
+        if ((await fs.lstat(manifestPath)).isSymbolicLink()) {
+          throw new Error('Invalid manifest: symbolic links are not allowed');
+        }
+      } catch (error) {
+        if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+      }
+      const tempDir = await fs.mkdtemp(path.join(outDir, '.manifest-'));
+      try {
+        const tempPath = path.join(tempDir, 'manifest');
+        await fs.writeJson(tempPath, manifest, { spaces: options.minify ? 0 : 2 });
+        await fs.rename(tempPath, manifestPath);
+      } finally {
+        await fs.remove(tempDir);
+      }
       this.logger.info(`  -> Generated manifest: ${options.manifest}`);
     }
     

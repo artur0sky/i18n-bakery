@@ -10,6 +10,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { TranslationSaver, Locale, Namespace, Key } from '@i18n-bakery/core';
+import { assertSafeTranslationKey } from './safeTranslationKey';
 
 /**
  * TOML-based implementation of TranslationSaver.
@@ -44,6 +45,7 @@ export class TOMLFileSaver implements TranslationSaver {
    * @param value - Translation value
    */
   async save(locale: Locale, namespace: Namespace, key: Key, value: string, overwrite: boolean = false): Promise<void> {
+    assertSafeTranslationKey(this.fileStructure === 'nested' ? key.split('.') : [key]);
     const filePath = path.join(this.localesPath, locale, `${namespace}.toml`);
     
     let content: Record<string, any> = {};
@@ -65,7 +67,7 @@ export class TOMLFileSaver implements TranslationSaver {
     // Update content based on file structure
     if (this.fileStructure === 'flat') {
       // Flat structure: key as-is (e.g., "home.title" = "...")
-      if (overwrite || content[key] === undefined) {
+      if (overwrite || !Object.prototype.hasOwnProperty.call(content, key) || content[key] === undefined) {
         content[key] = value;
       }
     } else {
@@ -94,14 +96,14 @@ export class TOMLFileSaver implements TranslationSaver {
     
     for (let i = 0; i < parts.length - 1; i++) {
       const part = parts[i];
-      if (!current[part] || typeof current[part] !== 'object') {
+      if (!Object.prototype.hasOwnProperty.call(current, part) || !current[part] || typeof current[part] !== 'object') {
         current[part] = {};
       }
       current = current[part];
     }
     
     const finalKey = parts[parts.length - 1];
-    if (overwrite || current[finalKey] === undefined) {
+    if (overwrite || !Object.prototype.hasOwnProperty.call(current, finalKey) || current[finalKey] === undefined) {
       current[finalKey] = value;
     }
   }
@@ -121,7 +123,7 @@ export class TOMLFileSaver implements TranslationSaver {
       .reduce((result: any, key) => {
         result[key] = this.sortObject(obj[key]);
         return result;
-      }, {});
+      }, Object.create(null));
   }
 
   /**
@@ -195,12 +197,13 @@ export class TOMLFileSaver implements TranslationSaver {
       // Parse table header
       if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
         const tableName = trimmed.slice(1, -1);
-        currentPath = tableName.split('.');
+        currentPath = tableName.split('.').map(part => this.unescapeKey(part.trim()));
+        assertSafeTranslationKey(currentPath);
         
         // Navigate/create the table structure
         currentTable = result;
         for (const part of currentPath) {
-          if (!currentTable[part]) {
+          if (!Object.prototype.hasOwnProperty.call(currentTable, part)) {
             currentTable[part] = {};
           }
           currentTable = currentTable[part];
@@ -213,6 +216,7 @@ export class TOMLFileSaver implements TranslationSaver {
       if (kvMatch) {
         const [, key, value] = kvMatch;
         const cleanKey = this.unescapeKey(key.trim());
+        assertSafeTranslationKey([cleanKey]);
         currentTable[cleanKey] = this.deserializeValue(value.trim());
       }
     }

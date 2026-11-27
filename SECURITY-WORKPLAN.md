@@ -4,7 +4,7 @@
 
 - [x] Harden the core memory store against prototype pollution; cover public
   runtime behavior and update the Core README.
-- [ ] Harden Baker's JSON/TOML parsing and saving, and confine manifest paths;
+- [x] Harden Baker's JSON/TOML parsing and saving, and confine manifest paths;
   cover regressions and update the Baker README.
 
 ## Phase 2: Protect integrations
