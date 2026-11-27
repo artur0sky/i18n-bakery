@@ -11,7 +11,7 @@
 
 - [x] Escape spreadsheet CSV fields, test untrusted keys and values, and update
   the Poacher README.
-- [ ] Label untrusted extraction results in Tray, test the MCP response contract,
+- [x] Label untrusted extraction results in Tray, test the MCP response contract,
   and update the Tray README.
 
 ## Phase 3: Verify the bakery

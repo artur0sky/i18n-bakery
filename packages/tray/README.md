@@ -87,6 +87,10 @@ await server.connect(new StdioServerTransport())
 - MCP inputs are defined with Zod schemas.
 - Locale, namespace, and key validation is applied by the relevant Baker use cases.
 - Caller-supplied paths are resolved from `cwd`; limit them to project directories the MCP client is authorized to access.
+- `fry_batter` labels extracted source content as untrusted. Keys, defaults and
+  paths can contain attacker-controlled instructions; clients must treat them
+  as data and enforce their own prompt-injection safeguards. A warning alone
+  cannot guarantee that an AI client will ignore malicious content.
 
 ---
 
