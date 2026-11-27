@@ -14,7 +14,7 @@ This document compares **i18n-bakery** with **i18next**, the industry-standard i
 - [The Bakery's Unique Offerings](#-the-bakerys-unique-offerings)
 - [API Compatibility Matrix](#-api-compatibility-matrix)
 - [Migration Path (From Factory to Artisan)](#-migration-path-from-factory-to-artisan)
-- [The Roadmap (Rising to Perfection)](#-the-roadmap-rising-to-perfection)
+- [Roadmap](#-roadmap)
 
 ---
 
@@ -47,7 +47,7 @@ This document compares **i18n-bakery** with **i18next**, the industry-standard i
 - ✅ **Built-in Features**: ICU, CLDR, plugins included
 - ⚠️ **Young Ecosystem**: Fewer plugins and integrations (growing)
 - ⚠️ **Smaller Community**: Less Stack Overflow content
-- ⚠️ **Feature Parity**: ~70% compatible (rising to 98%)
+- ⚠️ **Feature Parity**: Partial compatibility; consult the feature matrix below.
 
 ---
 
@@ -123,7 +123,7 @@ This document compares **i18n-bakery** with **i18next**, the industry-standard i
 
 #### 1. **Context Support** (The Gender Baker)
 
-**Status**: ❌ Not Implemented | **Planned**: v1.1.0 (Q1 2025)
+**Status**: ❌ Not Implemented | **Planned**: v1.1.0 (date not announced)
 
 ```typescript
 // i18next
@@ -142,7 +142,7 @@ t("friend", { context: "female" }); // → friend_female
 
 #### 2. **Language Detection** (The Polyglot Nose)
 
-**Status**: ❌ Not Implemented | **Planned**: v1.1.0 (Q1 2025)
+**Status**: ❌ Not Implemented | **Planned**: v1.1.0 (date not announced)
 
 ```typescript
 // i18next
@@ -186,7 +186,7 @@ initI18n({
 
 #### 4. **Event System** (The Observer)
 
-**Status**: 🟡 Partial | **Planned**: v1.2.0 (Q1 2025)
+**Status**: 🟡 Partial | **Planned**: v1.2.0 (date not announced)
 
 ```typescript
 // i18next
@@ -212,7 +212,7 @@ i18n.subscribe(() => {
 
 #### 5. **Nesting Translations** (The Reference Baker)
 
-**Status**: ❌ Not Implemented | **Planned**: v1.3.0 (Q2 2025)
+**Status**: ❌ Not Implemented | **Planned**: v1.3.0 (date not announced)
 
 ```typescript
 // i18next
@@ -233,7 +233,7 @@ i18n.subscribe(() => {
 
 #### 6. **Return Objects** (The Batch Baker)
 
-**Status**: ❌ Not Implemented | **Planned**: v1.3.0 (Q2 2025)
+**Status**: ❌ Not Implemented | **Planned**: v1.3.0 (date not announced)
 
 ```typescript
 // i18next
@@ -251,7 +251,7 @@ t("menu", { returnObjects: true });
 
 #### 7. **Return Details** (The Metadata Baker)
 
-**Status**: ❌ Not Implemented | **Planned**: v1.3.0 (Q2 2025)
+**Status**: ❌ Not Implemented | **Planned**: v1.3.0 (date not announced)
 
 ```typescript
 // i18next
@@ -271,7 +271,7 @@ t("key", { returnDetails: true });
 
 #### 8. **Multiple Instances** (The Multi-Baker)
 
-**Status**: ❌ Not Implemented | **Planned**: v1.4.0 (Q2 2025)
+**Status**: ❌ Not Implemented | **Planned**: v1.4.0 (date not announced)
 
 ```typescript
 // i18next
@@ -290,7 +290,7 @@ const instance2 = i18next.createInstance();
 
 #### 9. **Custom Missing Key Handler** (The Error Baker)
 
-**Status**: 🟡 Partial | **Planned**: v1.5.0 (Q3 2025)
+**Status**: 🟡 Partial | **Planned**: v1.5.0 (date not announced)
 
 ```typescript
 // i18next
@@ -482,8 +482,6 @@ t("orders:meal.title", "Pizza Menu");
 ### Step 1: Install i18n-bakery
 
 ```bash
-npm install @i18n-bakery/core @i18n-bakery/react
-# or
 pnpm add @i18n-bakery/core @i18n-bakery/react
 ```
 
@@ -555,127 +553,14 @@ initI18n({
 
 ```bash
 # Extract all translation keys from your codebase
-npx i18n-bakery batter src --locale en --out public/locales
+pnpm exec i18n-bakery batter src --locale en --out public/locales
 ```
 
 ---
 
-## 🗺️ The Roadmap (Rising to Perfection)
+## 🗺️ Roadmap
 
-> _"Like dough, we rise with time and care."_
-
-### Current State: v1.0.6 (December 2025)
-
-**Feature Parity**: ~70%  
-**Production Ready**: ✅ Yes  
-**Tests**: 197 passing
-
----
-
-### v1.1.0 — The Context & Detection Release (Q1 2025)
-
-**Target Parity**: 80%
-
-#### Features:
-
-- ✅ **Context Support** (2-3 days)
-
-  - `t('friend', { context: 'male' })` → `friend_male`
-  - Configurable separator
-  - Works with pluralization
-
-- ✅ **Language Detection Plugin** (2 days)
-  - Browser detection (`navigator.language`)
-  - localStorage persistence
-  - Cookie support
-  - Query string (`?lng=es`)
-  - HTML lang attribute
-
----
-
-### v1.2.0 — The Network Release (Q1 2025)
-
-**Target Parity**: 85%
-
-#### Features:
-
-- ✅ **HTTP Backend** (Already implemented in v1.0.3)
-
-  - Manifest support
-  - Lazy loading
-  - Encryption support
-
-- ✅ **Event System** (2 days)
-  - `on('languageChanged')`
-  - `on('loaded')`
-  - `on('failedLoading')`
-  - `on('missingKey')`
-
----
-
-### v1.3.0 — The Advanced Features Release (Q2 2025)
-
-**Target Parity**: 90%
-
-#### Features:
-
-- ✅ **Nesting Translations** (3-4 days)
-
-  - `$t(key)` syntax
-  - Circular reference detection
-  - Works with variables
-
-- ✅ **Return Objects** (2 days)
-
-  - `t('menu', { returnObjects: true })`
-  - Array support
-  - Deep object return
-
-- ✅ **Return Details** (1 day)
-  - `t('key', { returnDetails: true })`
-  - Metadata: usedKey, usedLng, usedNS
-
----
-
-### v1.4.0 — The Enterprise Release (Q2 2025)
-
-**Target Parity**: 95%
-
-#### Features:
-
-- ✅ **Multiple Instances** (3 days)
-
-  - `createI18nInstance()`
-  - Instance isolation
-  - React context per instance
-
-- ✅ **Date/Time Formatting Plugin** (4 days)
-  - Using `Intl.DateTimeFormat`
-  - Relative time
-  - Custom formats
-
----
-
-### v1.5.0 — The Complete Release (Q3 2025) 🎯
-
-**Target Parity**: 98% (Seamless Integration Achieved)
-
-#### Features:
-
-- ✅ **Custom Missing Key Handler** (1 day)
-
-  - Configurable callback
-  - Analytics integration
-  - Error tracking
-
-- ✅ **Advanced Formatting** (2 days)
-
-  - List formatting (`Intl.ListFormat`)
-  - Additional number formats
-
-- ✅ **getFixedT()** (1 day)
-  - Pre-bound translation function
-  - Namespace locking
+The current release is **v1.0.9**. The workspace currently passes **316 tests**. Compatibility is documented feature-by-feature in this file; no aggregate parity percentage is maintained. Planned work and target versions are tracked in [WORKPLAN.md](../WORKPLAN.md). Release dates are not committed.
 
 ---
 
@@ -704,7 +589,7 @@ npx i18n-bakery batter src --locale en --out public/locales
 
 For existing projects, **i18next** is the safe choice.  
 For new projects, **i18n-bakery** offers a fresh, modern approach.  
-By v1.5.0 (Q3 2025), migration will be seamless with 98% parity.
+Review the compatibility matrix and current plan before choosing a migration path; future compatibility milestones are not guaranteed.
 
 ---
 

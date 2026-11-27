@@ -27,7 +27,7 @@
     }
   },
   "hero": {
-    "badge": "v1.0.8 — The Head Chef Release &mdash; Now Stable",
+    "badge": "v1.0.9 — The Master Baker Release — Now Stable",
     "cta": {
       "github": "GitHub",
       "showcase": "Live Showcase"
@@ -43,7 +43,7 @@
     },
     "roadmap": {
       "badge": "New",
-      "desc": "Upcoming features with estimated release timelines",
+      "desc": "Planned features; no release dates have been announced",
       "title": "Roadmap"
     },
     "showcase": {
@@ -54,7 +54,8 @@
   "stats": {
     "coverage": "Test coverage",
     "languages": "Languages via CLDR",
-    "runtime_deps": "Runtime deps",
-    "tests": "Tests passing"
+    "runtime_deps": "Core runtime dependencies",
+    "tests": "Tests passing",
+    "packages": "Workspace packages"
   }
 }

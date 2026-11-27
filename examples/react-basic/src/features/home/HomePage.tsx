@@ -59,9 +59,9 @@ export const HomePage: React.FC = () => {
 
   const stats = [
     { value: '100+', id: 'languages' },
-    { value: '200+', id: 'tests' },
+    { value: '316', id: 'tests' },
     { value: '0', id: 'runtime_deps' },
-    { value: '100%', id: 'coverage' },
+    { value: '6', id: 'packages' },
   ];
 
   const navCards = [
@@ -147,29 +147,33 @@ export const HomePage: React.FC = () => {
 
       {/* Nav Cards */}
       <div className="grid sm:grid-cols-3 gap-4 mb-14">
-        {navCards.map((c) => (
-          <Link key={c.href} href={c.href}>
-            <div className={`relative bg-surface-2 border border-white/7 rounded-2xl p-5 cursor-pointer transition-all duration-200 group ${c.accent}`}>
-              {t(`nav_cards.${c.id}.badge`) && (
-                <span className="absolute top-3 right-3 text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded-full">
-                  {t(`nav_cards.${c.id}.badge`)}
-                </span>
-              )}
-              <c.Icon
-                size={28}
-                className={`mb-3 transition-transform duration-200 group-hover:scale-110 ${c.iconColor}`}
-              />
-              <h3 className="text-sm font-bold text-ink-50 mb-1.5">{t(`nav_cards.${c.id}.title`)}</h3>
-              <p className="text-xs text-ink-500 leading-relaxed">{t(`nav_cards.${c.id}.desc`)}</p>
-            </div>
-          </Link>
-        ))}
+        {navCards.map((c) => {
+          const badge = c.id === 'roadmap' ? t(`nav_cards.${c.id}.badge`) : undefined;
+
+          return (
+            <Link key={c.href} href={c.href}>
+              <div className={`relative bg-surface-2 border border-white/7 rounded-2xl p-5 cursor-pointer transition-all duration-200 group ${c.accent}`}>
+                {badge && (
+                  <span className="absolute top-3 right-3 text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded-full">
+                    {badge}
+                  </span>
+                )}
+                <c.Icon
+                  size={28}
+                  className={`mb-3 transition-transform duration-200 group-hover:scale-110 ${c.iconColor}`}
+                />
+                <h3 className="text-sm font-bold text-ink-50 mb-1.5">{t(`nav_cards.${c.id}.title`)}</h3>
+                <p className="text-xs text-ink-500 leading-relaxed">{t(`nav_cards.${c.id}.desc`)}</p>
+              </div>
+            </Link>
+          );
+        })}
       </div>
 
       {/* Features Grid */}
       <div>
         <h2 className="text-lg font-bold text-ink-50 mb-5 flex items-center gap-2">
-          <IconSparkles size={18} className="text-amber-400" /> {t('features.section_title')}
+          <IconSparkles size={18} className="text-amber-400" /> {t('features.section_title', "What's in the Oven")}
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {features.map((f) => (

@@ -40,8 +40,6 @@ const QuickStartDoc: React.FC = () => {
       <div>
         <h3 className="text-sm font-bold text-ink-50 mb-1">{t('quickstart.installation')}</h3>
         <CodeSnippet lines={[
-          { text: 'npm install @i18n-bakery/core @i18n-bakery/react', color: 'yellow' },
-          { text: '# or', color: 'muted' },
           { text: 'pnpm add @i18n-bakery/core @i18n-bakery/react', color: 'yellow' },
         ]} />
       </div>

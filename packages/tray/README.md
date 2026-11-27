@@ -12,11 +12,7 @@ The **Tray Package** is the server-side bridge. it makes translation workflows a
 ## 📦 Installation
 
 ```bash
-npm install @i18n-bakery/tray
-# or
 pnpm add @i18n-bakery/tray
-# or
-yarn add @i18n-bakery/tray
 ```
 
 ---
@@ -29,8 +25,8 @@ To use **i18n-bakery** inside Claude Desktop, add the following to your `claude_
 {
   "mcpServers": {
     "i18n-bakery": {
-      "command": "npx",
-      "args": ["-y", "@i18n-bakery/tray"],
+      "command": "pnpm",
+      "args": ["dlx", "@i18n-bakery/tray"],
       "env": {
         "NODE_ENV": "production"
       }

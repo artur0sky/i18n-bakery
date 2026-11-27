@@ -96,8 +96,6 @@ This package follows **Clean Architecture** principles:
 ## 📦 Installation
 
 ```bash
-npm install @i18n-bakery/baker
-# or
 pnpm add @i18n-bakery/baker
 ```
 

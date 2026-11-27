@@ -5,6 +5,19 @@ All notable changes to the **i18n-bakery** project will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- Preserve existing translations during extraction and treat empty or `[TODO]` values as missing.
+- Keep namespace parsing consistent for explicit `:` namespaces and dotted keys.
+- Align CLI and Tray extraction behavior and report extraction errors explicitly.
+
+### Changed
+
+- Pin workspace dependencies and update the React example to React 19 and Vite 8.
+- Use pnpm as the documented package manager.
+
 ## [1.0.9] - 2026-03-22 (The Master Baker)
 
 ### 🚀 Fresh from the Oven

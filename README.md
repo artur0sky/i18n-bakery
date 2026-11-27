@@ -6,7 +6,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@i18n-bakery/core.svg)](https://www.npmjs.com/package/@i18n-bakery/core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-197%20passing-brightgreen.svg)](https://github.com/artur0sky/i18n-bakery)
+[![Tests](https://img.shields.io/badge/tests-316%20passing-brightgreen.svg)](https://github.com/artur0sky/i18n-bakery)
 
 ---
 
@@ -19,26 +19,13 @@ Like a master baker who knows that **the best bread comes from the finest ingred
 - 🥐 **Type-Safe** - TypeScript support baked right in
 - 🥨 **Plugin System** - Extend your bakery with custom recipes
 - 🧁 **React Ready** - Hooks and providers, fresh from the oven
-- 🥯 **i18next Compatible** - Drop-in replacement (~70% API parity, rising to 98%)
+- 🥯 **i18next Compatible** - Supports common i18next patterns; see the [compatibility matrix](./docs/I18NEXT_COMPARISON.md)
 
 > _"A translation without context is like bread without salt - technically edible, but missing something essential."_
 
 ---
 
 ## 📦 Installation (Gathering Ingredients)
-
-```bash
-# The essentials
-npm install @i18n-bakery/core
-
-# For React projects
-npm install @i18n-bakery/react
-
-# CLI tools (dev dependency)
-npm install -D @i18n-bakery/cli
-```
-
-Or with pnpm (our preferred flour):
 
 ```bash
 pnpm add @i18n-bakery/core @i18n-bakery/react
@@ -218,7 +205,7 @@ new JSONFileSaver('./locales', 'flat');
 Scan your codebase and extract translation keys:
 
 ```bash
-npx i18n-bakery batter src --locale en
+pnpm exec i18n-bakery batter src --locale en
 ```
 
 **What it does:**
@@ -234,7 +221,7 @@ npx i18n-bakery batter src --locale en
 Prepare translations for production:
 
 ```bash
-npx i18n-bakery bake
+pnpm exec i18n-bakery bake
 ```
 
 **What it does:**
@@ -350,7 +337,7 @@ class MyPlugin implements Plugin {
 
 > _"We honor the classics while baking something new."_
 
-**Current Parity: ~70%** (and rising like good dough!)
+Compatibility is partial and is tracked feature-by-feature in the [comparison matrix](./docs/I18NEXT_COMPARISON.md).
 
 ### ✅ What Works Today
 
@@ -373,7 +360,7 @@ class MyPlugin implements Plugin {
 - 🔜 Nesting translations
 - 🔜 Return objects
 
-**Target: 98% parity by v1.5.0** (Q3 2025)
+See [WORKPLAN.md](./WORKPLAN.md) for planned capabilities. No release dates are committed.
 
 See [I18NEXT_COMPARISON.md](./docs/I18NEXT_COMPARISON.md) for detailed comparison.
 
@@ -484,21 +471,19 @@ i18n-bakery/
 We take testing as seriously as a baker takes proofing:
 
 ```bash
-# Run all tests
 pnpm test
-
-# Run tests for specific package
-cd packages/core && pnpm test
-
-# Watch mode (for development)
-pnpm test --watch
+pnpm build
 ```
 
-**Current Stats:**
+**Current Stats:** 316 tests pass across 33 test files in the six workspace packages. Coverage is not currently measured as an aggregate.
 
-- ✅ 197 tests passing
-- ✅ 100% coverage on critical paths
-- ✅ 14 test suites
+## 🧰 Development Toolchain
+
+- Node.js `>=24.11.0 <25`
+- pnpm `10.20.0` with exact dependency versions
+- `@types/node` is pinned to the Node 24 major supported by this workspace
+- React example: React `19.3.1`, Vite `8.4.0`, TypeScript `7.0.2`
+- Library packages: TypeScript `6.0.3` for declaration builds with tsup `9.0.0`; TypeScript `7.0.2` currently fails in that build path.
 
 ---
 
@@ -549,31 +534,7 @@ Built with love, TypeScript, and a passion for clean architecture.
 
 ## 🗺️ Roadmap
 
-### v1.1.0 - The Context & Detection Release (Q1 2025)
-
-- Context support for gendered translations
-- Automatic language detection
-- **Target: 80% i18next parity**
-
-### v1.2.0 - The Network Release (Q1 2025)
-
-- HTTP backend for loading translations
-- Event system for lifecycle hooks
-- **Target: 85% i18next parity**
-
-### v1.3.0 - The Advanced Features Release (Q2 2025)
-
-- Translation nesting (`$t(key)`)
-- Return objects and details
-- **Target: 90% i18next parity**
-
-### v1.5.0 - The Complete Release (Q3 2025)
-
-- Multiple instances support
-- Advanced formatting plugins
-- **Target: 98% i18next parity** 🎯
-
-See [WORKPLAN.md](./WORKPLAN.md) for detailed roadmap.
+Planned capabilities and target versions are listed in [WORKPLAN.md](./WORKPLAN.md). Release dates are not committed.
 
 ---
 

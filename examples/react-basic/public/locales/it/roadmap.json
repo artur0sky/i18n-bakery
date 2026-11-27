@@ -68,13 +68,13 @@
     }
   },
   "next_release": {
-    "desc": "— Supporto Context + Language Detection",
+    "desc": "Supporto del contesto e rilevamento della lingua; data di rilascio non annunciata",
     "title": "Prossimo: v1.1.0"
   },
   "progress": {
-    "parity": "~70% parità con i18next",
-    "target": "v1.5.0 (obiettivo: 98%)",
-    "title": "Progresso Generale"
+    "parity": "Compatibilità parziale; consulta la matrice delle funzioni",
+    "target": "Versione obiettivo: v1.5.0",
+    "title": "Stato della compatibilità"
   },
   "status": {
     "future": "Futuro",
@@ -82,6 +82,6 @@
     "planned": "Pianificato",
     "released": "Rilasciato"
   },
-  "subtitle": "Ogni fase pianificata e tracciata.",
+  "subtitle": "Funzionalità e fasi pianificate. Le date di rilascio non sono state annunciate.",
   "title": "Tabella di Marcia"
 }

@@ -68,13 +68,13 @@
     }
   },
   "next_release": {
-    "desc": "— Soporte de Contexto + Detección de Idioma — ETA Q2 2025",
+    "desc": "Soporte de contexto y detección de idioma; fecha de lanzamiento no anunciada",
     "title": "Próximo: v1.1.0"
   },
   "progress": {
-    "parity": "~70% paridad con i18next",
-    "target": "v1.5.0 (objetivo: 98%)",
-    "title": "Progreso General"
+    "parity": "Compatibilidad parcial; consulta la matriz de funciones",
+    "target": "Versión objetivo: v1.5.0",
+    "title": "Estado de compatibilidad"
   },
   "status": {
     "future": "Futuro",
@@ -82,6 +82,6 @@
     "planned": "Planeado",
     "released": "Lanzado"
   },
-  "subtitle": "De v0.1.0 a la paridad total con i18next — cada fase planificada y rastreada. Las fechas estimadas son objetivos, no garantías.",
+  "subtitle": "Funciones y fases planeadas. Aún no se anuncian fechas de lanzamiento.",
   "title": "Hoja de Ruta"
 }

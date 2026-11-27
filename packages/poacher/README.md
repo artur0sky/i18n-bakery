@@ -24,8 +24,6 @@ This tool belongs in your dev-dependencies belt:
 
 ```bash
 pnpm add -D @i18n-bakery/poacher
-# or
-npm install -D @i18n-bakery/poacher
 ```
 
 ## 🛠️ Usage (Hunting Techniques)
@@ -37,7 +35,7 @@ Poacher provides a CLI interface under the command `poacher`.
 Migrate from a legacy folder to a Bakery-compatible structure.
 
 ```bash
-npx poacher poach ./src/legacy-locales ./src/locales
+pnpm exec poacher poach ./src/legacy-locales ./src/locales
 ```
 
 **Options:**
@@ -55,7 +53,7 @@ npx poacher poach ./src/legacy-locales ./src/locales
 Analyze your source code to see what keys are currently being requested by the chefs.
 
 ```bash
-npx poacher scout ./src
+pnpm exec poacher scout ./src
 ```
 
 **What it does:**
@@ -68,7 +66,7 @@ npx poacher scout ./src
 Serve your gathered ingredients in a format easy for humans to digest (CSV).
 
 ```bash
-npx poacher serve ./src/locales --format csv --out ./review.csv
+pnpm exec poacher serve ./src/locales --format csv --out ./review.csv
 ```
 
 ## 📖 Examples (Field Notes)
@@ -83,7 +81,7 @@ locales/en/translation.json  -> { "auth": { "errors": { "generic": "Error" } } }
 
 **Command:**
 ```bash
-npx poacher poach ./legacy-locales ./src/new-locales
+pnpm exec poacher poach ./legacy-locales ./src/new-locales
 ```
 
 **Result (Bakery Style):**
@@ -97,7 +95,7 @@ Your chefs (developers) added `t('new.feature')` in the code but forgot to add i
 
 **Command:**
 ```bash
-npx poacher scout ./src
+pnpm exec poacher scout ./src
 ```
 
 **Output:**
@@ -111,7 +109,7 @@ The content team wants to review all translations in Excel.
 
 **Command:**
 ```bash
-npx poacher serve ./src/locales --format csv > translations.csv
+pnpm exec poacher serve ./src/locales --format csv > translations.csv
 ```
 **Output (`translations.csv`):**
 ```csv

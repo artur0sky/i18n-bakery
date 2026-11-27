@@ -27,7 +27,7 @@
     }
   },
   "hero": {
-    "badge": "v1.0.8 — El Lanzamiento del Chef Principal — Ya Estable",
+    "badge": "v1.0.9 — El Lanzamiento del Maestro Panadero — Ya Estable",
     "cta": {
       "github": "GitHub",
       "showcase": "Demostración en vivo"
@@ -43,7 +43,7 @@
     },
     "roadmap": {
       "badge": "Nuevo",
-      "desc": "Próximas funciones con cronogramas estimados de lanzamiento",
+      "desc": "Funciones planeadas; no se han anunciado fechas de lanzamiento",
       "title": "Hoja de Ruta"
     },
     "showcase": {
@@ -54,7 +54,8 @@
   "stats": {
     "coverage": "Cobertura de pruebas",
     "languages": "Idiomas vía CLDR",
-    "runtime_deps": "Dep. de ejecución",
-    "tests": "Pruebas superadas"
+    "runtime_deps": "Dependencias de ejecución del núcleo",
+    "tests": "Pruebas superadas",
+    "packages": "Paquetes del workspace"
   }
 }

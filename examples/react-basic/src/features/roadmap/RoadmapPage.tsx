@@ -30,7 +30,7 @@ interface RoadmapItem {
   version: string;
   id: string;
   status: 'done' | 'in-progress' | 'planned' | 'future';
-  eta: string;
+  eta?: string;
   features: string[];
   Icon: TablerIconFC;
 }
@@ -64,7 +64,7 @@ const roadmapData: RoadmapItem[] = [
   {
     phase: 13, version: 'v1.0.0', id: 'phase13', status: 'done',
     eta: 'Dec 2024', Icon: IconPuzzle,
-    features: ['Plugin lifecycle hooks', 'NumberFormatPlugin (currency/percent/compact)', 'CapitalizePlugin (upper/lower/title)', '190+ tests, 100% coverage'],
+    features: ['Plugin lifecycle hooks', 'NumberFormatPlugin (currency/percent/compact)', 'CapitalizePlugin (upper/lower/title)'],
   },
   {
     phase: 14, version: 'v1.0.1–1.0.9', id: 'phase14', status: 'done',
@@ -86,8 +86,8 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 15, version: 'v1.1.0', id: 'phase15',
-    status: 'planned', eta: 'Q2 2026', Icon: IconMasksTheater,
+    phase: 16, version: 'v1.1.0', id: 'phase15',
+    status: 'planned', Icon: IconMasksTheater,
     features: [
       't("friend", { context: "male" }) → friend_male',
       't("friend", { context: "female" }) → friend_female',
@@ -96,8 +96,8 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 16, version: 'v1.1.0', id: 'phase16',
-    status: 'planned', eta: 'Q2 2026', Icon: IconScanEye,
+    phase: 17, version: 'v1.1.0', id: 'phase16',
+    status: 'planned', Icon: IconScanEye,
     features: [
       'Auto-detect from navigator.language',
       'Detection order: querystring → localStorage → cookie → navigator → htmlTag',
@@ -106,8 +106,8 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 17, version: 'v1.2.0', id: 'phase17',
-    status: 'planned', eta: 'Q2 2026', Icon: IconRadar,
+    phase: 18, version: 'v1.2.0', id: 'phase17',
+    status: 'planned', Icon: IconRadar,
     features: [
       'i18n.on("languageChanged", handler)',
       'i18n.on("loaded", handler)',
@@ -116,8 +116,8 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 18, version: 'v1.3.0', id: 'phase18',
-    status: 'planned', eta: 'Q3 2026', Icon: IconBusinessplan,
+    phase: 19, version: 'v1.3.0', id: 'phase18',
+    status: 'planned', Icon: IconBusinessplan,
     features: [
       '$t(key) — reference other translations',
       '"greeting": "$t(hello) $t(user.name)!"',
@@ -126,8 +126,8 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 19, version: 'v1.3.0', id: 'phase19',
-    status: 'planned', eta: 'Q3 2026', Icon: IconPackages,
+    phase: 20, version: 'v1.3.0', id: 'phase19',
+    status: 'planned', Icon: IconPackages,
     features: [
       't("menu", { returnObjects: true }) → { home, about, contact }',
       't("key", { returnDetails: true }) → { res, usedKey, usedLng, usedNS }',
@@ -135,8 +135,8 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 20, version: 'v1.4.0', id: 'phase20',
-    status: 'future', eta: 'Q4 2026', Icon: IconLayoutGridAdd,
+    phase: 21, version: 'v1.4.0', id: 'phase20',
+    status: 'future', Icon: IconLayoutGridAdd,
     features: [
       'createI18nInstance() factory',
       'Instance isolation (no globals)',
@@ -145,8 +145,8 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 21, version: 'v1.4.0', id: 'phase21',
-    status: 'future', eta: 'Q4 2026', Icon: IconCalendarStats,
+    phase: 22, version: 'v1.4.0', id: 'phase21',
+    status: 'future', Icon: IconCalendarStats,
     features: [
       'DateTimeFormatPlugin via Intl.DateTimeFormat',
       'ListFormatPlugin via Intl.ListFormat',
@@ -154,8 +154,8 @@ const roadmapData: RoadmapItem[] = [
     ],
   },
   {
-    phase: 22, version: 'v1.5.0', id: 'phase22',
-    status: 'future', eta: 'Q1 2027', Icon: IconAlertTriangle,
+    phase: 23, version: 'v1.5.0', id: 'phase22',
+    status: 'future', Icon: IconAlertTriangle,
     features: [
       'missingKeyHandler callback in config',
       'Send missing keys to error tracking',
@@ -226,9 +226,11 @@ const RoadmapCard: React.FC<{ item: RoadmapItem; index: number }> = ({ item, ind
             <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${s.badge}`}>
               {t(`status.${s.id}`)}
             </span>
-            <span className="text-[11px] text-ink-500 flex items-center gap-1">
-              <IconClockPlay size={10} /> {item.eta}
-            </span>
+            {item.eta && (
+              <span className="text-[11px] text-ink-500 flex items-center gap-1">
+                <IconClockPlay size={10} /> {item.eta}
+              </span>
+            )}
           </div>
         </div>
 
@@ -305,12 +307,6 @@ export const RoadmapPage: React.FC = () => {
             <span className="text-xs font-semibold text-ink-300">{t('progress.title')}</span>
             <span className="text-xs font-bold text-amber-400">{t('progress.parity')}</span>
           </div>
-          <div className="h-2 bg-surface-0 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full transition-all duration-500"
-              style={{ width: '75%' }}
-            />
-          </div>
           <div className="flex justify-between mt-2 text-[10px] text-ink-600">
             <span>v0.1.0</span>
             <span>v1.0.9 (current)</span>
@@ -322,7 +318,7 @@ export const RoadmapPage: React.FC = () => {
         <div className="mt-3 flex items-center gap-3 bg-violet-500/5 border border-violet-500/15 rounded-xl px-4 py-3">
           <div className="w-2 h-2 rounded-full bg-violet-400 animate-pulse flex-shrink-0" />
           <div>
-            <span className="text-xs font-bold text-violet-300">{t('next_release.title')}</span>
+            <span className="text-xs font-bold text-violet-300">{t('next_release.title')}{' '}</span>
             <span className="text-xs text-ink-500 ml-2">{t('next_release.desc')}</span>
           </div>
         </div>

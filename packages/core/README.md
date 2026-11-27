@@ -12,11 +12,7 @@ The **Core Package** is the kitchen line. It orchestrates the entire translation
 ## 📦 Installation
 
 ```bash
-npm install @i18n-bakery/core
-# or
 pnpm add @i18n-bakery/core
-# or
-yarn add @i18n-bakery/core
 ```
 
 ---
@@ -526,11 +522,7 @@ pnpm test --watch
 pnpm test --coverage
 ```
 
-**Current Stats:**
-
-- ✅ 197 tests passing
-- ✅ 100% coverage on critical paths
-- ✅ 14 test suites
+**Current Stats:** 316 tests pass across 33 test files in the six workspace packages. Coverage is not currently measured as an aggregate.
 
 ---
 

@@ -128,9 +128,9 @@ Este documento describe el plan de implementación completo de **i18n-bakery**, 
 ## 📊 Estado Actual: v1.0.9
 
 **Características Implementadas:** 15/15 fases core completadas
-**Paridad con i18next:** ~75% (core features)
-**Tests Totales:** 214 tests pasando (estimados)
-**Cobertura:** 100% en componentes críticos
+**Compatibilidad con i18next:** parcial; consulta la matriz de [comparación](./docs/I18NEXT_COMPARISON.md).
+**Tests Totales:** 316 tests pasando en 33 archivos de prueba.
+**Cobertura:** no se mide como métrica agregada.
 
 ---
 
@@ -166,9 +166,9 @@ t('friend', { context: 'formal' }) // → friend_formal
 
 ---
 
-# FASE 16 — Language Detection (The Detector Baker) — **PRIORIDAD ALTA** (v1.1.0)
+# FASE 17 — Language Detection (The Detector Baker) — **PRIORIDAD ALTA** (v1.1.0)
 
-## 16.1 Browser Language Detector Plugin
+## 17.1 Browser Language Detector Plugin
 Auto-detectar idioma del navegador/sistema
 
 **Implementación:**
@@ -191,7 +191,7 @@ class BrowserLanguageDetector implements Plugin {
 }
 ```
 
-## 16.2 Detection Options
+## 17.2 Detection Options
 ```typescript
 interface DetectorOptions {
   order?: ('querystring' | 'localStorage' | 'cookie' | 'navigator' | 'htmlTag')[];
@@ -511,23 +511,12 @@ El proyecto sigue estrictamente Clean Architecture:
 
 ## 📈 Roadmap Summary
 
-### v1.1.0 (Q1 2026) - The Detection Release
-- Language Detection Plugin
-- Event System (EventEmitter)
-- **Target:** 90% i18next parity
+The versions below are planning targets, not release commitments. No release dates are currently announced.
 
-### v1.2.0 (Q2 2026) - The Advanced Features Release
-- Nesting Translations (`$t(key)`)
-- Return Objects & Arrays
-- **Target:** 95% i18next parity
+- **v1.1.0:** Context support and language detection (phases 16–17).
+- **v1.2.0:** Event system (phase 18).
+- **v1.3.0:** Translation nesting and object returns (phases 19–20).
+- **v1.4.0:** Multiple instances and advanced formatting (phases 21–22).
+- **v1.5.0:** Custom missing-key handler (phase 23).
 
-### v1.3.0 (Q3 2026) - The Complete Release
-- Multiple Instances
-- Advanced Formatting (Date/Time/List)
-- Missing Key Handler
-- **Target:** 98% i18next parity (Seamless Integration Achieved)
-
----
-
-*Última actualización: 2025-12-07 (v1.0.1 — The Flexible Baker)*
-*Próxima versión planeada: v1.1.0 — The Context & Detection Release*
+*Última actualización: 2026-11-27 (v1.0.9 — The Master Baker).*

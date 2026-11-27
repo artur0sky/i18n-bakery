@@ -831,7 +831,7 @@ initI18n({
 });
 
 // ✅ BIEN: Usa CLI para extraer claves
-// npx i18n-bakery batter src --locale en
+// pnpm exec i18n-bakery batter src --locale en
 // Luego envía archivos a traductores
 ```
 
@@ -952,7 +952,7 @@ initI18n({
 });
 
 // 2. Usa CLI para extraer claves en batch
-// npx i18n-bakery batter src --locale en
+// pnpm exec i18n-bakery batter src --locale en
 
 // 3. Desactiva auto-baking después de fase inicial
 initI18n({

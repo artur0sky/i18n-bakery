@@ -17,11 +17,7 @@ React integration for **i18n-bakery** - bringing the power of type-safe, auto-ba
 ## 📦 Installation
 
 ```bash
-npm install @i18n-bakery/core @i18n-bakery/react
-# or
 pnpm add @i18n-bakery/core @i18n-bakery/react
-# or
-yarn add @i18n-bakery/core @i18n-bakery/react
 ```
 
 > **Note:** You need both `@i18n-bakery/core` and `@i18n-bakery/react` installed.

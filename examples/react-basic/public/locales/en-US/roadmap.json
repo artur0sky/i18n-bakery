@@ -2,9 +2,9 @@
   "title": "Roadmap",
   "subtitle": "Planned features and milestones. Release dates are not committed.",
   "progress": {
-    "title": "Overall Progress",
-    "parity": "~75% i18next parity",
-    "target": "v1.5.0 (target: 98%)"
+    "title": "Compatibility status",
+    "parity": "Partial compatibility; see feature matrix",
+    "target": "Target version: v1.5.0"
   },
   "next_release": {
     "title": "Next: v1.1.0",
