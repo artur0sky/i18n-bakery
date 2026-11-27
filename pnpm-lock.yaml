@@ -135,6 +135,9 @@ importers:
       '@i18n-bakery/core':
         specifier: workspace:*
         version: link:../core
+      '@i18n-bakery/poacher':
+        specifier: workspace:*
+        version: link:../poacher
       cac:
         specifier: 6.7.14
         version: 6.7.14

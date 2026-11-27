@@ -1,4 +1,15 @@
 {
+  "title": "Roadmap",
+  "subtitle": "Planned features and milestones. Release dates are not committed.",
+  "progress": {
+    "title": "Overall Progress",
+    "parity": "~75% i18next parity",
+    "target": "v1.5.0 (target: 98%)"
+  },
+  "next_release": {
+    "title": "Next: v1.1.0",
+    "desc": "Context Support + Language Detection — planned, no ETA announced"
+  },
   "filters": {
     "all": "All",
     "future": "Future",
@@ -67,21 +78,10 @@
       "title": "Advanced Pluralization"
     }
   },
-  "next_release": {
-    "desc": "— Context Support + Language Detection — ETA Q2 2025",
-    "title": "Next: v1.1.0"
-  },
-  "progress": {
-    "parity": "~70% i18next parity",
-    "target": "v1.5.0 (target: 98%)",
-    "title": "Overall Progress"
-  },
   "status": {
     "future": "Future",
     "in_progress": "In Progress",
     "planned": "Planned",
     "released": "Released"
-  },
-  "subtitle": "From v0.1.0 to seamless i18next parity — every phase planned and tracked. Estimated dates are targets, not guarantees.",
-  "title": "Roadmap"
+  }
 }

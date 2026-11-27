@@ -14,18 +14,46 @@
 
 import path from 'path';
 import fs from 'fs-extra';
-import { glob } from 'glob';
-import { BabelKeyExtractor } from '@i18n-bakery/baker';
-import type { PantryInput, PantryResult, LocaleStatus, ExtractedKeyInfo } from '../domain/types';
-import { flattenObject } from '../shared/utils';
+import { ProjectScanner } from './ProjectScanner';
 
-/**
- * Analyzes the pantry (locale directory) and returns a full status report
- * comparing all locales against a reference locale (and optionally source code).
- */
+export interface PantryInput {
+  localesDir: string;
+  sourceDir?: string;
+  referenceLocale?: string;
+  cwd: string;
+}
+
+export interface LocaleStatus {
+  locale: string;
+  totalKeys: number;
+  presentKeys: number;
+  missingKeys: number;
+  completionPercent: number;
+  missingKeyList: string[];
+  missingKeyDetails?: Record<string, any>;
+}
+
+export interface PantryResult {
+  referenceLocale: string;
+  locales: string[];
+  status: Record<string, LocaleStatus>;
+  missingInReference?: string[];
+}
+
+function flattenObject(obj: Record<string, any>, prefix = ''): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    const newKey = prefix ? `${prefix}.${key}` : key;
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      Object.assign(result, flattenObject(value, newKey));
+    } else {
+      result[newKey] = String(value);
+    }
+  }
+  return result;
+}
+
 export class PantryUseCase {
-  private extractor = new BabelKeyExtractor();
-
   async execute(input: PantryInput): Promise<PantryResult> {
     const { cwd, sourceDir } = input;
     const localesDir = path.isAbsolute(input.localesDir)
@@ -48,7 +76,6 @@ export class PantryUseCase {
       throw new Error(`No locale directories found in: ${localesDir}`);
     }
 
-    // Determine reference locale
     const referenceLocale =
       input.referenceLocale ??
       locales.find((l) => l.startsWith('en')) ??
@@ -60,42 +87,38 @@ export class PantryUseCase {
       );
     }
 
-    // 1. Collect reference keys from JSON files
     const jsonReferenceKeys = await this.collectAllKeys(localesDir, referenceLocale);
     
-    // 2. Optionally collect keys from source code
-    let sourceKeys: ExtractedKeyInfo[] = [];
+    let sourceKeys: any[] = [];
     if (sourceDir) {
-      const absoluteSource = path.isAbsolute(sourceDir) ? sourceDir : path.join(cwd, sourceDir);
-      if (await fs.pathExists(absoluteSource)) {
-        const files = await glob(`${absoluteSource.replace(/\\/g, '/') }/**/*.{js,jsx,ts,tsx}`, {
-          ignore: ['**/*.d.ts', '**/node_modules/**'],
-        });
-        
-        for (const file of files) {
-          const extracted = await this.extractor.extractFromFile(file);
-          sourceKeys.push(...extracted);
-        }
-      }
+      const scanner = new ProjectScanner();
+      const result = await scanner.scan({ source: sourceDir, cwd });
+      sourceKeys = result.keys;
     }
 
-    // 3. Build a combined master key list with fallback info
     const masterKeyMap = new Map<string, { fallback?: string; file?: string; line?: number }>();
     
-    // Add all keys from reference JSON
     for (const k of jsonReferenceKeys) {
       masterKeyMap.set(k, {});
     }
     
-    // Add/Update keys from source code (with fallbacks!)
     const missingInReference: string[] = [];
     for (const sk of sourceKeys) {
-        const fullKey = `${sk.namespace}.${sk.key}`;
+        let finalKey = sk.key;
+        const slashRegex = new RegExp('/', 'g');
+        const dotPrefix = `${sk.namespace.replace(slashRegex, '.')}.`;
+        const colonPrefix = `${sk.namespace.replace(slashRegex, ':')}.`;
+        if (finalKey.startsWith(dotPrefix)) {
+          finalKey = finalKey.slice(dotPrefix.length);
+        } else if (finalKey.startsWith(colonPrefix)) {
+          finalKey = finalKey.slice(colonPrefix.length);
+        }
+
+        const fullKey = `${sk.namespace}.${finalKey}`;
         if (!masterKeyMap.has(fullKey)) {
             missingInReference.push(fullKey);
         }
         
-        // Always prefer info from source (fallbacks are here)
         masterKeyMap.set(fullKey, {
             fallback: sk.defaultValue,
             file: path.relative(cwd, sk.file),
@@ -117,7 +140,6 @@ export class PantryUseCase {
       const completionPercent =
         totalKeys === 0 ? 100 : Math.round((presentKeys / totalKeys) * 100);
 
-      // Build details for missing keys
       const missingKeyDetails: Record<string, any> = {};
       for (const mk of missingKeyList) {
           const details = masterKeyMap.get(mk);
@@ -145,9 +167,6 @@ export class PantryUseCase {
     };
   }
 
-  /**
-   * Reads all JSON files in a locale directory and returns a flat list of keys
-   */
   private async collectAllKeys(localesDir: string, locale: string): Promise<string[]> {
     const localeDir = path.join(localesDir, locale);
     const keys: string[] = [];

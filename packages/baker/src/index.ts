@@ -14,3 +14,7 @@ export * from './adapters/BabelKeyExtractor';
 export * from './domain/KeyExtractor';
 export * from './use-cases/TranslationFileManager';
 export * from './use-cases/BakingManager';
+export * from './use-cases/ProjectScanner';
+export * from './use-cases/ExtractionUseCase';
+export * from './use-cases/PantryUseCase';
+export * from './use-cases/RecipeUseCase';

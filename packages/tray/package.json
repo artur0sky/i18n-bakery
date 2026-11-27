@@ -1,6 +1,6 @@
 {
   "name": "@i18n-bakery/tray",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "type": "module",
   "description": "The Silver Tray. Delivers i18n-bakery capabilities directly to AI agents via the Model Context Protocol (MCP), making translation workflows effortlessly accessible.",
   "main": "dist/index.js",

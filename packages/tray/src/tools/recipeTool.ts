@@ -18,7 +18,7 @@
 
 import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { RecipeUseCase } from '../use-cases/RecipeUseCase';
+import { RecipeUseCase } from '@i18n-bakery/baker';
 
 const useCase = new RecipeUseCase();
 
