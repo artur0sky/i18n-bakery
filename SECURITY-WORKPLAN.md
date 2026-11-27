@@ -16,6 +16,8 @@
 
 ## Phase 3: Verify the bakery
 
+- [x] Add version-update notifications, dependency audit and CodeQL workflows;
+  document the GitHub settings required to enforce merge protection.
 - [x] Remove the vulnerable optional `yaml` resolution, constrain future
   resolutions to a patched version, and run dependency audit and workspace
   build/tests.

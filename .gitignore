@@ -131,3 +131,8 @@ hosts
 .agent
 
 .docs
+
+# Local AI customization; share automation configuration.
+/.github/*
+!/.github/workflows/
+!/.github/dependabot.yml

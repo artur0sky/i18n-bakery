@@ -400,6 +400,37 @@ See [I18NEXT_COMPARISON.md](./docs/I18NEXT_COMPARISON.md) for detailed compariso
 
 ---
 
+## 🛡️ Kitchen safety checks
+
+After the GitHub automation files are committed to the default branch:
+
+- Bakery CI builds the workspace and runs `pnpm test` on pushes and pull
+  requests. [Enable Actions notifications](https://docs.github.com/en/subscriptions-and-notifications/how-tos/managing-github-actions-notifications)
+  and watch the repository to receive failed-workflow notifications.
+- Dependabot checks the root pnpm workspace daily and GitHub Actions weekly,
+  proposing dependency updates in pull requests. Enable Dependabot alerts and
+  security updates in repository settings, and configure your GitHub
+  notifications to receive alerts. Updates are proposals, not automatic merges.
+- Bakery Security runs `pnpm audit --audit-level moderate` and CodeQL's
+  `security-extended` JavaScript/TypeScript analysis on pull requests to
+  `main`, pushes to `main`, and weekly. The dependency audit includes development
+  dependencies; it fails on moderate or higher known advisories. CodeQL finds
+  potential weaknesses, but cannot prove the absence of vulnerabilities. If
+  CodeQL default setup is already enabled, switch to advanced setup before
+  using this workflow.
+
+Workflows alone do not protect `main`. In repository settings, require pull
+requests and the `build-and-test` and `Dependency audit` status checks, and
+require CodeQL code-scanning results with **Medium or higher** security alerts
+blocking merges. Apply the rules to administrators and disallow bypass where
+available. Check that the checks have run on `main` before selecting them.
+Code scanning protection evaluates alerts introduced by the pull request; it
+does not automatically block on every existing alert. Review and fix existing
+alerts separately. See [GitHub's code-scanning merge protection](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/manage-your-configuration/set-code-scanning-merge-protection)
+and [protected branch documentation](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches).
+
+---
+
 ## 📖 Examples (Sample Recipes)
 
 ### Basic React App
