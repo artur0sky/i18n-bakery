@@ -79,15 +79,12 @@ function App() {
       const actionsFile = path.join(LOCALES_DIR, 'en', 'actions.json');
       
       expect(await fs.pathExists(commonFile)).toBe(true);
-      expect(await fs.pathExists(actionsFile)).toBe(true);
+      expect(await fs.pathExists(actionsFile)).toBe(false);
 
       const commonContent = await fs.readJson(commonFile);
       expect(commonContent).toHaveProperty('welcome');
       expect(commonContent).toHaveProperty('description');
-      
-      const actionsContent = await fs.readJson(actionsFile);
-      expect(actionsContent).toHaveProperty('save');
-      expect(actionsContent).toHaveProperty('cancel');
+      expect(commonContent.actions).toEqual({ cancel: '[TODO] actions.cancel', save: '[TODO] actions.save' });
     });
 
     it('should extract translations to TOML format', async () => {
@@ -99,18 +96,15 @@ function App() {
       });
 
       const commonFile = path.join(LOCALES_DIR, 'en', 'common.toml');
-      const actionsFile = path.join(LOCALES_DIR, 'en', 'actions.toml');
       
       expect(await fs.pathExists(commonFile)).toBe(true);
-      expect(await fs.pathExists(actionsFile)).toBe(true);
 
       const commonContent = await fs.readFile(commonFile, 'utf-8');
       expect(commonContent).toContain('welcome');
       expect(commonContent).toContain('description');
-      
-      const actionsContent = await fs.readFile(actionsFile, 'utf-8');
-      expect(actionsContent).toContain('save');
-      expect(actionsContent).toContain('cancel');
+      expect(commonContent).toContain('[actions]');
+      expect(commonContent).toContain('save = "[TODO] actions.save"');
+      expect(commonContent).toContain('cancel = "[TODO] actions.cancel"');
     });
 
     it('should extract to multiple locales in JSON', async () => {
@@ -121,9 +115,10 @@ function App() {
         verbose: false,
       });
 
-      expect(await fs.pathExists(path.join(LOCALES_DIR, 'en', 'common.json'))).toBe(true);
-      expect(await fs.pathExists(path.join(LOCALES_DIR, 'es', 'common.json'))).toBe(true);
-      expect(await fs.pathExists(path.join(LOCALES_DIR, 'fr', 'common.json'))).toBe(true);
+      for (const locale of ['en', 'es', 'fr']) {
+        expect(await fs.pathExists(path.join(LOCALES_DIR, locale, 'common.json'))).toBe(true);
+        expect(await fs.pathExists(path.join(LOCALES_DIR, locale, 'actions.json'))).toBe(false);
+      }
     });
 
     it('should extract to multiple locales in TOML', async () => {
@@ -134,9 +129,10 @@ function App() {
         verbose: false,
       });
 
-      expect(await fs.pathExists(path.join(LOCALES_DIR, 'en', 'common.toml'))).toBe(true);
-      expect(await fs.pathExists(path.join(LOCALES_DIR, 'es', 'common.toml'))).toBe(true);
-      expect(await fs.pathExists(path.join(LOCALES_DIR, 'fr', 'common.toml'))).toBe(true);
+      for (const locale of ['en', 'es', 'fr']) {
+        expect(await fs.pathExists(path.join(LOCALES_DIR, locale, 'common.toml'))).toBe(true);
+        expect(await fs.pathExists(path.join(LOCALES_DIR, locale, 'actions.toml'))).toBe(false);
+      }
     });
 
     it('should merge new keys with existing JSON file', async () => {
@@ -251,8 +247,8 @@ function NewComponent() {
       const content = await fs.readJson(compiledFile);
       expect(content).toHaveProperty('common');
       expect(content.common).toHaveProperty('welcome');
-      expect(content).toHaveProperty('actions');
-      expect(content.actions).toHaveProperty('save');
+      expect(content.common).toHaveProperty('actions');
+      expect(content.common.actions).toHaveProperty('save');
     });
   });
 

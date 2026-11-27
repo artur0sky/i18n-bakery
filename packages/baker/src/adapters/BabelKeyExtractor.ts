@@ -38,11 +38,9 @@ export class BabelKeyExtractor implements KeyExtractor {
           if (t.isIdentifier(path.node.callee) && path.node.callee.name === 'useTranslation') {
             const args = path.node.arguments;
             if (args.length > 0 && t.isStringLiteral(args[0])) {
-              defaultNamespace = args[0].value;
+              defaultNamespace = args[0].value.replace(/:/g, '/');
               hasExplicitNamespace = true;
             } else if (args.length === 0) {
-              // explicit call without args implies default 'common' but we shouldn't split it
-              // Wait, if it's called without args, it relies on default namespace configured globally
               hasExplicitNamespace = true;
             }
           }
@@ -87,7 +85,6 @@ export class BabelKeyExtractor implements KeyExtractor {
                 namespace = namespacePart.replace(/:/g, '/');
                 actualKey = key.substring(lastColonIndex + 1);
               } else if (key.includes('.') && !hasExplicitNamespace) {
-                // Only infer from dot if no explicit useTranslation was found in the file
                 const firstDotIndex = key.indexOf('.');
                 namespace = key.substring(0, firstDotIndex);
                 actualKey = key.substring(firstDotIndex + 1);
@@ -105,7 +102,8 @@ export class BabelKeyExtractor implements KeyExtractor {
         },
       });
     } catch (error) {
-      console.warn(`Failed to parse ${filePath}:`, error);
+      const message = error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to parse ${filePath}: ${message}`);
     }
 
     return keys;

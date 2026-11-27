@@ -12,8 +12,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import os from 'os';
 import { BatterUseCase } from '../src/use-cases/BatterUseCase';
-import { PantryUseCase } from '../src/use-cases/PantryUseCase';
-import { RecipeUseCase } from '../src/use-cases/RecipeUseCase';
+import { PantryUseCase, RecipeUseCase } from '@i18n-bakery/baker';
 import { flattenObject, unflattenObject, setDeepKey, getDeepKey, validatePathSegment } from '../src/shared/utils';
 
 // ─── Shared Utils ─────────────────────────────────────────────────────────────

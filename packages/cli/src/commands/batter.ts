@@ -40,6 +40,6 @@ export async function batter(source: string, options: BatterOptions) {
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     logger.error(`Failed to extract keys: ${message}`);
-    process.exitCode = 1;
+    throw error;
   }
 }

@@ -1,7 +1,5 @@
 import { ILogger } from '../domain/Interfaces';
 import { ProjectScanner } from '@i18n-bakery/baker';
-import fs from 'fs-extra';
-import path from 'path';
 
 export class ScoutRecipes {
     constructor(private logger: ILogger) {}
@@ -17,8 +15,11 @@ export class ScoutRecipes {
         const allKeys = new Map<string, string | undefined>();
 
         for (const item of keys) {
-            if (!allKeys.has(item.key)) {
-                allKeys.set(item.key, item.defaultValue);
+            const fullKey = item.namespace === 'common'
+                ? item.key
+                : `${item.namespace.replace(/\//g, ':')}:${item.key}`;
+            if (!allKeys.has(fullKey)) {
+                allKeys.set(fullKey, item.defaultValue);
             }
         }
 

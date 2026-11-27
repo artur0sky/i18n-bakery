@@ -35,8 +35,9 @@ export class ProjectScanner {
       try {
         const extracted = await this.extractor.extractFromFile(file);
         allKeys.push(...extracted);
-      } catch (e) {
-        // Skip or log parsing errors
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(`Failed to scan ${file}: ${message}`);
       }
     }
 
