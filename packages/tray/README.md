@@ -1,35 +1,30 @@
 # 🍽️ @i18n-bakery/tray
 
-> **"The Silver Tray"** - _Delivers i18n-bakery capabilities directly to AI agents via the [Model Context Protocol (MCP)](https://modelcontextprotocol.io). Effortless automation at your fingertips._
+> **"The Silver Tray"** — delivers selected i18n-bakery workflows to MCP-compatible AI clients.
 
-The **Tray Package** is the server-side bridge. it makes translation workflows accessible to any MCP-compatible AI agent (Claude, Cursor, Copilot, etc.), enabling fully automated i18n pipelines. Instead of running CLI commands manually, let your AI agent handle the extraction, status checks, and translation updates for you.
+The Tray package is an MCP server for source extraction, translation status, single-key updates, and bundle baking. It shares use cases with Baker; it does not expose every command available in the CLI.
 
 [![npm version](https://img.shields.io/npm/v/@i18n-bakery/tray.svg)](https://www.npmjs.com/package/@i18n-bakery/tray)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## 📦 Installation
+## 📦 Installation (Gathering Ingredients)
 
 ```bash
 pnpm add @i18n-bakery/tray
 ```
 
----
-
 ## 🚀 Quick Start (Claude Desktop)
 
-To use **i18n-bakery** inside Claude Desktop, add the following to your `claude_desktop_config.json`:
+The package provides the `i18n-bakery-tray` executable and uses stdio when started as an MCP server. For clients that accept an `mcpServers` configuration:
 
 ```json
 {
   "mcpServers": {
     "i18n-bakery": {
       "command": "pnpm",
-      "args": ["dlx", "@i18n-bakery/tray"],
-      "env": {
-        "NODE_ENV": "production"
-      }
+      "args": ["dlx", "@i18n-bakery/tray"]
     }
   }
 }
@@ -39,68 +34,67 @@ To use **i18n-bakery** inside Claude Desktop, add the following to your `claude_
 
 ## 🛠️ MCP Tools (The Chef's Tools)
 
-The tray provides a set of atomic tools that AI agents use to orchestrate the bakery:
+Each tool takes a project-root `cwd` string. Pass an absolute path so relative paths resolve predictably.
 
 | Tool | Action | Description |
 | :--- | :--- | :--- |
-| `check_pantry` | 🔍 **Inspect** | Returns a status report of missing translations across all locales. |
-| `fry_batter` | ⚡ **Extract** | Scans source files (JS/TS/JSX/TSX) and extracts new keys automatically. |
-| `update_recipe` | ✒️ **Update** | Atomic write: updates or creates a single translation key in a specific locale. |
-| `bake_bundle` | 📦 **Compile** | Compiles JSON files into production-ready optimized bundles. |
+| `check_pantry` | 🔍 **Inspect** | Compares JSON locale files and reports missing keys and completion by locale. An optional source scan adds keys discovered in code. |
+| `fry_batter` | ⚡ **Extract** | Scans `.js`, `.jsx`, `.ts`, and `.tsx` source for static translation calls and writes new keys as JSON or TOML. Existing values are preserved; keys without source defaults are written as empty strings. |
+| `update_recipe` | ✒️ **Update** | Creates or overwrites one key in a nested JSON locale file. The namespace is a single path segment; nested namespace paths are not supported. |
+| `bake_bundle` | 📦 **Compile** | Reads JSON or TOML locale files and writes JSON bundles; supports minifying, hashing, splitting by namespace, encryption, and manifests. |
+
+`check_pantry` reads JSON locale files only. If baking finds both JSON and TOML in a locale directory, JSON takes precedence.
 
 ---
 
 ## 🤖 AI Agent Workflow
 
-When you enable **Tray**, your AI agent can follow this "Standard Bakery Workflow":
+An agent can use the tools in a reviewable sequence:
 
-1. **Check Pantry:** "I see 12 missing translations in Spanish."
-2. **Fry Batter:** "Found 3 new UI strings in the latest component update."
-3. **Draft & Update:** "Translating strings... Persisting keys one by one via `update_recipe`."
-4. **Bake:** "Finalizing production bundle... Bundle ready and hashed."
+1. **Check Pantry:** inspect coverage against a reference locale.
+2. **Fry Batter:** extract static keys after source changes.
+3. **Draft & Update:** review translations, then persist individual keys with `update_recipe`.
+4. **Bake:** compile locale files when a production bundle is needed.
 
----
-
-## 🏗️ Architecture
-
-Built with **Clean Architecture** and 100% parity with the CLI:
-
-- **Domain/Use-Cases:** Consumes the same business logic from `@i18n-bakery/baker`.
-- **Tools:** Atomic MCP tool definitions with Zod schema validation.
-- **Transports:** Supports standard I/O (stdio) for local integration.
+The tools do not generate or verify translated text; the client decides what values to write.
 
 ---
 
-## 📖 Programmatic Usage
+## 🏗️ Architecture (Kitchen Layout)
 
-You can also host your own Tray server:
+- **Domain/Use Cases:** delegates extraction, baking, pantry checks, and recipe updates to Baker.
+- **Tools:** registers four MCP tools with Zod input schemas.
+- **Transport:** the bundled executable starts the server over stdio.
+
+---
+
+## 📖 Programmatic Usage (Serving from Code)
+
+`createTrayServer()` creates the server and registers the same four tools. Connect it to an MCP transport:
 
 ```typescript
-import { createTrayServer } from '@i18n-bakery/tray';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
+import { createTrayServer } from '@i18n-bakery/tray'
 
-const server = createTrayServer();
-const transport = new StdioServerTransport();
-
-await server.connect(transport);
-console.log('i18n-bakery tray is ready!');
+const server = createTrayServer()
+await server.connect(new StdioServerTransport())
 ```
 
 ---
 
-## 🛡️ Security
+## 🛡️ Security (Kitchen Safety)
 
-- **Path Validation:** All paths are checked against directory traversal attacks.
-- **Zod Safety:** Input parameters are strictly validated before hitting the filesystem.
-- **Parity:** Uses the same secure `JSONFileSaver` as the core library.
+- MCP inputs are defined with Zod schemas.
+- Locale, namespace, and key validation is applied by the relevant Baker use cases.
+- Caller-supplied paths are resolved from `cwd`; limit them to project directories the MCP client is authorized to access.
 
 ---
 
-## 🔗 Related Packages
+## 🔗 Related Packages (Kitchen Staff)
 
-- **[@i18n-bakery/core](../core)** - The Head Chef (Logic & Store)
-- **[@i18n-bakery/cli](../cli)** - The Sous-Chef (Manual Commands)
-- **[@i18n-bakery/baker](../baker)** - The Pastry Chef (Heavy Lifting)
+- **[@i18n-bakery/core](../core)** — runtime translation engine.
+- **[@i18n-bakery/cli](../cli)** — command-line workflows.
+- **[@i18n-bakery/baker](../baker)** — shared extraction and file use cases.
 
 ---
 

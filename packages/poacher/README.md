@@ -1,132 +1,103 @@
 # 🥚 @i18n-bakery/poacher
 
-> **"The Forager"** - _Ventures into the wild (legacy code) to recover valuable ingredients (keys) and bring them back to the safety of the bakery._
+> **"The Forager"** — ventures into legacy JSON locale files to recover translations and bring them into the bakery.
 
 [![npm version](https://img.shields.io/npm/v/@i18n-bakery/poacher.svg)](https://www.npmjs.com/package/@i18n-bakery/poacher)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 📖 The Story
+## 📖 The Story (A Forager's Tale)
 
-Transitioning from an old kitchen (like i18next) to a modern bakery can be daunting. You have thousands of "recipes" (keys) scattered across mismatched containers (JSON files).
-
-Meet **The Forager**. This tool specializes in hunting down existing translations, understanding their structure (flat, nested, chaotic), and carefully transporting them into the pristine, standardized containers of **i18n-bakery**.
+Migration can be daunting when translations are scattered across files and formats. Poacher reads JSON locale files, copies their values into the i18n-bakery layout, and provides commands to inspect source keys or export translations for review.
 
 ## 🚀 Features (Foraging Skills)
 
-- **🕵️‍♀️ Recipe Scout:** Scans your source code using AST parsing (`BabelKeyExtractor`) to find every usage of `t('key')` and identifying default values.
-- **🔄 Universal Converter:** Reads legacy JSON structures (flat, nested, namespaced, mixed) and normalizes them into Bakery standards.
-- **🛡️ Safety First:** Always creates a full backup of your `locales` folder before touching diverse ingredients.
-- **📊 Export for Review:** Can export your translation spread to CSV (`serve` command) so you can audit what you have.
+- **🕵️‍♀️ Recipe Scout:** Uses the Baker AST scanner to list statically written translation calls and literal defaults.
+- **🔄 JSON Migration:** Reads locale JSON files and writes nested JSON locale files through Baker.
+- **📊 CSV Export:** Exports flattened JSON translation keys to CSV.
+- **🛡️ Target Backup:** Copies an existing target directory before a migration writes to it.
 
-## 📦 Installation
-
-This tool belongs in your dev-dependencies belt:
+## 📦 Installation (Gathering Ingredients)
 
 ```bash
 pnpm add -D @i18n-bakery/poacher
 ```
 
-## 🛠️ Usage (Hunting Techniques)
-
-Poacher provides a CLI interface under the command `poacher`.
+## 🛠️ Usage (Foraging Techniques)
 
 ### 1. Poach (The Migration)
 
-Migrate from a legacy folder to a Bakery-compatible structure.
-
 ```bash
-pnpm exec poacher poach ./src/legacy-locales ./src/locales
+pnpm exec poacher poach ./legacy-locales --target ./src/i18n/locales
 ```
 
-**Options:**
-- `--dry-run`: Simulate the hunt without gathering anything. Logs what would happen.
-- `--verbose`: Detailed accounts of every key found.
+The source can contain locale files such as `en.json`, or locale directories with immediate namespace files such as `en/common.json`. Input files are JSON; nested JSON objects are retained as nested translation data.
 
-**Behavior:**
-- Automatically detects if source files are flat (`key.subkey`) or nested objects.
-- Promotes top-level objects in flat files to Namespaces (files) in Bakery.
-    - _Example:_ `legacy/en.json` contains `{ "auth": { "login": "..." } }`.
-    - _Result:_ `locales/en/auth.json` is created.
+**Options:**
+
+- `--target <path>`: Output directory (default: `./src/i18n/locales`).
+- `--dry-run`: Read the source without creating a backup or writing translations.
+
+If the target exists, Poacher creates a timestamped backup before writing. Existing target values are preserved when keys collide.
 
 ### 2. Scout (The Analysis)
-
-Analyze your source code to see what keys are currently being requested by the chefs.
 
 ```bash
 pnpm exec poacher scout ./src
 ```
 
-**What it does:**
-- Parses `.js`, `.ts`, `.jsx`, `.tsx` files.
-- Identifies `t('namespace:key')` patterns.
-- Reports missing keys or discrepancies vs your JSON files.
+Scans `.js`, `.jsx`, `.ts`, and `.tsx` files for statically written `t('key')` calls. It prints unique keys and literal defaults; it does not compare the results with locale files or report missing translations. The path defaults to the current working directory.
 
 ### 3. Serve (The Export)
 
-Serve your gathered ingredients in a format easy for humans to digest (CSV).
-
 ```bash
-pnpm exec poacher serve ./src/locales --format csv --out ./review.csv
+pnpm exec poacher serve --source ./src/i18n/locales --out ./exports/translations.csv --format csv
 ```
+
+`serve` reads JSON locale files and exports flattened keys to CSV. CSV is the only supported output format. Defaults are `./src/i18n/locales` and `./exports/translations.csv`.
 
 ## 📖 Examples (Field Notes)
 
 ### Scenario 1: The "Spaghetti" Migration (Nested to Bakery)
-You have a legacy `locales` folder where every file is a mix of deep nesting.
 
-**Legacy Structure:**
-```
-locales/en/translation.json  -> { "auth": { "errors": { "generic": "Error" } } }
-```
+Given `legacy-locales/en/common.json`:
 
-**Command:**
-```bash
-pnpm exec poacher poach ./legacy-locales ./src/new-locales
-```
-
-**Result (Bakery Style):**
-Poacher intelligently splits this into namespaced files for better organization:
-```
-locales/en/auth.json -> { "errors": { "generic": "Error" } }
+```json
+{
+  "auth": {
+    "errors": {
+      "generic": "Error"
+    }
+  }
+}
 ```
 
-### Scenario 2: The "Missing Keys" Hunt
-Your chefs (developers) added `t('new.feature')` in the code but forgot to add it to the JSONs.
+Poacher writes the nested values under the matching locale and namespace: `locales/en/common.json`.
 
-**Command:**
+### Scenario 2: The Key Inventory
+
 ```bash
 pnpm exec poacher scout ./src
 ```
 
-**Output:**
-```
-MISSING KEYS FOUND:
-[en] new.feature (in src/components/Feature.tsx)
-```
+The output lists keys discovered in source. It is an inventory, not a missing-key report; use the CLI `pantry` command for completeness checks.
 
 ### Scenario 3: Exporting for the Content Team
-The content team wants to review all translations in Excel.
 
-**Command:**
 ```bash
-pnpm exec poacher serve ./src/locales --format csv > translations.csv
+pnpm exec poacher serve --source ./src/i18n/locales --out ./exports/translations.csv
 ```
-**Output (`translations.csv`):**
-```csv
-key,en,es
-auth.login,Login,Iniciar Sesión
-auth.logout,Logout,Cerrar Sesión
-```
+
+The CSV contains a `key` column and one column per locale.
 
 ## ⚠️ Warnings (Kitchen Safety)
 
-- **Backup:** While Poacher creates backups, always commit your code to Git before running valid migrations.
-- **Pluralization:** Poacher copies values _as-is_. If you use `{{count}}` syntax from i18next, it works in Bakery! But if you use complex `v1`, `v2` nesting typical of older i18n libs, verify them manually.
-- **Overwrite:** By default, Poacher overwrites keys in the target logic if they collide, but preserve old files in a backup folder.
+- Commit your work before migration. A backup is created only when the target directory already exists.
+- Poacher copies values as-is; it does not convert pluralization or interpolation syntax between libraries.
+- Existing keys in the target are preserved. Use `--dry-run` to check the source before writing.
 
-## 🤝 Integration
+## 🤝 Integration (The Kitchen Crew)
 
-Poacher is designed to be run once (or fully) during migration. Once you are migrated, you typically hand over duties to **The Sous-Chef (@i18n-bakery/cli)** for daily operations.
+Poacher is useful for migrations and exports. For everyday extraction and locale maintenance, use **The Sous-Chef (`@i18n-bakery/cli`)**.
 
 ---
 
@@ -146,8 +117,8 @@ MIT © Arturo Sáenz
 
 <div align="center">
 
-**🥚 Recover your legacy translations with ease**
+**🥚 Recover your legacy translations with care**
 
-_Made with 🍩 and Regex/AST Magic_
+_Made with 🍩 and AST Magic_
 
 </div>

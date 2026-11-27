@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Preserve existing translations during extraction and treat empty or `[TODO]` values as missing.
+- Preserve existing translation values during extraction and add only keys that are absent.
 - Keep namespace parsing consistent for explicit `:` namespaces and dotted keys.
 - Align CLI and Tray extraction behavior and report extraction errors explicitly.
 

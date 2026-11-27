@@ -14,8 +14,8 @@
 
 Like a master baker who knows that **the best bread comes from the finest ingredients and the right technique**, i18n-bakery combines:
 
-- 🥖 **Zero Dependencies** - Pure, artisanal code (no preservatives!)
-- 🍞 **Auto-Baking** - Translations rise automatically as you code
+- 🥖 **Lean Core** - The framework-independent runtime has no third-party runtime dependencies.
+- 🍞 **Key Extraction** - The Baker scans source code and adds missing keys to locale files.
 - 🥐 **Type-Safe** - TypeScript support baked right in
 - 🥨 **Plugin System** - Extend your bakery with custom recipes
 - 🧁 **React Ready** - Hooks and providers, fresh from the oven
@@ -39,54 +39,63 @@ pnpm add -D @i18n-bakery/cli
 ### 1. Initialize Your Bakery
 
 ```typescript
-import { initI18n } from "@i18n-bakery/core";
+import { addTranslations, initI18n } from '@i18n-bakery/core'
 
 initI18n({
-  locale: "en",
-  fallbackLocale: "en",
-  loader: async (locale, namespace) => {
-    return import(`./locales/${locale}/${namespace}.json`);
-  },
-});
+  locale: 'en',
+  fallbackLocale: 'en',
+  defaultNamespace: 'common',
+})
+
+addTranslations('en', 'common', {
+  welcome: 'Welcome to our bakery!',
+  total: 'Total: {{amount}}',
+  items: '{{count}} items',
+})
 ```
 
 ### 2. Start Translating (The First Batch)
 
 ```typescript
-import { t } from "@i18n-bakery/core";
+import { t } from '@i18n-bakery/core'
 
 // Simple translation
-t("home.welcome", "Welcome to our bakery!");
+t('welcome')
 
 // With variables (adding flavor)
-t("order.total", "Total: {{amount}}", { amount: "$42.00" });
+t('total', { amount: '$42.00' })
 
 // With pluralization (counting loaves)
-t("cart.items", { count: 5 }); // → "5 items"
+t('items', { count: 5 }) // → '5 items'
 ```
 
 ### 3. React Integration (Serving Fresh)
 
 ```tsx
-import { I18nProvider, useTranslation } from "@i18n-bakery/react";
+import { I18nProvider, useTranslation } from '@i18n-bakery/react'
+
+const i18nConfig = {
+  locale: 'en',
+  defaultNamespace: 'common',
+}
 
 function App() {
   return (
-    <I18nProvider locale="en">
+    <I18nProvider config={i18nConfig}>
       <HomePage />
     </I18nProvider>
-  );
+  )
 }
 
 function HomePage() {
-  const t = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div>
-      <h1>{t("home.title", "Welcome!")}</h1>
-      <p>{t("home.subtitle", "Fresh translations daily")}</p>
+      <h1>{t('home.title', 'Welcome!')}</h1>
+      <p>{t('home.subtitle', 'Fresh translations daily')}</p>
     </div>
-  );
+  )
 }
 ```
 
@@ -94,39 +103,50 @@ function HomePage() {
 
 ## 🎯 Core Features (The Menu)
 
-### 🥖 Auto-Baking (Self-Rising Translations)
+### 🥖 Key Extraction (The Baker's Work)
 
-> _"The dough that kneads itself is the baker's dream."_
+> _"Good mise en place starts with knowing which ingredients the recipe needs."_
 
-When you use a translation key that doesn't exist, i18n-bakery automatically:
+At development or build time, Baker scans source files for statically written translation calls. The CLI can then:
 
-1. Creates the translation file
-2. Adds the key with your default text
-3. Formats it beautifully (nested or flat structure)
+1. Group discovered keys by namespace
+2. Create new locale entries using literal defaults when available
+3. Preserve existing translations while adding absent keys
 
-```typescript
-// First time using this key
-t('profile.greeting', 'Hello, {{name}}!', { name: 'Baker' });
-
-// Automatically creates: locales/en/profile.json
-{
-  "greeting": "Hello, {{name}}!"
-}
+```bash
+pnpm exec i18n-bakery batter src --locale en
 ```
+
+Extraction is an explicit Baker/CLI workflow; it does not happen automatically at runtime.
 
 ### 🍞 Pluralization (Counting Loaves)
 
 Support for both i18next-style and CLDR pluralization:
 
 ```typescript
-// i18next style (suffix)
-t("apple", { count: 0 }); // → "no apples" (from apple_0)
-t("apple", { count: 1 }); // → "apple"
-t("apple", { count: 5 }); // → "apples" (from apple_plural)
+initI18n({ locale: 'en', defaultNamespace: 'common' })
+addTranslations('en', 'common', {
+  apple: 'apple',
+  apple_plural: 'apples',
+  apple_0: 'no apples',
+})
 
-// CLDR style (100+ languages)
-initI18n({ pluralizationStrategy: "cldr" });
-t("apple", { count: 2 }); // → Uses CLDR rules for your locale
+// Suffix style
+t('common:apple', { count: 0 }) // → 'no apples' (from apple_0)
+t('common:apple', { count: 1 }) // → 'apple'
+t('common:apple', { count: 5 }) // → 'apples' (from apple_plural)
+
+// CLDR style (categories come from the current locale)
+initI18n({ locale: 'ar', defaultNamespace: 'common', pluralizationStrategy: 'cldr' })
+addTranslations('ar', 'common', {
+  apple_zero: 'لا توجد تفاحات',
+  apple_one: 'تفاحة واحدة',
+  apple_two: 'تفاحتان',
+  apple_few: '{{count}} تفاحات',
+  apple_many: '{{count}} تفاحة',
+  apple_other: '{{count}} تفاحة',
+})
+t('common:apple', { count: 2 }) // → 'تفاحتان'
 ```
 
 ### 🥐 ICU MessageFormat (The Artisan Touch)
@@ -134,6 +154,8 @@ t("apple", { count: 2 }); // → Uses CLDR rules for your locale
 For complex translations that need finesse:
 
 ```typescript
+initI18n({ locale: 'en', messageFormat: 'icu' })
+
 // Plural with exact matches
 t("cart.items", "{count, plural, =0 {no items} one {# item} other {# items}}", {
   count: 3,
@@ -159,40 +181,67 @@ t(
 Extend your bakery with plugins:
 
 ```typescript
-import { NumberFormatPlugin, CapitalizePlugin } from "@i18n-bakery/core";
+import {
+  addTranslations,
+  initI18n,
+  t,
+  NumberFormatPlugin,
+  CapitalizePlugin,
+} from '@i18n-bakery/core'
 
 initI18n({
-  locale: "en-US",
+  locale: 'en-US',
+  defaultNamespace: 'common',
   plugins: [new NumberFormatPlugin(), new CapitalizePlugin()],
-});
+})
+addTranslations('en-US', 'common', { greeting: 'hello world' })
 
 // Number formatting
-t("price", "Total: {amount|currency:USD}", { amount: 1234.56 });
-// → "Total: $1,234.56"
+t('price', 'Total: {amount|currency:USD}', { amount: 1234.56 })
+// → 'Total: $1,234.56'
 
 // Text transformations
-t("greeting_upper"); // → "HELLO WORLD"
-t("greeting_title"); // → "Hello World"
+t('greeting_upper') // → 'HELLO WORLD'
+t('greeting_title') // → 'Hello World'
 ```
 
 ### 🧁 File Structure Flexibility (Nested or Flat)
 
 > _"Some prefer their bread sliced, others whole. We serve both."_
 
+#### Nested dough (the default)
+
 ```typescript
-// Nested structure (default) - like a layered pastry
+import { JSONFileSaver } from '@i18n-bakery/baker'
+
+const nestedSaver = new JSONFileSaver('./locales', 'nested')
+await nestedSaver.save('en', 'common', 'home.title', 'Welcome')
+```
+
+`locales/en/common.json`:
+
+```json
 {
   "home": {
-    "title": "Welcome",
-    "subtitle": "Fresh daily"
+    "title": "Welcome"
   }
 }
+```
 
-// Flat structure - like flatbread
-new JSONFileSaver('./locales', 'flat');
+#### Flatbread
+
+```typescript
+import { JSONFileSaver } from '@i18n-bakery/baker'
+
+const flatSaver = new JSONFileSaver('./locales', 'flat')
+await flatSaver.save('en', 'common', 'home.title', 'Welcome')
+```
+
+`locales/en/common.json`:
+
+```json
 {
-  "home.title": "Welcome",
-  "home.subtitle": "Fresh daily"
+  "home.title": "Welcome"
 }
 ```
 
@@ -210,8 +259,8 @@ pnpm exec i18n-bakery batter src --locale en
 
 **What it does:**
 
-- 🔍 Finds all `t()` calls in your code
-- 📝 Extracts keys and default values
+- 🔍 Finds statically written `t()` calls and `useTranslation()` namespaces
+- 📝 Extracts keys and literal default values when present
 - 📁 Organizes by namespace
 - ✨ Creates/updates JSON files
 - 🚫 Never overwrites existing translations
@@ -226,10 +275,10 @@ pnpm exec i18n-bakery bake
 
 **What it does:**
 
-- ✅ Validates all translation files
-- 🗜️ Minifies for production
-- 🧹 Removes orphaned keys
-- 📊 Generates reports
+- ✅ Reads JSON or TOML locale files and writes JSON bundles
+- 🗜️ Can minify bundles and split them by namespace
+- 🔐 Supports optional AES-256-GCM encryption
+- 📊 Can add content hashes to filenames and generate a manifest
 
 ---
 
@@ -239,28 +288,28 @@ i18n-bakery follows **Clean Architecture** principles - each layer has its purpo
 
 ### Domain Layer (The Recipe Book)
 
-Pure interfaces that define what we can do:
+Core interfaces and contracts define the runtime ingredients:
 
-- `KeyParser` - Understanding translation keys
-- `VariableDetector` - Finding placeholders
+- `Loader` and `TranslationSaver` - Loading namespaces and saving missing keys
+- `Formatter` and `Store` - Interpolation and in-memory translations
 - `PluralResolver` - Handling counts
 - `Plugin` - Extending functionality
 
 ### Adapters Layer (The Tools)
 
-Concrete implementations:
+Core adapters provide runtime behavior; file and source tools live in Baker:
 
-- `DefaultKeyParser` - Parses `namespace:file.property` syntax
-- `ICUMessageFormatter` - Handles ICU syntax
+- `MustacheFormatter` and `ICUMessageFormatter` - Handle message interpolation
 - `CLDRPluralResolver` - Uses `Intl.PluralRules`
-- `JSONFileWriter` - Manages translation files
+- `HttpBackend` - Loads translations through `fetch`
+- `JSONFileSaver` and `TOMLFileSaver` - Write locale files in Baker
 
 ### Use Cases Layer (The Chef)
 
 Orchestrates everything:
 
 - `I18nService` - Main translation engine
-- `TranslationFileManager` - File operations
+- Baker's `ExtractionUseCase`, `BakingManager`, and `TranslationFileManager` - Build-time file operations
 
 > _"Good architecture, like good bread, has structure but remains flexible."_
 
@@ -273,39 +322,26 @@ Orchestrates everything:
 Organize translations with colons and dots:
 
 ```typescript
-// Simple: namespace.key
-t("home.title", "Welcome");
-// → locales/en/home.json → { "title": "Welcome" }
+// Simple: namespace:key
+t('home:title', 'Welcome')
+// → namespace 'home', key 'title'
 
-// Nested: namespace:directory.key
-t("shop:bread.title", "Sourdough");
-// → locales/en/shop/bread.json → { "title": "Sourdough" }
+// Dotted keys address nested properties within a namespace
+t('shop:bread.title', 'Sourdough')
+// → namespace 'shop', key 'bread.title'
 
 // Deep nesting: app:features:shop:bread.component.title
-t("app:features:shop:bread.component.title", "Order Sourdough");
-// → locales/en/app/features/shop/bread/component.json
+t('app:features:shop:bread.component.title', 'Order Sourdough')
+// → namespace 'app/features/shop', key 'bread.component.title'
 ```
 
 ### Translation Variants (Multiple Recipes)
 
-Same key, different variable combinations:
+The Baker's `TranslationFileManager` can manage file entries with different variable signatures. Runtime `t()` performs normal lookup and interpolation; it does not create variant records.
 
 ```typescript
-// Variant 1: Just the bread
-t('bread.title', '{{bread}}', { bread: 'Croissant' });
-
-// Variant 2: Bread with price
-t('bread.title', '{{bread}} - ${{price}}', { bread: 'Croissant', price: 4.50 });
-
-// Stored as:
-{
-  "title": {
-    "variants": {
-      "bread": { "value": "{{bread}}", "variables": ["bread"] },
-      "bread_price": { "value": "{{bread}} - ${{price}}", "variables": ["bread", "price"] }
-    }
-  }
-}
+// Runtime translation with interpolation
+t('bread:title', '{{bread}}', { bread: 'Croissant' })
 ```
 
 ### Custom Plugins (Your Secret Ingredient)
@@ -351,16 +387,14 @@ Compatibility is partial and is tracked feature-by-feature in the [comparison ma
 - ✅ Plugin system
 - ✅ Number formatting
 
-### 🔄 Coming Soon (v1.1.0 - v1.5.0)
+### 🔄 Planned (No Release Dates Promised)
 
 - 🔜 Context support (`{ context: 'male' }`)
 - 🔜 Language detection
-- 🔜 HTTP backend
-- 🔜 Event system
 - 🔜 Nesting translations
 - 🔜 Return objects
 
-See [WORKPLAN.md](./WORKPLAN.md) for planned capabilities. No release dates are committed.
+See [WORKPLAN.md](./WORKPLAN.md) for planned capabilities. The built-in HTTP backend is already available in Core.
 
 See [I18NEXT_COMPARISON.md](./docs/I18NEXT_COMPARISON.md) for detailed comparison.
 
@@ -371,29 +405,32 @@ See [I18NEXT_COMPARISON.md](./docs/I18NEXT_COMPARISON.md) for detailed compariso
 ### Basic React App
 
 ```tsx
-import { initI18n, t } from "@i18n-bakery/core";
-import { I18nProvider, useTranslation } from "@i18n-bakery/react";
+import { I18nProvider, useTranslation } from '@i18n-bakery/react'
 
-// Initialize
-initI18n({
-  locale: "en",
-  fallbackLocale: "en",
-  saveMissing: true, // Auto-bake missing translations
-  fileStructure: "nested", // or 'flat'
-});
+const i18nConfig = {
+  locale: 'en',
+  fallbackLocale: 'en',
+}
 
-// Component
 function ShoppingCart() {
-  const t = useTranslation();
-  const itemCount = 5;
+  const { t } = useTranslation('basket')
+  const itemCount = 5
 
   return (
     <div>
-      <h2>{t("basket.title", "Order Basket")}</h2>
-      <p>{t("basket.items", { count: itemCount })}</p>
-      <button>{t("basket.checkout", "Checkout")}</button>
+      <h2>{t('title', 'Order Basket')}</h2>
+      <p>{t('items', '{{count}} items', { count: itemCount })}</p>
+      <button>{t('checkout', 'Checkout')}</button>
     </div>
-  );
+  )
+}
+
+function App() {
+  return (
+    <I18nProvider config={i18nConfig}>
+      <ShoppingCart />
+    </I18nProvider>
+  )
 }
 ```
 
@@ -404,19 +441,20 @@ import {
   initI18n,
   NumberFormatPlugin,
   CapitalizePlugin,
-} from "@i18n-bakery/core";
+  t,
+} from '@i18n-bakery/core'
 
 initI18n({
-  locale: "en-US",
+  locale: 'en-US',
   plugins: [new NumberFormatPlugin(), new CapitalizePlugin()],
-});
+})
 
 // Use number formatting
-t("total", "Total: {amount|currency:USD}", { amount: 1234.56 });
-// → "Total: $1,234.56"
+t('total', 'Total: {amount|currency:USD}', { amount: 1234.56 })
+// → '$1,234.56'
 
 // Use text transformations
-t("title_upper"); // → "WELCOME TO OUR BAKERY"
+t('title_upper') // → 'WELCOME TO OUR BAKERY'
 ```
 
 ---
@@ -442,6 +480,9 @@ Meet the specialized team working behind the scenes to serve fresh translations:
 ### 🥚 [Poacher (@i18n-bakery/poacher)](./packages/poacher/README.md)
 **The Forager.** Ventures into the wild (legacy code) to recover valuable ingredients (keys) and bring them back to the safety of the bakery. Use this to migrate from i18next!
 
+### 🍽️ [Tray (@i18n-bakery/tray)](./packages/tray/README.md)
+**The Silver Tray.** Serves selected extraction, pantry, recipe-update, and baking workflows to MCP-compatible AI clients.
+
 ---
 
 ## 🗂️ Project Structure (The Pantry)
@@ -449,19 +490,15 @@ Meet the specialized team working behind the scenes to serve fresh translations:
 ```
 i18n-bakery/
 ├── packages/
-│   ├── core/              # 🥖 The main bakery
-│   │   ├── src/
-│   │   │   ├── domain/    # Interfaces (recipes)
-│   │   │   ├── adapters/  # Implementations (tools)
-│   │   │   ├── use-cases/ # Business logic (chef)
-│   │   │   └── plugins/   # Extensions (special ingredients)
-│   │   └── test/          # Quality control
-│   ├── react/             # ⚛️ React bindings
-│   └── cli/               # 🔧 Command-line tools
-├── examples/
-│   └── react-basic/       # 📚 Sample recipes
-├── docs/                  # 📖 The cookbook
-└── locales/               # 🌍 Translation storage
+│   ├── core/              # 🥖 Runtime and translation recipes
+│   ├── baker/             # 🥯 Extraction, locale files, and baking
+│   ├── react/             # ⚛️ React service
+│   ├── cli/               # 🔧 The sous-chef's toolkit
+│   ├── poacher/           # 🥚 Legacy migration and CSV export
+│   └── tray/              # 🍽️ MCP tools for AI clients
+├── examples/               # 🍰 Tasting recipes
+├── docs/                   # 📖 The cookbook
+└── pnpm-workspace.yaml     # 🧺 Shared kitchen setup
 ```
 
 ---

@@ -1,578 +1,383 @@
 # ⚛️ @i18n-bakery/react
 
-> **"The React Waiter"** - _Delivers freshly baked translations right to your React components' table. Impeccable service with hooks and context._
-
-React integration for **i18n-bakery** - bringing the power of type-safe, auto-baking translations to your React applications. Built with modern React patterns (hooks, context) and designed for both simplicity and performance.
+> **"The React Waiter"** — delivers translations from `@i18n-bakery/core` to React components through a provider and hooks.
 
 [![npm version](https://img.shields.io/npm/v/@i18n-bakery/react.svg)](https://www.npmjs.com/package/@i18n-bakery/react)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-[![npm version](https://img.shields.io/npm/v/@i18n-bakery/react.svg)](https://www.npmjs.com/package/@i18n-bakery/react)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
----
-
-## 📦 Installation
+## 📦 Installation (Gathering Ingredients)
 
 ```bash
 pnpm add @i18n-bakery/core @i18n-bakery/react
 ```
 
-> **Note:** You need both `@i18n-bakery/core` and `@i18n-bakery/react` installed.
+React `16.8` or newer is required.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Preheating the Oven)
 
 ### 1. Initialize i18n (Preheat the Oven)
 
-```typescript
-// src/i18n.ts
-import { initI18n } from "@i18n-bakery/core";
+`I18nProvider` accepts the Core configuration in its `config` prop. Keep the object stable so a rerender does not reinitialize the shared service.
 
-export const i18n = initI18n({
-  locale: "en",
-  fallbackLocale: "en",
-  loader: async (locale, namespace) => {
-    return import(`./locales/${locale}/${namespace}.json`);
-  },
-});
+```tsx
+import { I18nProvider, useTranslation } from '@i18n-bakery/react'
+
+const i18nConfig = {
+  locale: 'en',
+  fallbackLocale: 'en',
+  defaultNamespace: 'common',
+}
 ```
 
 ### 2. Wrap Your App (The Provider)
 
 ```tsx
-// src/App.tsx
-import { I18nProvider } from "@i18n-bakery/react";
-import { i18n } from "./i18n";
-
 function App() {
   return (
-    <I18nProvider locale="en">
-      <YourComponents />
+    <I18nProvider config={i18nConfig}>
+      <HomePage />
     </I18nProvider>
-  );
+  )
 }
-
-export default App;
 ```
 
 ### 3. Use Translations (Serve Fresh)
 
+`useTranslation()` returns a tuple and named properties; destructure `t` from the returned object:
+
 ```tsx
-// src/components/HomePage.tsx
-import { useTranslation } from "@i18n-bakery/react";
-
 function HomePage() {
-  const t = useTranslation();
-
-  return (
-    <div>
-      <h1>{t("home.title", "Welcome to our bakery!")}</h1>
-      <p>{t("home.subtitle", "Fresh translations daily")}</p>
-    </div>
-  );
+  const { t } = useTranslation()
+  return <h1>{t('title', 'Welcome to our bakery!')}</h1>
 }
 ```
 
 ---
 
-## 🎯 Core Features
+## 🎯 Core Features (The Menu)
 
 ### 1. useTranslation Hook (The Main Ingredient)
 
-The primary hook for translating content in your components:
-
 ```tsx
-import { useTranslation } from "@i18n-bakery/react";
-
-function MyComponent() {
-  const t = useTranslation();
-
-  return (
-    <div>
-      {/* Simple translation */}
-      <h1>{t("title", "Hello World")}</h1>
-
-      {/* With variables */}
-      <p>{t("greeting", "Hello, {{name}}!", { name: "Baker" })}</p>
-
-      {/* With pluralization */}
-      <span>{t("items", { count: 5 })}</span>
-
-      {/* With namespace */}
-      <button>{t("auth:login.button", "Sign In")}</button>
-    </div>
-  );
+function Greeting({ name }: { name: string }) {
+  const { t } = useTranslation()
+  return <p>{t('greeting', 'Hello, {{name}}!', { name })}</p>
 }
 ```
+
+The hook subscribes to Core updates. Its return value is `[t, i18n, ready]` and also exposes `.t`, `.i18n`, and `.ready` properties; the value itself is not a callable function.
 
 ### 2. Namespace Prefix (Organized Ingredients)
 
-Scope translations to a specific namespace:
-
 ```tsx
-import { useTranslation } from "@i18n-bakery/react";
-
-function AuthPage() {
-  // All translations will be prefixed with 'auth:'
-  const t = useTranslation("auth");
-
-  return (
-    <div>
-      {/* Translates 'auth:login.title' */}
-      <h1>{t("login.title", "Sign In")}</h1>
-
-      {/* Translates 'auth:login.button' */}
-      <button>{t("login.button", "Login")}</button>
-
-      {/* Translates 'auth:register.link' */}
-      <a href="/register">{t("register.link", "Create account")}</a>
-    </div>
-  );
+function AuthTitle() {
+  const { t } = useTranslation('auth')
+  return <h1>{t('login.title', 'Sign in')}</h1>
 }
 ```
+
+The hook prefixes keys with `auth:` unless the key already contains a colon.
 
 ### 3. useI18n Hook (The Full Toolkit)
 
-Access the complete i18n instance:
-
 ```tsx
-import { useI18n } from "@i18n-bakery/react";
-
 function LanguageSwitcher() {
-  const { i18n, locale } = useI18n();
-
-  const changeLanguage = async (newLocale: string) => {
-    await i18n.setLocale(newLocale);
-  };
+  const { i18n, locale, setLocale, isLoading } = useI18n()
 
   return (
-    <div>
-      <p>Current language: {locale}</p>
-      <button onClick={() => changeLanguage("en")}>English</button>
-      <button onClick={() => changeLanguage("es")}>Español</button>
-      <button onClick={() => changeLanguage("fr")}>Français</button>
-    </div>
-  );
+    <button disabled={isLoading} onClick={() => void setLocale('es')}>
+      {locale}
+    </button>
+  )
 }
 ```
 
+`useI18n()` returns the Core instance, current locale, `setLocale`, and `isLoading`.
+
 ### 4. Reactive Updates (Fresh from the Oven)
 
-Components automatically re-render when the locale changes:
+Components using the hooks rerender when the locale changes or translations are added to the Core service.
 
 ```tsx
-import { useTranslation, useI18n } from "@i18n-bakery/react";
-
 function Header() {
-  const t = useTranslation();
-  const { i18n } = useI18n();
+  const { t } = useTranslation()
+  const { setLocale } = useI18n()
 
   return (
     <header>
-      {/* This updates automatically when locale changes */}
-      <h1>{t("app.title", "My App")}</h1>
-
-      <button onClick={() => i18n.setLocale("es")}>Español</button>
+      <h1>{t('app:title', 'My App')}</h1>
+      <button onClick={() => void setLocale('es')}>Español</button>
     </header>
-  );
+  )
 }
 ```
 
 ---
 
-## 📚 API Reference
+## 📚 API Reference (Recipe Cards)
 
 ### Components
 
-#### `<I18nProvider>`
+#### `<I18nProvider config={config}>`
 
-Provides i18n context to your React tree.
+Provides the Core instance to the React tree. `config` is an `I18nConfig`; it is not a `locale` string prop.
 
 ```tsx
-interface I18nProviderProps {
-  locale: string; // Initial locale
-  children: React.ReactNode; // Your app components
-}
-
-<I18nProvider locale="en">
+<I18nProvider config={i18nConfig}>
   <App />
-</I18nProvider>;
+</I18nProvider>
 ```
 
 ### Hooks
 
-#### `useTranslation(namespace?: string): TranslationFunction`
+#### `useTranslation(namespace?: string)`
 
-Returns a translation function.
-
-```tsx
-// Without namespace
-const t = useTranslation();
-t("home.title", "Welcome");
-
-// With namespace
-const t = useTranslation("auth");
-t("login.title", "Sign In"); // → Translates 'auth:login.title'
-```
-
-**Translation Function Signature:**
-
-```typescript
-type TranslationFunction = (
-  key: string,
-  defaultText?: string,
-  vars?: Record<string, any>
-) => string;
-```
-
-#### `useI18n(): I18nContext`
-
-Returns the i18n context.
+Returns `[t, i18n, ready]` with equivalent `.t`, `.i18n`, and `.ready` properties. `ready` currently starts as `true`; it does not track completion of asynchronous namespace loading.
 
 ```tsx
-const { i18n, locale } = useI18n();
-
-// Access i18n instance
-i18n.setLocale('es');
-i18n.getCurrentLocale();
-i18n.addTranslations('en', 'common', { ... });
-
-// Current locale
-console.log(locale); // → "en"
+const { t, i18n, ready } = useTranslation()
 ```
 
-**Context Interface:**
+Or use the tuple form:
+
+```tsx
+const [translate, service, isReady] = useTranslation()
+```
+
+#### `useI18n()`
+
+Returns `{ i18n, locale, setLocale, isLoading }`.
 
 ```typescript
+import type { I18nService } from '@i18n-bakery/core'
+
 interface I18nContext {
-  i18n: I18nService; // The i18n instance
-  locale: string; // Current locale
+  i18n: I18nService
+  locale: string
+  setLocale(locale: string): Promise<void>
+  isLoading: boolean
 }
 ```
 
 ---
 
-## 🎨 Usage Patterns
+## 🎨 Usage Patterns (Sample Recipes)
 
 ### Pattern 1: Simple Component
 
 ```tsx
-import { useTranslation } from "@i18n-bakery/react";
-
 function WelcomeMessage() {
-  const t = useTranslation();
-
-  return (
-    <div className="welcome">
-      <h1>{t("welcome.title", "Welcome!")}</h1>
-      <p>{t("welcome.message", "Thank you for visiting our bakery.")}</p>
-    </div>
-  );
+  const { t } = useTranslation()
+  return <h1>{t('welcome.title', 'Welcome!')}</h1>
 }
 ```
 
 ### Pattern 2: With Variables
 
 ```tsx
-import { useTranslation } from "@i18n-bakery/react";
-
-function UserGreeting({ user }: { user: { name: string; email: string } }) {
-  const t = useTranslation();
-
-  return (
-    <div>
-      <h2>{t("user.greeting", "Hello, {{name}}!", { name: user.name })}</h2>
-      <p>{t("user.email", "Email: {{email}}", { email: user.email })}</p>
-    </div>
-  );
+function UserGreeting({ name }: { name: string }) {
+  const { t } = useTranslation()
+  return <p>{t('user.greeting', 'Hello, {{name}}!', { name })}</p>
 }
 ```
 
 ### Pattern 3: With Pluralization
 
 ```tsx
-import { useTranslation } from "@i18n-bakery/react";
-
-function ShoppingCart({ items }: { items: any[] }) {
-  const t = useTranslation();
-  const itemCount = items.length;
-
-  return (
-    <div>
-      <h2>{t("cart.title", "Shopping Cart")}</h2>
-      <p>{t("cart.items", { count: itemCount })}</p>
-      {/* → "0 items" | "1 item" | "5 items" */}
-    </div>
-  );
+function Cart({ count }: { count: number }) {
+  const { t } = useTranslation()
+  // Configure pluralization and add the matching forms in Core.
+  return <p>{t('cart:items', { count })}</p>
 }
 ```
 
 ### Pattern 4: Namespaced Component
 
 ```tsx
-import { useTranslation } from "@i18n-bakery/react";
-
 function LoginForm() {
-  // All translations scoped to 'auth' namespace
-  const t = useTranslation("auth");
+  const { t } = useTranslation('auth')
 
   return (
     <form>
-      <h2>{t("login.title", "Sign In")}</h2>
-
+      <h2>{t('login.title', 'Sign in')}</h2>
       <label>
-        {t("login.email", "Email")}
+        {t('login.email', 'Email')}
         <input type="email" />
       </label>
-
       <label>
-        {t("login.password", "Password")}
+        {t('login.password', 'Password')}
         <input type="password" />
       </label>
-
-      <button type="submit">{t("login.submit", "Login")}</button>
-
-      <a href="/register">{t("register.link", "Create an account")}</a>
+      <button type="submit'>{t('login.submit', 'Log in')}</button>
+      <a href="/register">{t('register.link', 'Create an account')}</a>
     </form>
-  );
+  )
 }
 ```
 
 ### Pattern 5: Language Switcher
 
 ```tsx
-import { useI18n, useTranslation } from "@i18n-bakery/react";
-
-const LANGUAGES = [
-  { code: "en", name: "English", flag: "🇺🇸" },
-  { code: "es", name: "Español", flag: "🇪🇸" },
-  { code: "fr", name: "Français", flag: "🇫🇷" },
-  { code: "de", name: "Deutsch", flag: "🇩🇪" },
-];
-
 function LanguageSwitcher() {
-  const { i18n, locale } = useI18n();
-  const t = useTranslation();
-
-  const handleLanguageChange = async (newLocale: string) => {
-    await i18n.setLocale(newLocale);
-  };
-
+  const { locale, setLocale } = useI18n()
   return (
-    <div className="language-switcher">
-      <label>{t("settings.language", "Language")}</label>
-      <select
-        value={locale}
-        onChange={(e) => handleLanguageChange(e.target.value)}
-      >
-        {LANGUAGES.map((lang) => (
-          <option key={lang.code} value={lang.code}>
-            {lang.flag} {lang.name}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
+    <select value={locale} onChange={(event) => void setLocale(event.target.value)}>
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+    </select>
+  )
 }
 ```
 
 ### Pattern 6: With ICU MessageFormat
 
+Configure Core with `messageFormat: 'icu'` before using ICU patterns:
+
 ```tsx
-import { useTranslation } from "@i18n-bakery/react";
-
-function NotificationList({ notifications }: { notifications: any[] }) {
-  const t = useTranslation();
-
+function Notification({ count }: { count: number }) {
+  const { t } = useTranslation()
   return (
-    <div>
-      {notifications.map((notif) => (
-        <div key={notif.id}>
-          {/* ICU plural syntax */}
-          {t(
-            "notification.message",
-            "{count, plural, =0 {No new messages} one {# new message} other {# new messages}}",
-            { count: notif.count }
-          )}
-
-          {/* ICU select syntax */}
-          {t(
-            "notification.action",
-            "{gender, select, male {He} female {She} other {They}} {action}",
-            { gender: notif.user.gender, action: notif.action }
-          )}
-        </div>
-      ))}
-    </div>
-  );
+    <p>
+      {t(
+        'notification:message',
+        '{count, plural, one {# new message} other {# new messages}}',
+        { count }
+      )}
+    </p>
+  )
 }
 ```
 
 ### Pattern 7: With Number Formatting Plugin
 
+Register `new NumberFormatPlugin()` in the Core config passed to `I18nProvider`; the React package does not enable it automatically.
+
 ```tsx
-import { useTranslation } from "@i18n-bakery/react";
+import { useTranslation } from '@i18n-bakery/react'
+import { NumberFormatPlugin } from '@i18n-bakery/core'
 
-function ProductCard({ product }: { product: any }) {
-  const t = useTranslation();
+const i18nConfig = {
+  locale: 'en-US',
+  plugins: [new NumberFormatPlugin()],
+}
 
+function ProductCard({
+  amount,
+  views,
+  discount,
+}: {
+  amount: number
+  views: number
+  discount: number
+}) {
+  const { t } = useTranslation()
   return (
-    <div className="product-card">
-      <h3>{product.name}</h3>
-
-      {/* Currency formatting */}
-      <p className="price">
-        {t("product.price", "Price: {amount|currency:USD}", {
-          amount: product.price,
-        })}
-      </p>
-
-      {/* Compact number formatting */}
-      <p className="views">
-        {t("product.views", "{count|compact} views", { count: product.views })}
-      </p>
-
-      {/* Percentage formatting */}
-      <p className="discount">
-        {t("product.discount", "Save {amount|percent}!", {
-          amount: product.discount,
-        })}
-      </p>
-    </div>
-  );
+    <article>
+      <p>{t('product:price', 'Price: {amount|currency:USD}', { amount })}</p>
+      <p>{t('product:views', '{count|compact} views', { count: views })}</p>
+      <p>{t('product:discount', 'Save {percent|percent}!', { percent: discount })}</p>
+    </article>
+  )
 }
 ```
 
 ---
 
-## 🏗️ Advanced Usage
+## 🏗️ Advanced Usage (The Kitchen)
 
 ### Custom Provider Setup
 
+Create the Core loader and other runtime options in an `I18nConfig`, then pass that config to the provider. `loader` is an object with a `load(locale, namespace)` method:
+
 ```tsx
-import { I18nProvider } from "@i18n-bakery/react";
-import { initI18n } from "@i18n-bakery/core";
-import { useState, useEffect } from "react";
-
-function App() {
-  const [locale, setLocale] = useState("en");
-
-  useEffect(() => {
-    // Initialize i18n
-    initI18n({
-      locale,
-      fallbackLocale: "en",
-      saveMissing: true,
-      loader: async (locale, namespace) => {
-        const response = await fetch(
-          `/api/translations/${locale}/${namespace}`
-        );
-        return response.json();
-      },
-    });
-  }, [locale]);
-
-  return (
-    <I18nProvider locale={locale}>
-      <YourApp onLocaleChange={setLocale} />
-    </I18nProvider>
-  );
+const i18nConfig = {
+  locale: 'en',
+  defaultNamespace: 'common',
+  loader: {
+    async load(locale: string, namespace: string) {
+      if (locale === 'en' && namespace === 'common') {
+        return { title: 'Welcome' }
+      }
+      return null
+    },
+  },
 }
 ```
+
+See [`@i18n-bakery/core`](../core) for the complete loader contract.
 
 ### With TypeScript
 
 ```tsx
-import { useTranslation, useI18n } from "@i18n-bakery/react";
-import type { FC } from "react";
+import { useTranslation, useI18n } from '@i18n-bakery/react'
 
 interface UserProps {
-  name: string;
-  email: string;
+  name: string
 }
 
-const UserProfile: FC<UserProps> = ({ name, email }) => {
-  const t = useTranslation("profile");
-  const { locale } = useI18n();
-
-  return (
-    <div>
-      <h2>{t("title", "User Profile")}</h2>
-      <p>{t("name", "Name: {{name}}", { name })}</p>
-      <p>{t("email", "Email: {{email}}", { email })}</p>
-      <p>Current locale: {locale}</p>
-    </div>
-  );
-};
+function UserProfile({ name }: UserProps) {
+  const { t } = useTranslation('profile')
+  const { locale } = useI18n()
+  return <p>{t('greeting', 'Hello, {{name}}!', { name })} ({locale})</p>
+}
 ```
 
 ### With React Router
 
+Wrap the router with `I18nProvider` and pass a Core config:
+
 ```tsx
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { I18nProvider } from "@i18n-bakery/react";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { I18nProvider } from '@i18n-bakery/react'
 
 function App() {
   return (
-    <I18nProvider locale="en">
+    <I18nProvider config={i18nConfig}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </BrowserRouter>
     </I18nProvider>
-  );
+  )
 }
 ```
 
 ---
 
-## 🧪 Testing
+## 🧪 Testing (Quality Control)
 
-### Testing Components with Translations
+Render components under the provider with a Core config:
 
 ```tsx
-import { render, screen } from "@testing-library/react";
-import { I18nProvider } from "@i18n-bakery/react";
-import { initI18n, addTranslations } from "@i18n-bakery/core";
-import MyComponent from "./MyComponent";
+import { render, screen } from '@testing-library/react'
+import { I18nProvider, useTranslation } from '@i18n-bakery/react'
 
-describe("MyComponent", () => {
-  beforeEach(() => {
-    initI18n({ locale: "en" });
-    addTranslations("en", "common", {
-      title: "Test Title",
-      button: "Click Me",
-    });
-  });
+function MyComponent() {
+  const { t } = useTranslation()
+  return <h1>{t('title', 'Test Title')}</h1>
+}
 
-  it("renders translated content", () => {
-    render(
-      <I18nProvider locale="en">
-        <MyComponent />
-      </I18nProvider>
-    );
+render(
+  <I18nProvider config={{ locale: 'en' }}>
+    <MyComponent />
+  </I18nProvider>
+)
 
-    expect(screen.getByText("Test Title")).toBeInTheDocument();
-    expect(screen.getByText("Click Me")).toBeInTheDocument();
-  });
-});
+expect(screen.getByText('Test Title')).toBeTruthy()
 ```
 
 ---
 
-## 🔗 Related Packages
+## 🔗 Related Packages (Kitchen Staff)
 
-- **[@i18n-bakery/core](../core)** - Core translation engine
-- **[@i18n-bakery/cli](../cli)** - Command-line tools
-
----
+- **[@i18n-bakery/core](../core)** — Core translation engine and configuration.
+- **[@i18n-bakery/cli](../cli)** — command-line tools.
 
 ---
 

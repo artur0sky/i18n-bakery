@@ -1,110 +1,107 @@
 # 🥯 @i18n-bakery/baker
 
-> **"The Pastry Chef"** - _Precision-obsessed expert dealing with delicate file structures, compiling assets, and optimizing ingredients for the final bake._
+> **"The Pastry Chef"** — precision-obsessed expert dealing with delicate file structures, compiling assets, and managing translation files.
 
-This package is the heavy machinery of the operation. It keeps the **Core** lightweight by taking on all the complex build-time tasks: parsing ASTs, handling file systems, compiling artifacts, and encrypting confidential recipes.
+This package handles the Node.js and build-time work around i18n-bakery: scanning source code, extracting keys, updating locale files, checking JSON locale coverage, and compiling production bundles.
 
 [![npm version](https://img.shields.io/npm/v/@i18n-bakery/baker.svg)](https://www.npmjs.com/package/@i18n-bakery/baker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## 🎯 Purpose
+## 🎯 Purpose (The Baker's Role)
 
-- **Build-Time Logic**: Keeps the `@i18n-bakery/core` package lightweight (0 dependencies).
-- **File System Operations**: Handles reading, writing, and managing translation files.
-- **Extraction**: Parses source code to find translation keys (`t()` calls).
-- **Compilation ("Baking")**: Optimizes translation files for production (minification, hashing, splitting).
-- **Encryption**: Secures translation files using AES-256-GCM.
+- Keep runtime translation lookup in `@i18n-bakery/core`.
+- Scan JavaScript and TypeScript source for statically written translation calls.
+- Create and update JSON or TOML locale files.
+- Inspect JSON locale completeness and compile locale files to JSON bundles.
 
-## 📦 Features
+## 📦 Features (The Baker's Menu)
 
 ### 1. Key Extraction (`KeyExtractor`)
 
-Uses Babel to parse TypeScript/JavaScript files and extract translation keys, default values, and namespaces.
+`BabelKeyExtractor` parses `.js`, `.jsx`, `.ts`, and `.tsx` files for static string calls to `t()` and static `useTranslation()` namespaces. Declaration files and `node_modules` are excluded by `ProjectScanner`.
 
 ```typescript
-import { BabelKeyExtractor } from "@i18n-bakery/baker";
+import { BabelKeyExtractor } from '@i18n-bakery/baker'
 
-const extractor = new BabelKeyExtractor();
-const keys = await extractor.extractFromFile("src/components/Button.tsx");
+const keys = await new BabelKeyExtractor().extractFromFile('src/components/Button.tsx')
+```
+
+`ExtractionUseCase` writes keys grouped by namespace. New entries use literal defaults when available, otherwise an empty string; existing translations are preserved. `clean` empties a validated output directory before extraction. `purge` removes locale files for namespaces no longer found.
+
+```typescript
+import { ExtractionUseCase } from '@i18n-bakery/baker'
+
+const result = await new ExtractionUseCase().execute({
+  source: 'src',
+  out: 'public/locales',
+  locales: ['en-US', 'es-MX'],
+  format: 'json',
+  cwd: process.cwd(),
+})
 ```
 
 ### 2. Baking & Compilation (`BakingManager`)
 
-Compiles translation files into production-ready assets.
-
-- **Minification**: Reduces file size.
-- **Hashing**: Adds content hashes for cache busting (`common.a1b2c3.json`).
-- **Splitting**: Splits bundles by namespace for lazy loading.
-- **Encryption**: Encrypts content with a secret key.
+`BakingManager` reads locale directories containing JSON or TOML and writes JSON output. Use one format per locale; if both JSON and TOML files are found, JSON takes precedence.
 
 ```typescript
-import { BakingManager } from "@i18n-bakery/baker";
+import { BakingManager } from '@i18n-bakery/baker'
 
-const baker = new BakingManager();
-await baker.bake("src/locales", {
-  out: "dist/locales",
+await new BakingManager().bake('public/locales', {
+  out: 'dist/locales',
   minify: true,
   hash: true,
   split: true,
-  encrypt: true,
-  key: process.env.I18N_SECRET,
-});
+  manifest: 'manifest.json',
+})
 ```
+
+- **Minification:** Compact JSON output.
+- **Hashing:** Adds an eight-character MD5 content hash to filenames for cache busting; it is not a security checksum.
+- **Splitting:** Writes one file per namespace instead of one bundle per locale.
+- **Encryption:** AES-256-GCM encryption; `encrypt: true` requires `key`.
+- **Manifest:** Writes a JSON map of locale or namespace paths to output files.
 
 ### 3. File Management (`TranslationFileManager`)
 
-Manages the creation and updating of translation files, preserving existing values and structure.
+`JSONFileSaver` and `TOMLFileSaver` write individual translations and preserve existing values by default. `RecipeUseCase` updates one key in a JSON locale file. `PantryUseCase` compares JSON locale files and can include keys found in an optional source scan.
 
-- **Auto-creation**: Automatically creates missing files and keys.
-- **Merging**: Smart merging of new keys without overwriting existing translations.
-- **Variable Detection**: Detects variables in translation strings.
-- **Multiple Formats**: Support for JSON and TOML file formats.
+`TranslationFileManager` manages file entries and variable-signature variants using configured parsers, path resolvers, variable detectors, and writers.
 
 ### 4. TOML Format Support
 
-Full support for TOML (Tom's Obvious, Minimal Language) format with zero external dependencies.
-
-- **Zero Dependencies**: Pure TypeScript TOML parser and serializer.
-- **TOML v1.0.0 Compliant**: Follows the official specification.
-- **Security First**: Built-in prototype pollution prevention.
-- **Nested & Flat Structures**: Support for both file organization styles.
-
-See [TOML_SUPPORT.md](./TOML_SUPPORT.md) for detailed documentation.
+The package provides TOML saver and writer adapters for its translation-file structures. These custom adapters are not general-purpose TOML parsers or a guarantee of full TOML v1.0.0 compliance.
 
 ```typescript
-import { TOMLFileWriter, TOMLFileSaver } from "@i18n-bakery/baker";
+import { TOMLFileSaver } from '@i18n-bakery/baker'
 
-// Use TOML writer
-const writer = new TOMLFileWriter(fsManager);
-await writer.write("./locales/en/common.toml", content);
-
-// Or use simple saver
-const saver = new TOMLFileSaver("./locales", "nested");
-await saver.save("en", "common", "title", "Welcome");
+const saver = new TOMLFileSaver('./public/locales', 'nested')
+await saver.save('en', 'common', 'title', 'Welcome')
 ```
 
-## 🛠️ Architecture
+## 🛠️ Architecture (Kitchen Layout)
 
-This package follows **Clean Architecture** principles:
+- **Domain:** File writer, key extractor, key parser, and variable-detection contracts.
+- **Use Cases:** `ExtractionUseCase`, `BakingManager`, `PantryUseCase`, `RecipeUseCase`, and `TranslationFileManager`.
+- **Adapters:** Babel extraction, JSON/TOML file handling, path resolution, and Node.js filesystem access.
 
-- **Domain**: Core interfaces and business logic rules.
-- **Use Cases**: Application-specific business rules (`BakingManager`, `TranslationFileManager`).
-- **Adapters**: Concrete implementations (`BabelKeyExtractor`, `JSONFileSaver`, `TOMLFileSaver`, `TOMLFileWriter`, `NodeFileSystemManager`).
-
-## 📦 Installation
+## 📦 Installation (Gathering Ingredients)
 
 ```bash
 pnpm add @i18n-bakery/baker
 ```
 
-## 🤝 Dependencies
+## 🤝 Dependencies (Kitchen Ingredients)
 
-- `@i18n-bakery/core`: Shared types and logic.
-- `fs-extra`: Enhanced file system operations.
-- `glob`: File pattern matching.
-- `@babel/parser`, `@babel/traverse`: AST parsing for extraction.
+The package uses `@i18n-bakery/core`, Babel parser/traverse/types, `fs-extra`, and `glob`. Runtime file and source scanning operations are intended for Node.js/build tooling, not browser execution.
+
+## 🔗 Related Packages (Kitchen Staff)
+
+- **[@i18n-bakery/core](../core)** — runtime translation engine and shared contracts.
+- **[@i18n-bakery/cli](../cli)** — command-line access to Baker workflows.
+- **[@i18n-bakery/tray](../tray)** — selected Baker workflows for MCP clients.
 
 ---
 

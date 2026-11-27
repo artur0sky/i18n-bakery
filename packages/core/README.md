@@ -1,15 +1,13 @@
 # 🥖 @i18n-bakery/core
 
-> **"The Head Chef"** - _The mastermind managing logic, recipes (keys), and ensuring consistency across every dish. Framework-agnostic excellence._
-
-The **Core Package** is the kitchen line. It orchestrates the entire translation process, handles pluralization logic (counting loaves), processes message formats, and manages the menu (keys). Zero dependencies, pure TypeScript, and built with Clean Architecture principles.
+> **"The Head Chef"** — the framework-independent runtime that manages the current locale, translation lookup, interpolation, pluralization, and plugins. Source scanning and file-based baking live in [`@i18n-bakery/baker`](../baker).
 
 [![npm version](https://img.shields.io/npm/v/@i18n-bakery/core.svg)](https://www.npmjs.com/package/@i18n-bakery/core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## 📦 Installation
+## 📦 Installation (Gathering Ingredients)
 
 ```bash
 pnpm add @i18n-bakery/core
@@ -17,577 +15,378 @@ pnpm add @i18n-bakery/core
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start (Preheating the Oven)
 
 ### Basic Setup (The Starter Recipe)
 
 ```typescript
-import { initI18n, t } from "@i18n-bakery/core";
+import { addTranslations, initI18n, t } from '@i18n-bakery/core'
 
-// Initialize the bakery
 initI18n({
-  locale: "en",
-  fallbackLocale: "en",
-  loader: async (locale, namespace) => {
-    // Load your translation files
-    return import(`./locales/${locale}/${namespace}.json`);
-  },
-});
+  locale: 'en',
+  fallbackLocale: 'en',
+  defaultNamespace: 'common',
+})
 
-// Start translating!
-const greeting = t("home.welcome", "Welcome to our bakery!");
-console.log(greeting); // → "Welcome to our bakery!"
+addTranslations('en', 'common', {
+  welcome: 'Hello, {{name}}!',
+  apple: 'apple',
+  apple_plural: 'apples',
+  apple_0: 'no apples',
+})
+
+t('welcome', { name: 'Baker' }) // → 'Hello, Baker!'
+t('apple', { count: 0 }) // → 'no apples'
 ```
+
+`initI18n` creates the shared service instance. Call it before using the top-level `t`, `setLocale`, `getI18n`, or `addTranslations` functions.
 
 ### With Auto-Save (Self-Rising Dough)
 
+Core exposes the `TranslationSaver` interface and a `ConsoleSaver`. File-based savers are provided by Baker.
+
 ```typescript
-import { initI18n, t, JSONFileSaver } from "@i18n-bakery/core";
+import { ConsoleSaver, initI18n, t } from '@i18n-bakery/core'
 
 initI18n({
-  locale: "en",
-  fallbackLocale: "en",
-  saveMissing: true, // Enable auto-save
-  saver: new JSONFileSaver("./locales"), // Where to save
-  loader: async (locale, namespace) => {
-    return import(`./locales/${locale}/${namespace}.json`);
-  },
-});
+  locale: 'en',
+  saveMissing: true,
+  saver: new ConsoleSaver(),
+})
 
-// This will automatically create the file if it doesn't exist
-t("profile.greeting", "Hello, {{name}}!", { name: "Baker" });
-// → Creates: ./locales/en/profile.json
+t('common:welcome', 'Welcome!') // Logs the missing entry through ConsoleSaver
 ```
 
 ---
 
-## 🎯 Core Features
+## 🎯 Core Features (The Menu)
 
 ### 1. Translation Engine (The Oven)
 
-The heart of i18n-bakery - handles all translation logic:
+Translate keys, use a fallback value, and interpolate Mustache-style variables:
 
 ```typescript
-import { t } from "@i18n-bakery/core";
-
-// Simple translation
-t("home.title", "Welcome");
-
-// With variables
-t("greeting", "Hello, {{name}}!", { name: "World" });
-
-// With nested variables
-t("user.info", "User: {{user.name}} ({{user.email}})", {
-  user: { name: "John", email: "john@example.com" },
-});
-
-// With namespace
-t("auth:login.button", "Sign In");
+t('home:title', 'Welcome')
+t('greeting', 'Hello, {{name}}!', { name: 'World' })
+t('common:greeting', 'Hello, {{user.name}}!', {
+  user: { name: 'Baker' },
+})
 ```
+
+The default formatter uses `{{variable}}` placeholders. Substituted values are HTML-escaped. If a translation is missing, Core returns the provided default value or the key and can request the namespace from a configured loader.
 
 ### 2. Pluralization (Counting Loaves)
 
-Support for multiple pluralization strategies:
+The default suffix strategy supports exact-count keys and the singular/plural forms:
 
-#### i18next-Style (Suffix)
+#### Suffix Strategy (i18next-Style)
 
 ```typescript
-import { initI18n, t, addTranslations } from "@i18n-bakery/core";
+addTranslations('en', 'common', {
+  apple: 'apple',
+  apple_plural: 'apples',
+  apple_0: 'no apples',
+})
 
-initI18n({
-  locale: "en",
-  pluralizationStrategy: "suffix", // default
-});
-
-addTranslations("en", "common", {
-  apple: "apple",
-  apple_plural: "apples",
-  apple_0: "no apples",
-});
-
-t("apple", { count: 0 }); // → "no apples"
-t("apple", { count: 1 }); // → "apple"
-t("apple", { count: 5 }); // → "apples"
+t('common:apple', { count: 0 }) // → 'no apples'
+t('common:apple', { count: 1 }) // → 'apple'
+t('common:apple', { count: 5 }) // → 'apples'
 ```
 
-#### CLDR-Style (100+ Languages)
+#### CLDR Categories (The Locale's Own Recipe)
+
+Set `pluralizationStrategy: 'cldr'` to use the categories returned by the runtime's `Intl.PluralRules`, such as `zero`, `one`, `two`, `few`, `many`, and `other`.
 
 ```typescript
-initI18n({
-  locale: "ar", // Arabic
-  pluralizationStrategy: "cldr",
-});
+initI18n({ locale: 'ar', pluralizationStrategy: 'cldr' })
+addTranslations('ar', 'common', {
+  apple_zero: 'لا توجد تفاحات',
+  apple_one: 'تفاحة واحدة',
+  apple_two: 'تفاحتان',
+  apple_few: '{{count}} تفاحات',
+  apple_many: '{{count}} تفاحة',
+  apple_other: '{{count}} تفاحة',
+})
 
-addTranslations("ar", "common", {
-  apple_zero: "لا توجد تفاحات",
-  apple_one: "تفاحة واحدة",
-  apple_two: "تفاحتان",
-  apple_few: "{{count}} تفاحات",
-  apple_many: "{{count}} تفاحة",
-  apple_other: "{{count}} تفاحة",
-});
-
-t("apple", { count: 0 }); // → "لا توجد تفاحات"
-t("apple", { count: 1 }); // → "تفاحة واحدة"
-t("apple", { count: 2 }); // → "تفاحتان"
-t("apple", { count: 5 }); // → "5 تفاحات"
+t('common:apple', { count: 2 }) // Uses the 'two' category
 ```
 
 ### 3. ICU MessageFormat (The Artisan Touch)
 
-Industry-standard message formatting:
+Set `messageFormat: 'icu'` to use the built-in formatter's `plural`, `select`, `selectordinal`, and simple variable patterns:
 
 ```typescript
-initI18n({
-  locale: "en",
-  messageFormat: "icu", // Enable ICU
-});
+initI18n({ locale: 'en', messageFormat: 'icu' })
 
-// Plural
-t("cart.items", "{count, plural, =0 {no items} one {# item} other {# items}}", {
+t('cart:items', '{count, plural, =0 {no items} one {# item} other {# items}}', {
   count: 3,
-}); // → "3 items"
+}) // → '3 items'
+```
 
-// Select (gender)
-t(
-  "notification",
-  "{gender, select, male {He} female {She} other {They}} liked your post",
-  { gender: "female" }
-); // → "She liked your post"
+The formatter implements a supported subset of ICU patterns, not the complete ICU MessageFormat specification. Ordinal selection uses simplified English rules and falls back to cardinal rules for other locales.
 
-// Selectordinal (1st, 2nd, 3rd)
-t(
-  "ranking",
-  "You finished {place, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}",
-  { place: 1 }
-); // → "You finished 1st"
+```typescript
+t('notification:body', '{gender, select, male {He} female {She} other {They}} liked your post', {
+  gender: 'female',
+}) // → 'She liked your post'
 
-// Nested patterns
-t(
-  "complex",
-  "{gender, select, male {He has {count, plural, one {# item} other {# items}}} female {She has {count, plural, one {# item} other {# items}}}}",
-  { gender: "male", count: 5 }
-); // → "He has 5 items"
+t('ranking:place', 'You finished {place, selectordinal, one {#st} two {#nd} few {#rd} other {#th}}', {
+  place: 1,
+}) // → 'You finished 1st' in English
 ```
 
 ### 4. Plugin System (Custom Recipes)
 
-Extend functionality with plugins:
+Register plugins in `I18nConfig.plugins`:
 
 ```typescript
 import {
-  initI18n,
-  t,
-  NumberFormatPlugin,
   CapitalizePlugin,
-} from "@i18n-bakery/core";
+  initI18n,
+  NumberFormatPlugin,
+} from '@i18n-bakery/core'
 
 initI18n({
-  locale: "en-US",
+  locale: 'en-US',
   plugins: [new NumberFormatPlugin(), new CapitalizePlugin()],
-});
+})
+```
 
-// Number formatting
-t("price", "Total: {amount|currency:USD}", { amount: 1234.56 });
-// → "Total: $1,234.56"
+`NumberFormatPlugin` supports currency, number, percent, and compact formatting. Percent inputs are whole percentages (`25` formats as `25%`). `CapitalizePlugin` recognizes `_upper`, `_lower`, `_capitalize`, and `_title` key suffixes.
 
-t("views", "{count|compact} views", { count: 1500000 });
-// → "1.5M views"
+```typescript
+t('price', 'Total: {amount|currency:USD}', { amount: 1234.56 })
+t('views', '{count|compact} views', { count: 1500000 })
+t('discount', 'Save {percent|percent}!', { percent: 25 })
+```
 
-t("discount", "Save {percent|percent}!", { percent: 25 });
-// → "Save 25.00%!"
-
-// Text transformations
-addTranslations("en", "common", {
-  greeting: "hello world",
-});
-
-t("greeting_upper"); // → "HELLO WORLD"
-t("greeting_capitalize"); // → "Hello world"
-t("greeting_title"); // → "Hello World"
-t("greeting_lower"); // → "hello world"
+```typescript
+addTranslations('en', 'common', { greeting: 'hello world' })
+t('common:greeting_upper') // → 'HELLO WORLD'
+t('common:greeting_title') // → 'Hello World'
 ```
 
 ### 5. Advanced Key Parsing (The Filing System)
 
-Hierarchical key organization:
+Without a colon, a key uses `defaultNamespace`; if none is configured, the current locale is the namespace. The last colon separates namespace from key:
 
 ```typescript
-// Simple: namespace.key
-t("home.title", "Welcome");
-// → File: locales/en/home.json
-// → Property: title
-
-// With directory: namespace:directory.key
-t("orders:meal.title", "Pizza Menu");
-// → File: locales/en/orders/meal.json
-// → Property: title
-
-// Deep nesting: app:features:orders:meal.component.title
-t("app:features:orders:meal.component.title", "Order Pizza");
-// → File: locales/en/app/features/orders/meal/component.json
-// → Property: title
+t('home:title') // namespace 'home', key 'title'
+t('app:features:orders:meal.title')
+// namespace 'app/features/orders', key 'meal.title'
+t('orders:meal.title') // namespace 'orders', key 'meal.title'
 ```
 
 ### 6. Translation Variants (Multiple Recipes)
 
-Same key, different variable signatures:
+Runtime translation lookup does not create variant records. The `TranslationFileManager` in Baker manages entries with variable-signature variants; see [`@i18n-bakery/baker`](../baker).
 
-```typescript
-// Variant 1: Just the bread
-t('bread.title', '{{bread}}', { bread: 'Croissant' });
-
-// Variant 2: Bread with price
-t('bread.title', '{{bread}} - ${{price}}', { bread: 'Croissant', price: 4.50 });
-
-// Both stored in the same file:
-{
-  "title": {
-    "variants": {
-      "bread": {
-        "value": "{{bread}}",
-        "variables": ["bread"],
-        "autoGenerated": true,
-        "timestamp": 1733532610000
-      },
-      "bread_price": {
-        "value": "{{bread}} - ${{price}}",
-        "variables": ["bread", "price"],
-        "autoGenerated": true,
-        "timestamp": 1733532615000
-      }
-    }
-  }
-}
-```
+Those variant records are file-management metadata; Core's `t()` API performs ordinary translation lookup and interpolation.
 
 ### 7. File Structure Options (Nested or Flat)
 
-Choose your preferred JSON structure:
+Core keeps loaded translations in memory and does not provide `JSONFileSaver`. JSON/TOML file writing, nested/flat output, and extraction are handled by Baker.
 
 ```typescript
-import { JSONFileSaver } from "@i18n-bakery/core";
+import { JSONFileSaver } from '@i18n-bakery/baker'
 
-// Nested structure (default) - hierarchical objects
-const nestedSaver = new JSONFileSaver("./locales", "nested");
-// Result: { "home": { "title": "Welcome" } }
-
-// Flat structure - dot notation keys
-const flatSaver = new JSONFileSaver("./locales", "flat");
-// Result: { "home.title": "Welcome" }
+const nestedSaver = new JSONFileSaver('./locales', 'nested')
+const flatSaver = new JSONFileSaver('./locales', 'flat')
+await nestedSaver.save('en', 'common', 'home.title', 'Welcome')
 ```
-
 ---
 
-## 🏗️ Architecture
+## 🏗️ Architecture (Kitchen Layout)
 
-Built with **Clean Architecture** principles:
+Core has no third-party runtime dependencies and focuses on the translation runtime.
 
 ### Domain Layer (Interfaces/Ports)
 
-Pure TypeScript interfaces that define contracts:
+Exports the configuration and contracts for loaders, savers, formatters, stores, plugins, and plural resolvers.
 
-```typescript
-// Translation loading
-interface Loader {
-  load(locale: Locale, namespace: Namespace): Promise<TranslationMap | null>;
-}
-
-// Translation saving
-interface TranslationSaver {
-  save(
-    locale: Locale,
-    namespace: Namespace,
-    key: Key,
-    value: string
-  ): Promise<void>;
-}
-
-// Variable formatting
-interface Formatter {
-  interpolate(text: string, vars?: Record<string, any>): string;
-}
-
-// And many more...
-```
+The loader contract is `load(locale, namespace): Promise<TranslationMap | null>`. A saver implements `save(locale, namespace, key, value)`.
 
 ### Adapters Layer (Implementations)
 
-Concrete implementations of the interfaces:
-
-- `MemoryStore` - In-memory translation storage
-- `JSONFileSaver` - Save translations to JSON files
-- `ConsoleSaver` - Log missing translations to console
-- `MustacheFormatter` - Simple `{{variable}}` interpolation
-- `ICUMessageFormatter` - Full ICU MessageFormat support
-- `DefaultKeyParser` - Parse hierarchical keys
-- `CLDRPluralResolver` - CLDR pluralization rules
-- `NumberFormatPlugin` - Number/currency formatting
-- `CapitalizePlugin` - Text transformations
+- `MemoryStore` — in-memory translation storage.
+- `MustacheFormatter` and `ICUMessageFormatter` — interpolation.
+- `SuffixPluralResolver` and `CLDRPluralResolver` — plural selection.
+- `ConsoleSaver` and `TOMLLoader` — built-in saver and loader adapters.
+- `HttpBackend` — fetch-based loader with optional manifest and decryption support.
+- `Aes256GcmCipher` — AES-GCM encryption/decryption adapter.
+- `NumberFormatPlugin` and `CapitalizePlugin` — built-in plugins.
+- Core does not export a JSON file saver or source extractor; those adapters belong to Baker.
 
 ### Use Cases Layer (Business Logic)
 
-Orchestrates the adapters:
-
-- `I18nService` - Main translation engine
-- `TranslationFileManager` - File operations and auto-creation
+- `I18nService` — lookup, locale changes, loading, interpolation, and plugin hooks.
 
 ---
 
-## 📚 API Reference
+## 📚 API Reference (Recipe Cards)
 
 ### Initialization
 
 #### `initI18n(config: I18nConfig): I18nService`
 
-Initialize the i18n system.
+Important configuration fields include:
+
+- `locale` (required), `fallbackLocale`, and `defaultNamespace`.
+- `loader` with a `load(locale, namespace)` method returning a translation map or `null`.
+- `saver` and `saveMissing` to handle missing keys.
+- `pluralizationStrategy: 'suffix' | 'cldr'`.
+- `messageFormat: 'mustache' | 'icu'`.
+- `plugins` for plugin instances.
 
 ```typescript
-interface I18nConfig {
-  locale: Locale; // Current locale
-  fallbackLocale?: Locale; // Fallback locale
-  loader?: Loader; // Translation loader
-  saver?: TranslationSaver; // Translation saver
-  saveMissing?: boolean; // Auto-save missing keys
-  debug?: boolean; // Debug mode
-  outputFormat?: OutputFormat; // 'json' | 'yml' | 'yaml' | 'toml'
-  pluralizationStrategy?: "suffix" | "cldr"; // Pluralization strategy
-  messageFormat?: "mustache" | "icu"; // Message format syntax
-  fileStructure?: "nested" | "flat"; // File structure
-  plugins?: Plugin[]; // Plugins to register
+import { ConsoleSaver } from '@i18n-bakery/core'
+import type { I18nConfig } from '@i18n-bakery/core'
+
+const config: I18nConfig = {
+  locale: 'en',
+  fallbackLocale: 'en',
+  defaultNamespace: 'common',
+  loader: {
+    async load(locale, namespace) {
+      if (locale === 'en' && namespace === 'common') {
+        return { greeting: 'Hello!' }
+      }
+      return null
+    },
+  },
+  saver: new ConsoleSaver(),
+  saveMissing: true,
+  pluralizationStrategy: 'suffix',
+  messageFormat: 'mustache',
 }
 ```
 
 ### Translation
 
-#### `t(key: string, defaultText?: string, vars?: Record<string, any>): string`
+#### `t(key, defaultTextOrVars?, options?): string`
 
-Translate a key.
+The second argument can be a default string or a variables object; an optional third argument supplies variables when the second argument is a string.
 
 ```typescript
-// Simple
-t("home.title", "Welcome");
-
-// With variables
-t("greeting", "Hello, {{name}}!", { name: "World" });
-
-// With count (pluralization)
-t("apple", { count: 5 });
-
-// With namespace
-t("auth:login.button", "Sign In");
+t('common:greeting', 'Hello, {{name}}!', { name: 'Baker' })
+t('common:apple', { count: 2 })
 ```
 
 ### Locale Management
 
 #### `setLocale(locale: string): Promise<void>`
 
-Change the current locale.
+Changes the active locale and notifies subscribers.
 
 ```typescript
-await setLocale("es");
+await setLocale('es')
+const currentLocale = getI18n().getCurrentLocale()
 ```
 
 #### `getI18n(): I18nService`
 
-Get the i18n instance.
-
-```typescript
-const i18n = getI18n();
-const currentLocale = i18n.getCurrentLocale();
-```
+Returns the initialized service instance.
 
 ### Manual Translation Management
 
-#### `addTranslations(locale: string, namespace: string, data: Record<string, string>): void`
+#### `addTranslations(locale, namespace, data)`
 
-Manually add translations.
+Adds a translation map to the in-memory store and notifies subscribers.
 
 ```typescript
-addTranslations("en", "common", {
-  hello: "Hello",
-  goodbye: "Goodbye",
-});
+addTranslations('en', 'common', {
+  hello: 'Hello',
+  goodbye: 'Goodbye',
+})
 ```
 
 ---
 
-## 🔌 Built-in Plugins
+## 🔌 Built-in Plugins (Special Ingredients)
 
 ### NumberFormatPlugin
 
-Format numbers, currencies, percentages, and compact numbers:
+Uses `Intl.NumberFormat` for currency, number, percent, and compact values. A percent input of `25` is formatted as 25%, while `0.25` is formatted as 0.25%.
 
 ```typescript
-import { NumberFormatPlugin } from "@i18n-bakery/core";
-
-new NumberFormatPlugin();
-
-// Usage in translations:
-t("price", "{amount|currency:USD}", { amount: 1234.56 });
-// → "$1,234.56"
-
-t("count", "{value|number}", { value: 1234567.89 });
-// → "1,234,567.89"
-
-t("discount", "{value|percent}", { value: 0.25 });
-// → "25%"
-
-t("views", "{count|compact}", { count: 1500000 });
-// → "1.5M"
+t('price', 'Price: {amount|currency:USD}', { amount: 1234.56 })
+t('views', '{count|compact} views', { count: 1500000 })
+t('discount', 'Save {percent|percent}', { percent: 25 })
 ```
 
 ### CapitalizePlugin
 
-Transform text case:
+Transforms a base key when requested with `_upper`, `_lower`, `_capitalize`, or `_title`.
 
 ```typescript
-import { CapitalizePlugin } from "@i18n-bakery/core";
-
-new CapitalizePlugin();
-
-// Add base translation
-addTranslations("en", "common", {
-  greeting: "hello world",
-});
-
-// Use suffixes:
-t("greeting_upper"); // → "HELLO WORLD"
-t("greeting_lower"); // → "hello world"
-t("greeting_capitalize"); // → "Hello world"
-t("greeting_title"); // → "Hello World"
+addTranslations('en', 'common', { greeting: 'hello world' })
+t('common:greeting_upper') // → 'HELLO WORLD'
+t('common:greeting_title') // → 'Hello World'
 ```
 
 ---
 
-## 🔧 Creating Custom Plugins
+## 🔧 Creating Custom Plugins (Your Own Recipes)
 
-```typescript
-import { Plugin, PluginMetadata, PluginContext } from "@i18n-bakery/core";
-
-class MyCustomPlugin implements Plugin {
-  readonly metadata: PluginMetadata = {
-    name: "my-custom-plugin",
-    version: "1.0.0",
-    type: "processor",
-    description: "My custom plugin",
-    author: "Your Name",
-  };
-
-  config = {
-    enabled: true,
-    options: {},
-  };
-
-  // Lifecycle hooks
-  init?(context: PluginContext): void {
-    console.log("Plugin initialized");
-  }
-
-  beforeTranslate?(context: PluginContext): void {
-    console.log("Before translate:", context.key);
-  }
-
-  afterTranslate?(context: PluginContext): string | void {
-    // Modify the result
-    if (context.result) {
-      return context.result + " [processed]";
-    }
-  }
-
-  onMissing?(context: PluginContext): string | void {
-    console.log("Missing key:", context.key);
-  }
-}
-
-// Register the plugin
-initI18n({
-  locale: "en",
-  plugins: [new MyCustomPlugin()],
-});
-```
+Implement the exported `Plugin` interface and register the instance through `I18nConfig.plugins`. Synchronous `beforeTranslate` and `afterTranslate` hooks can modify the key or result.
 
 ---
 
-## 🧪 Testing
+## 🧪 Testing (Quality Control)
+
+From the workspace root:
 
 ```bash
-# Run tests
+pnpm --filter @i18n-bakery/core test
 pnpm test
-
-# Watch mode
-pnpm test --watch
-
-# Coverage
-pnpm test --coverage
 ```
 
-**Current Stats:** 316 tests pass across 33 test files in the six workspace packages. Coverage is not currently measured as an aggregate.
+The full workspace currently has 316 tests across 33 test files. Coverage is not maintained as an aggregate metric.
 
 ---
 
-## 📖 Examples
+## 📖 Examples (Sample Recipes)
 
 ### Node.js Backend
 
+The loader is an object implementing `load`, not a callback:
+
 ```typescript
-import { initI18n, t, JSONFileSaver } from "@i18n-bakery/core";
-import path from "path";
-
 initI18n({
-  locale: "en",
-  fallbackLocale: "en",
-  saveMissing: true,
-  saver: new JSONFileSaver(path.join(__dirname, "locales")),
-  loader: async (locale, namespace) => {
-    const filePath = path.join(
-      __dirname,
-      "locales",
-      locale,
-      `${namespace}.json`
-    );
-    return require(filePath);
+  locale: 'en',
+  loader: {
+    async load(locale, namespace) {
+      if (locale === 'en' && namespace === 'common') {
+        return { greeting: 'Hello from the API!' }
+      }
+      return null
+    },
   },
-});
-
-// Use in your API
-app.get("/api/greeting", (req, res) => {
-  const locale = req.headers["accept-language"] || "en";
-  await setLocale(locale);
-
-  res.json({
-    message: t("api.greeting", "Hello from the API!"),
-  });
-});
+})
 ```
 
 ### With TypeScript
 
 ```typescript
-import { initI18n, t } from "@i18n-bakery/core";
-import type { I18nConfig } from "@i18n-bakery/core";
+import { initI18n } from '@i18n-bakery/core'
+import type { I18nConfig } from '@i18n-bakery/core'
 
 const config: I18nConfig = {
-  locale: "en",
-  fallbackLocale: "en",
-  messageFormat: "icu",
-  pluralizationStrategy: "cldr",
-};
+  locale: 'en',
+  fallbackLocale: 'en',
+  pluralizationStrategy: 'cldr',
+}
 
-initI18n(config);
-
-// Type-safe translation
-const greeting: string = t("home.welcome", "Welcome!");
+initI18n(config)
 ```
 
 ---
 
-## 🔗 Related Packages
+## 🔗 Related Packages (Kitchen Staff)
 
-- **[@i18n-bakery/react](../react)** - React bindings with hooks and providers
-- **[@i18n-bakery/cli](../cli)** - Command-line tools for extraction and compilation
-
----
+- **[@i18n-bakery/react](../react)** — React bindings with hooks and a provider.
+- **[@i18n-bakery/baker](../baker)** — extraction, locale files, and compilation.
+- **[@i18n-bakery/cli](../cli)** — command-line tools.
 
 ---
 
