@@ -41,6 +41,9 @@ t('apple', { count: 0 }) // → 'no apples'
 
 `initI18n` creates the shared service instance. Call it before using the top-level `t`, `setLocale`, `getI18n`, or `addTranslations` functions.
 
+The in-memory store treats locale, namespace, and translation keys as data,
+including prototype-named keys. Nested lookup only follows own properties.
+
 ### With Auto-Save (Self-Rising Dough)
 
 Core exposes the `TranslationSaver` interface and a `ConsoleSaver`. File-based savers are provided by Baker.
