@@ -77,7 +77,7 @@ export const AppRouter: React.FC = () => {
                 />
                 <span className="text-sm font-bold text-ink-50 tracking-tight">{t('app_name')}</span>
                 <span className="hidden sm:inline-flex items-center text-[10px] font-bold uppercase tracking-widest bg-amber-500/10 text-amber-400 border border-amber-500/20 px-1.5 py-0.5 rounded-md">
-                  v1.0.9
+                  v1.0.10
                 </span>
               </div>
             </Link>
@@ -228,7 +228,7 @@ export const AppRouter: React.FC = () => {
                 <IconBrandGithub size={13} /> {t('footer.github')}
               </a>
               <span>·</span>
-              <span>{t('footer.version', { version: '1.0.9' })}</span>
+              <span>{t('footer.version', { version: '1.0.10' })}</span>
               <span>·</span>
               <span>{t('footer.mit_license')}</span>
             </div>

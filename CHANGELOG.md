@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-11-26
+
 ### Fixed
 
 - Preserve existing translations during extraction and treat empty or `[TODO]` values as missing.
@@ -17,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Pin workspace dependencies and update the React example to React 19 and Vite 8.
 - Use pnpm as the documented package manager.
+- Publish all six packages at the same patch version.
 
 ## [1.0.9] - 2026-03-22 (The Master Baker)
 

@@ -560,7 +560,7 @@ pnpm exec i18n-bakery batter src --locale en --out public/locales
 
 ## 🗺️ Roadmap
 
-The current release is **v1.0.9**. The workspace currently passes **316 tests**. Compatibility is documented feature-by-feature in this file; no aggregate parity percentage is maintained. Planned work and target versions are tracked in [WORKPLAN.md](../WORKPLAN.md). Release dates are not committed.
+The current release is **v1.0.10**. The workspace currently passes **316 tests**. Compatibility is documented feature-by-feature in this file; no aggregate parity percentage is maintained. Planned work and target versions are tracked in [WORKPLAN.md](../WORKPLAN.md). Release dates are not committed.
 
 ---
 

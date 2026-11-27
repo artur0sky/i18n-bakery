@@ -67,7 +67,7 @@ const roadmapData: RoadmapItem[] = [
     features: ['Plugin lifecycle hooks', 'NumberFormatPlugin (currency/percent/compact)', 'CapitalizePlugin (upper/lower/title)'],
   },
   {
-    phase: 14, version: 'v1.0.1–1.0.9', id: 'phase14', status: 'done',
+    phase: 14, version: 'v1.0.1–1.0.10', id: 'phase14', status: 'done',
     eta: 'Mar 2026', Icon: IconChefHat,
     features: [
       'Flat/Nested JSON structures',
@@ -309,7 +309,7 @@ export const RoadmapPage: React.FC = () => {
           </div>
           <div className="flex justify-between mt-2 text-[10px] text-ink-600">
             <span>v0.1.0</span>
-            <span>v1.0.9 (current)</span>
+            <span>v1.0.10 (current)</span>
             <span>{t('progress.target')}</span>
           </div>
         </div>

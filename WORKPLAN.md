@@ -114,7 +114,7 @@ Este documento describe el plan de implementación completo de **i18n-bakery**, 
 - ✅ Testing completo (7 tests, 100% coverage)
 - ✅ Documentación de uso y migración
 
-### ✅ FASE 15 — MCP & CLI Standardization (The Master Baker) — **COMPLETADA** (v1.0.9)
+### ✅ FASE 15 — MCP & CLI Standardization (The Master Baker) — **COMPLETADA** (v1.0.10)
 - ✅ Centralización de lógica en `@i18n-bakery/baker`
 - ✅ Implementación de `ProjectScanner` y `ExtractionUseCase`
 - ✅ Paridad total entre herramientas MCP Tray y comandos CLI
@@ -125,7 +125,7 @@ Este documento describe el plan de implementación completo de **i18n-bakery**, 
 
 ---
 
-## 📊 Estado Actual: v1.0.9
+## 📊 Estado Actual: v1.0.10
 
 **Características Implementadas:** 15/15 fases core completadas
 **Compatibilidad con i18next:** parcial; consulta la matriz de [comparación](./docs/I18NEXT_COMPARISON.md).
@@ -519,4 +519,4 @@ The versions below are planning targets, not release commitments. No release dat
 - **v1.4.0:** Multiple instances and advanced formatting (phases 21–22).
 - **v1.5.0:** Custom missing-key handler (phase 23).
 
-*Última actualización: 2026-11-27 (v1.0.9 — The Master Baker).*
+*Última actualización: 2026-11-26 (v1.0.10 — The Master Baker).*
