@@ -212,52 +212,6 @@ interface DetectorOptions {
 
 ---
 
-# FASE 17 — HTTP Backend (The Network Baker) — **PRIORIDAD ALTA** (v1.2.0)
-
-## 17.1 HTTP Backend Plugin
-Cargar traducciones desde servidor HTTP
-
-**Implementación:**
-```typescript
-class HttpBackend implements Plugin {
-  metadata = {
-    name: 'http-backend',
-    type: 'backend',
-    version: '1.0.0'
-  };
-  
-  async load(locale: string, namespace: string): Promise<TranslationMap> {
-    const url = this.getUrl(locale, namespace);
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Failed to load ${url}`);
-    return response.json();
-  }
-}
-```
-
-## 17.2 Backend Options
-```typescript
-interface HttpBackendOptions {
-  loadPath?: string; // '/locales/{{lng}}/{{ns}}.json'
-  addPath?: string;  // '/locales/add/{{lng}}/{{ns}}'
-  allowMultiLoading?: boolean;
-  crossDomain?: boolean;
-  withCredentials?: boolean;
-  requestOptions?: RequestInit;
-}
-```
-
-**Testing:**
-- Successful loading
-- Error handling
-- Retry logic
-- Cache strategy
-- Multi-namespace loading
-
-**Estimación:** 3 días
-
----
-
 # FASE 18 — Event System (The Observer Baker) — **PRIORIDAD ALTA** (v1.2.0)
 
 ## 18.1 Event Emitter
@@ -557,29 +511,20 @@ El proyecto sigue estrictamente Clean Architecture:
 
 ## 📈 Roadmap Summary
 
-### v1.1.0 (Q1 2025) - The Context & Detection Release
-- Context Support
+### v1.1.0 (Q1 2026) - The Detection Release
 - Language Detection Plugin
-- **Target:** 80% i18next parity
-
-### v1.2.0 (Q1 2025) - The Network Release
-- HTTP Backend Plugin
-- Event System
-- **Target:** 85% i18next parity
-
-### v1.3.0 (Q2 2025) - The Advanced Features Release
-- Nesting Translations
-- Return Objects
+- Event System (EventEmitter)
 - **Target:** 90% i18next parity
 
-### v1.4.0 (Q2 2025) - The Enterprise Release
-- Multiple Instances
-- Advanced Formatting
+### v1.2.0 (Q2 2026) - The Advanced Features Release
+- Nesting Translations (`$t(key)`)
+- Return Objects & Arrays
 - **Target:** 95% i18next parity
 
-### v1.5.0 (Q3 2025) - The Complete Release
+### v1.3.0 (Q3 2026) - The Complete Release
+- Multiple Instances
+- Advanced Formatting (Date/Time/List)
 - Missing Key Handler
-- Additional Plugins
 - **Target:** 98% i18next parity (Seamless Integration Achieved)
 
 ---
