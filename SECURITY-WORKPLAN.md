@@ -9,7 +9,7 @@
 
 ## Phase 2: Protect integrations
 
-- [ ] Escape spreadsheet CSV fields, test untrusted keys and values, and update
+- [x] Escape spreadsheet CSV fields, test untrusted keys and values, and update
   the Poacher README.
 - [ ] Label untrusted extraction results in Tray, test the MCP response contract,
   and update the Tray README.

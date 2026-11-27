@@ -8,7 +8,7 @@ export class CsvExporter {
         const locales = Array.from(translations.keys());
         const allKeys = new Set<string>();
         const flatten = (obj: any, prefix = '') => {
-            for (const k in obj) {
+            for (const k of Object.keys(obj)) {
                 const val = obj[k];
                 const key = prefix ? `${prefix}.${k}` : k;
                 if (typeof val === 'object' && val !== null) {
@@ -27,7 +27,7 @@ export class CsvExporter {
         
         // 2. Build CSV Content
         // Header
-        const header = ['key', ...locales].join(',');
+        const header = ['key', ...locales].map(this.escapeCell).join(',');
         const rows = [header];
 
         // Rows
@@ -36,11 +36,9 @@ export class CsvExporter {
             for (const locale of locales) {
                 const map = translations.get(locale);
                 const val = this.getValue(map, key);
-                // Escape quotes
-                const escaped = val ? `"${val.replace(/"/g, '""')}"` : '';
-                row.push(escaped);
+                row.push(val ?? '');
             }
-            rows.push(row.join(','));
+            rows.push(row.map(this.escapeCell).join(','));
         }
 
         const content = rows.join('\n');
@@ -48,12 +46,17 @@ export class CsvExporter {
         await fs.writeFile(outputPath, content);
     }
 
+    private escapeCell(value: string): string {
+        const safe = /^[\t\r\n]|^\s*[=+\-@]/.test(value) ? `'${value}` : value;
+        return `"${safe.replace(/"/g, '""')}"`;
+    }
+
     private getValue(map: TranslationMap | undefined, key: string): string | undefined {
         if (!map) return undefined;
         const parts = key.split('.');
         let current: any = map;
         for (const part of parts) {
-            if (current && typeof current === 'object') {
+            if (current && typeof current === 'object' && Object.prototype.hasOwnProperty.call(current, part)) {
                 current = current[part];
             } else {
                 return undefined;

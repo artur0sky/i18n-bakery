@@ -55,6 +55,12 @@ pnpm exec poacher serve --source ./src/i18n/locales --out ./exports/translations
 
 `serve` reads JSON locale files and exports flattened keys to CSV. CSV is the only supported output format. Defaults are `./src/i18n/locales` and `./exports/translations.csv`.
 
+All CSV cells are quoted and embedded quotes are doubled. To reduce spreadsheet
+formula injection, cells beginning with a tab, carriage return, newline, or
+optional whitespace followed by `=`, `+`, `-`, or `@` receive a leading
+apostrophe. That apostrophe is part of the CSV data; spreadsheet applications
+and import settings differ, so treat untrusted exports with care.
+
 ## 📖 Examples (Field Notes)
 
 ### Scenario 1: The "Spaghetti" Migration (Nested to Bakery)
