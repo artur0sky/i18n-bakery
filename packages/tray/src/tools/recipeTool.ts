@@ -31,7 +31,7 @@ const RecipeSchema = {
   namespace: z
     .string()
     .describe(
-      'The namespace (file name without extension). Example: "common" writes to "common.json". Supports nested: "home/hero"'
+      'The namespace (file name without extension). Example: "common" writes to "common.json". Use one path segment; nested namespace paths are not supported.'
     ),
   key: z
     .string()

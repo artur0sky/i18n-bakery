@@ -23,9 +23,10 @@ import { registerBatterTool } from './tools/batterTool';
 import { registerBakeTool } from './tools/bakeTool';
 import { registerPantryTool } from './tools/pantryTool';
 import { registerRecipeTool } from './tools/recipeTool';
+import { version } from '../package.json';
 
 const SERVER_NAME = '@i18n-bakery/tray';
-const SERVER_VERSION = '1.0.8';
+const SERVER_VERSION = version;
 
 /**
  * Creates and configures the MCP server with all registered tools.
